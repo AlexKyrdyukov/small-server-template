@@ -11,7 +11,7 @@ const loginUser: Handler = async (req, res) => {
       return res.status(400).json({ message: 'user with this name not found' });
     }
     // eslint-disable-next-line no-console
-    console.log(userArray);
+    console.log(userArray, res);
     res.sendStatus(200);
   } catch (error) {
     console.error(error);
