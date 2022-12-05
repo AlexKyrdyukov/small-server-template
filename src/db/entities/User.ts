@@ -29,7 +29,7 @@ class User {
     email?: string;
 
   @Column({
-    type: Date,
+    type: 'date',
   })
   dob?: Date;
 }

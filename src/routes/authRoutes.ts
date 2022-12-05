@@ -5,7 +5,7 @@ import authController from '../controllers/authControllers';
 
 const routes = express.Router();
 
-routes.post('/login', authController.loginUser);
+routes.post('/login', authController.userLogIn);
 
 routes.post('/signup', [
   check('fullName', 'this field cannot be empty').trim().notEmpty(),
@@ -13,6 +13,6 @@ routes.post('/signup', [
   check('password', `password must be no more than 10 
     and at least 3 characters`).trim().isLength({ min: 3, max: 10 }),
   check('dob', 'this field cannot be empty').trim().notEmpty(),
-], authController.signupUser);
+], authController.userSignUp);
 
 export default routes;

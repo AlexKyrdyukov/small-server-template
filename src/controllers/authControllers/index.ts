@@ -1,9 +1,9 @@
-import loginUser from './userLogin';
-import signupUser from './userSignUp';
+import userLogIn from './userLogin';
+import userSignUp from './userSignUp';
 
 const authControllers = {
-  loginUser,
-  signupUser,
+  userLogIn,
+  userSignUp,
 };
 
 export default authControllers;
