@@ -1,8 +1,8 @@
-import userLogIn from './userLogin';
+import userSignIn from './userSignIn';
 import userSignUp from './userSignUp';
 
 const authControllers = {
-  userLogIn,
+  userSignIn,
   userSignUp,
 };
 

@@ -1,13 +1,15 @@
 import createUser from './createUser';
 import deleteUser from './deleteUser';
 import getUserData from './getUserData';
-import updateUserData from './updateDataUser';
+import updateUser from './updateUser';
+import updateUserPass from './updateUserPass';
 
 const userControllers = {
   createUser,
   deleteUser,
   getUserData,
-  updateUserData,
+  updateUser,
+  updateUserPass,
 };
 
 export default userControllers;
