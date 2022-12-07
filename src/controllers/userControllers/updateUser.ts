@@ -1,7 +1,26 @@
-import type { Request, Response } from 'express';
+import type { RequestHandler } from 'express';
+import type UserType from '../../db/entities/User';
 import repository from '../../db/index';
 
-const updateUser = async (req: Request, res: Response) => {
+type BodyType = {
+  newName: string;
+  newDob: Date;
+  newEmail: string;
+};
+
+type ParamsType = Record<string, never>;
+
+type QueryType = Record<string, never>;
+
+type ResponseType = {
+  message: string;
+  enteredData?: BodyType;
+  userInfo?: UserType;
+};
+
+type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>;
+
+const updateUser: HandlerType = async (req, res) => {
   try {
     const { newName, newDob, newEmail } = req.body;
 
@@ -10,9 +29,7 @@ const updateUser = async (req: Request, res: Response) => {
     if (!user) {
       return res.status(400).json({
         message: 'user not found',
-        newName,
-        newEmail,
-        newDob,
+        enteredData: req.body,
       });
     }
 

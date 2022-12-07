@@ -1,30 +1,37 @@
 import CryptoJS from 'crypto-js';
 
-import type { Request, Response } from 'express';
+import type { RequestHandler } from 'express';
+
 import config from '../../config';
 import repository from '../../db/index';
 
-const updateUserPass = async (req: Request, res: Response) => {
+type BodyType = {
+  oldPassword: string;
+  newPassword: string;
+  repeatNewPassword: string;
+};
+
+type ParamsType = Record<string, never>;
+
+type QueryType = Record<string, never>;
+
+type ResponseType = {
+  message: string;
+  enteredData?: BodyType;
+};
+
+type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>;
+
+const updateUserPass: HandlerType = async (req, res) => {
   try {
-    const { oldPassword, newPassword, repeatNewPassword } = req.body;
+    const { oldPassword, newPassword } = req.body;
 
     const hashOldPassword = CryptoJS.SHA512(oldPassword + config.hashProperty.hashSalt).toString();
 
     if (hashOldPassword !== req.user.password) {
       return res.status(400).json({
         message: 'the entered passwords invalid ',
-        oldPassword,
-        newPassword,
-        repeatNewPassword,
-      });
-    }
-
-    if (newPassword !== repeatNewPassword) {
-      return res.status(400).json({
-        message: 'the entered new passwords must be the same',
-        oldPassword,
-        newPassword,
-        repeatNewPassword,
+        enteredData: req.body,
       });
     }
 

@@ -1,22 +1,13 @@
 import express from 'express';
-import { check } from 'express-validator';
 
+import validate from '../middlewares/validationMiddleware';
 import authController from '../controllers/authControllers';
+import userSchema from '../validationSchemas/userSchemas';
 
 const routes = express.Router();
 
-routes.post('/signin', [
-  check('email', 'this field cannot be empty').trim().notEmpty(),
-  check('password', `password must be no more than 10 
-  and at least 3 characters`).trim().isLength({ min: 3, max: 10 }),
-], authController.userSignIn);
+routes.post('/signin', validate(userSchema.validationSchema), authController.userSignIn);
 
-routes.post('/signup', [
-  check('fullName', 'this field cannot be empty').trim().notEmpty(),
-  check('email', 'this field cannot be empty').trim().notEmpty(),
-  check('password', `password must be no more than 10 
-    and at least 3 characters`).trim().isLength({ min: 3, max: 10 }),
-  check('dob', 'this field cannot be empty').trim().notEmpty(),
-], authController.userSignUp);
+routes.post('/signup', validate(userSchema.registarationSchema), authController.userSignUp);
 
 export default routes;

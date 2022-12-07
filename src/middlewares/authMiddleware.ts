@@ -8,15 +8,20 @@ const authVerification = async (req: Request, res: Response, next: NextFunction)
     next();
   }
   try {
+    let decodedToken;
     const token = req.headers.authorization.split(' ')[1];
 
     if (!token) {
       return res.status(403).json({ message: 'User is not authorized' });
     }
 
-    const decodedToken = jwt.verify(
-      token, config.tokenProperty.tokenSecret,
-    ) as {id: number};
+    try {
+      decodedToken = jwt.verify(
+        token, config.tokenProperty.tokenSecret,
+      ) as {id: number};
+    } catch (error) {
+      return res.status(401).json({ message: 'user unauthorized' });
+    }
 
     const userDb = await repository.userRepository.findOne({ where: { id: decodedToken.id } });
 

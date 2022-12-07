@@ -1,7 +1,19 @@
-import type { Request, Response } from 'express';
+import type { RequestHandler } from 'express';
 import repository from '../../db/index';
 
-const deleteUser = async (req: Request, res: Response) => {
+type BodyType = Record<string, never>;
+
+type ParamsType = Record<string, never>;
+
+type QueryType = Record<string, never>;
+
+type ResponseType = {
+  message: string;
+};
+
+type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>;
+
+const deleteUser: HandlerType = async (req, res) => {
   try {
     const user = await repository.userRepository.findOne({ where: { id: req.user.id } });
     if (!user) {

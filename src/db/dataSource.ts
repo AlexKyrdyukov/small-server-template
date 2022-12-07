@@ -10,7 +10,7 @@ const dataSource = new DataSource({
   username: config.postgresDbProperty.user,
   password: config.postgresDbProperty.password,
   database: config.postgresDbProperty.database,
-  logging: !!config.postgresDbProperty.logging,
+  logging: config.postgresDbProperty.logging,
   synchronize: false,
   subscribers: [],
   migrationsTableName: 'typeorm_migrations',

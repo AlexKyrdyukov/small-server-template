@@ -1,19 +1,28 @@
-import type { Handler } from 'express';
-import { validationResult } from 'express-validator';
 import CryptoJS from 'crypto-js';
 import jwt from 'jsonwebtoken';
-import repository from '../../db/index';
+import type { RequestHandler } from 'express';
+
 import User from '../../db/entities/User';
+import type UserType from '../../db/entities/User';
+
+import repository from '../../db/index';
 import config from '../../config';
 
-const signupUser: Handler = async (req, res) => {
+type BodyType = UserType;
+
+type ParamsType = Record<string, never>;
+
+type QueryType = Record<string, never>;
+
+type ResponseType = {
+  message: string;
+  userInfo?: UserType;
+};
+
+type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>;
+
+const signupUser: HandlerType = async (req, res) => {
   try {
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ message: 'errors registation', errors });
-    }
-
     const user = await repository.userRepository.findOne({ where: {
       email: req.body.email,
     } });

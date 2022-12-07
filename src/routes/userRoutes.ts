@@ -1,18 +1,18 @@
 import express from 'express';
 import userController from '../controllers/userControllers';
 import authMiddleWare from '../middlewares/authMiddleware';
+import userSchemas from '../validationSchemas/userSchemas';
+import validate from '../middlewares/validationMiddleware';
 
 const routes = express.Router();
 
 routes.use(authMiddleWare);
 
-routes.post('/createuser', userController.createUser);
-
 routes.get('/getuser', userController.getUserData);
 
-routes.patch('/updateuser', userController.updateUser);
+routes.patch('/updateuser', validate(userSchemas.updatedUserSchema), userController.updateUser);
 
-routes.patch('/updatepass', userController.updateUserPass);
+routes.patch('/updatepass', validate(userSchemas.updatedPassSchema), userController.updateUserPass);
 
 routes.delete('/deleteuser', userController.deleteUser);
 

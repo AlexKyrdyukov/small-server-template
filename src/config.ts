@@ -35,7 +35,7 @@ const config = {
     user: mainConfig.POSTGRES_DB_USER,
     password: mainConfig.POSTGRES_DB_PASSWORD,
     database: mainConfig.POSTGRES_DB_NAME,
-    logging: mainConfig.POSTGRES_LOGGING,
+    logging: mainConfig.POSTGRES_DB_LOGGING !== 'false',
   },
 };
 
