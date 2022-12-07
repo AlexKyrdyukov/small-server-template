@@ -10,7 +10,7 @@ const mainConfig = {
 };
 
 const config = {
-  modeEnv: mainConfig.NODE_ENV,
+  nodeEnv: mainConfig.NODE_ENV,
   serverProperty: {
     serverPort: mainConfig.SERVER_PORT,
     serverEndPoints: mainConfig.SERVER_ENDPOINTS_PREFIX,

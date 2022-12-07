@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 
-const registarationSchema = yup.object({
+const signUpSchema = yup.object({
   body: yup.object({
 
     fullName: yup.string().trim().max(25, 'please enter correctly name & last name').required('this field is required'),
@@ -14,7 +14,7 @@ const registarationSchema = yup.object({
   }),
 });
 
-const validationSchema = yup.object({
+const signInSchema = yup.object({
   body: yup.object({
 
     email: yup.string().trim().required('this field is required').email('please enter valid email'),
@@ -57,13 +57,13 @@ const updatedUserSchema = yup.object().shape({
 });
 
 export default {
-  registarationSchema,
-  validationSchema,
+  signInSchema,
+  signUpSchema,
   updatedPassSchema,
   updatedUserSchema,
 };
 
-export type SchemaType = typeof registarationSchema |
- typeof validationSchema |
+export type SchemaType = typeof signInSchema |
+ typeof signUpSchema |
  typeof updatedPassSchema |
  typeof updatedUserSchema;
