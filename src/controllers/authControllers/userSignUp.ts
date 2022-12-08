@@ -21,7 +21,7 @@ type ResponseType = {
 
 type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>;
 
-const signupUser: HandlerType = async (req, res) => {
+const signupUser: HandlerType = async (req, res, next) => {
   try {
     const user = await repository.userRepository.findOne({ where: {
       email: req.body.email,
@@ -50,8 +50,7 @@ const signupUser: HandlerType = async (req, res) => {
 
     res.status(200).json({ message: 'user successfully registered', userInfo });
   } catch (error) {
-    res.status(404).json({ message: error });
-    console.error(error);
+    next(error);
   }
 };
 

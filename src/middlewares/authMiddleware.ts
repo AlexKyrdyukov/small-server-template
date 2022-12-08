@@ -1,12 +1,10 @@
 import type { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
+
 import config from '../config';
-import repository from '../db/index';
+import repository from '../db';
 
 const authVerification = async (req: Request, res: Response, next: NextFunction) => {
-  if (req.method === 'OPTIONS') {
-    next();
-  }
   try {
     let decodedToken;
     const token = req.headers.authorization.split(' ')[1];
@@ -17,15 +15,15 @@ const authVerification = async (req: Request, res: Response, next: NextFunction)
 
     try {
       decodedToken = jwt.verify(
-        token, config.tokenProperty.tokenSecret,
+        token, config.token.secret,
       ) as {id: number};
     } catch (error) {
       return res.status(401).json({ message: 'user unauthorized' });
     }
 
-    const userDb = await repository.userRepository.findOne({ where: { id: decodedToken.id } });
+    const user = await repository.userRepository.findOne({ where: { id: decodedToken.id } });
 
-    req.user = userDb;
+    req.user = user;
 
     next();
   } catch (error) {

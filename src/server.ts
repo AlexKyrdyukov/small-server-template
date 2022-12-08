@@ -1,17 +1,13 @@
 import config from './config';
-// import dataSource from './db/dataSource';
 import app from './app';
 import connectToDb from './db/connectToDb';
 
 (async () => {
   try {
-    // await dataSource.initialize();
     connectToDb();
-    // eslint-disable-next-line no-console
-    console.log('start');
-    app.listen(config.serverProperty.serverPort, () => {
+    app.listen(config.server.port, () => {
       // eslint-disable-next-line no-console
-      console.log(`app listening on port ${config.serverProperty.serverPort}`);
+      console.log(`app listening on port ${config.server.port}`);
     });
   } catch (error) {
     console.error('error:', error);

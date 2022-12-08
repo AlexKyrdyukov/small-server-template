@@ -5,12 +5,12 @@ import config from '../config';
 
 const dataSource = new DataSource({
   type: 'postgres',
-  host: config.postgresDbProperty.host,
-  port: +config.postgresDbProperty.port,
-  username: config.postgresDbProperty.user,
-  password: config.postgresDbProperty.password,
-  database: config.postgresDbProperty.database,
-  logging: config.postgresDbProperty.logging,
+  host: config.postgres.hostDb,
+  port: +config.postgres.portDb,
+  username: config.postgres.user,
+  password: config.postgres.password,
+  database: config.postgres.database,
+  logging: config.postgres.logging,
   synchronize: false,
   subscribers: [],
   migrationsTableName: 'typeorm_migrations',

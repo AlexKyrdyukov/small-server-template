@@ -3,35 +3,28 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 @Entity()
 class User {
   @PrimaryGeneratedColumn()
-    id?: number;
+  id: number;
 
-  @Column({
-    name: 'password',
-    type: String,
-  })
+  @Column({ type: 'varchar' })
   password?: string;
 
   @Column({
-    name: 'fullName',
-    length: 30,
     nullable: false,
-    type: String,
+    type: 'varchar',
   })
   fullName?: string;
 
   @Column({
-    name: 'email',
-    length: 20,
     unique: true,
     nullable: false,
-    type: String,
+    type: 'varchar',
   })
-    email?: string;
+  email?: string;
 
   @Column({
     type: 'date',
   })
-  dob?: Date;
+  dob?: Date | string;
 }
 
 export default User;

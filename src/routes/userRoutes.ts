@@ -1,19 +1,19 @@
 import express from 'express';
 import userController from '../controllers/userControllers';
 import authMiddleWare from '../middlewares/authMiddleware';
-import userSchemas from '../validationSchemas/userSchemas';
-import validate from '../middlewares/validationMiddleware';
+import userSchema from '../validationSchemas/userSchema';
+import generatorValidate from '../middlewares/validationMiddleware';
 
 const routes = express.Router();
 
 routes.use(authMiddleWare);
 
-routes.get('/getuser', userController.getUserData);
+// routes.get('/:userId', userController.getUserData);
 
-routes.patch('/updateuser', validate(userSchemas.updatedUserSchema), userController.updateUser);
+routes.patch('/:userId', generatorValidate(userSchema.updatedUser), userController.updateUser);
 
-routes.patch('/updatepass', validate(userSchemas.updatedPassSchema), userController.updateUserPass);
+routes.patch('/:userId/password', generatorValidate(userSchema.updatedPass), userController.updateUserPass);
 
-routes.delete('/deleteuser', userController.deleteUser);
+routes.delete('/:userId', userController.deleteUser);
 
 export default routes;

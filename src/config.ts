@@ -10,32 +10,32 @@ const mainConfig = {
 };
 
 const config = {
-  nodeEnv: mainConfig.NODE_ENV,
-  serverProperty: {
-    serverPort: mainConfig.SERVER_PORT,
-    serverEndPoints: mainConfig.SERVER_ENDPOINTS_PREFIX,
-    serverError: mainConfig.SERVER_INTERNAL_ERROR_MESSAGE,
-    serverFolderName: mainConfig.SERVER_PUBLIC_FOLDER_NAME,
+  nodeEnv: mainConfig.NODE_ENV === 'true',
+  server: {
+    port: mainConfig.SERVER_PORT,
+    endoints: mainConfig.SERVER_ENDPOINTS_PREFIX,
+    error: mainConfig.SERVER_INTERNAL_ERROR_MESSAGE,
+    folderName: mainConfig.SERVER_PUBLIC_FOLDER_NAME,
   },
-  hashProperty: {
-    hashSalt: mainConfig.PASSWORD_HASH_SALT,
-    hashType: mainConfig.PASSWORD_HASH_TYPE,
+  hash: {
+    salt: mainConfig.PASSWORD_HASH_SALT,
+    type: mainConfig.PASSWORD_HASH_TYPE,
   },
-  tokenProperty: {
-    tokenSecret: mainConfig.TOKEN_SECRET,
-    tokenExpiration: mainConfig.TOKEN_AUTH_EXPIRATION,
+  token: {
+    secret: mainConfig.TOKEN_SECRET,
+    expiration: mainConfig.TOKEN_AUTH_EXPIRATION,
   },
-  urlsProperty: {
-    clientUrl: mainConfig.CLIENT_APP_URL,
-    currentUrl: mainConfig.CURRENT_URL,
+  urls: {
+    client: mainConfig.CLIENT_APP_URL,
+    current: mainConfig.CURRENT_URL,
   },
-  postgresDbProperty: {
-    port: mainConfig.POSTGRES_DB_PORT,
-    host: mainConfig.POSTGRES_DB_HOST,
+  postgres: {
+    portDb: mainConfig.POSTGRES_DB_PORT,
+    hostDb: mainConfig.POSTGRES_DB_HOST,
     user: mainConfig.POSTGRES_DB_USER,
     password: mainConfig.POSTGRES_DB_PASSWORD,
     database: mainConfig.POSTGRES_DB_NAME,
-    logging: mainConfig.POSTGRES_DB_LOGGING !== 'false',
+    logging: mainConfig.POSTGRES_DB_LOGGING === 'true',
   },
 };
 

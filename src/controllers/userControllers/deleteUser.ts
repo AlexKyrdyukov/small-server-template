@@ -1,4 +1,5 @@
 import type { RequestHandler } from 'express';
+
 import repository from '../../db/index';
 
 type BodyType = Record<string, never>;
@@ -17,12 +18,13 @@ const deleteUser: HandlerType = async (req, res) => {
   try {
     const user = await repository.userRepository.findOne({ where: { id: req.user.id } });
     if (!user) {
-      return res.status(400).json({ message: 'user not found' });
+      return res.status(404).json({ message: 'user not found' });
     }
-    repository.userRepository.remove(user);
-    res.status(200).json({ message: 'user be removed' });
+    await repository.userRepository.remove(user);
+    res.status(204).json({ message: 'user be removed' });
   } catch (error) {
     console.error(error);
+    res.status(500).json({ message: 'try the request later' });
   }
 };
 

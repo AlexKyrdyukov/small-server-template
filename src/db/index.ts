@@ -6,3 +6,7 @@ const userRepository = {
 };
 
 export default userRepository;
+
+// export {
+//   user: AppDataSource.getRepository(User),
+// };
