@@ -1,7 +1,9 @@
 import { StatusCodes } from 'http-status-codes';
+
 import type { RequestHandler } from 'express';
 
-import dB from '../../db';
+import CustomError from '../../exceptions/CustomError';
+import db from '../../db';
 
 type BodyType = Record<string, never>;
 
@@ -17,9 +19,10 @@ type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>
 
 const deleteUser: HandlerType = async (req, res, next) => {
   try {
-    // eslint-disable-next-line no-console
-    console.log(req.query, req.params, req.body);
-    await dB.user.remove(req.user);
+    if (req.user.id !== +req.params.userId) {
+      throw new CustomError(StatusCodes.BAD_REQUEST, 'invalid request, please check entered data');
+    }
+    await db.user.remove(req.user);
     delete req.user;
     res.sendStatus(StatusCodes.NO_CONTENT);
   } catch (error) {

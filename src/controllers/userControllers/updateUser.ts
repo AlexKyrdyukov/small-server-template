@@ -1,7 +1,10 @@
-import type { RequestHandler } from 'express';
+import { StatusCodes } from 'http-status-codes';
 
+import type { RequestHandler } from 'express';
 import type UserType from '../../db/entities/User';
-import dB from '../../db';
+
+import CustomError from '../../exceptions/CustomError';
+import db from '../../db';
 
 type BodyType = {
   fullName: string;
@@ -15,31 +18,23 @@ type QueryType = Record<string, never>;
 
 type ResponseType = {
   message: string;
-  enteredData?: BodyType;
-  userInfo?: UserType;
+  user: UserType;
 };
 
 type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>;
 
 const updateUser: HandlerType = async (req, res, next) => {
   try {
-    const userDob = req.body.dob;
-    const userEmail = req.body.email;
-    const userFullName = req.body.fullName;
-    const query = req.query;
-    const params = req.params;
-    // eslint-disable-next-line no-console
-    console.log(query, params);
+    if (req.user.id !== +req.params.userId) {
+      throw new CustomError(StatusCodes.BAD_REQUEST, 'invalid request, please check entered data');
+    }
+    req.user.fullName = req.body.fullName;
+    req.user.dob = req.body.dob;
+    req.user.email = req.body.email;
 
-    const user = await dB.user.findOne({ where: { id: req.user.id } });
+    await db.user.save(req.user);
 
-    user.fullName = userFullName;
-    user.dob = userDob;
-    user.email = userEmail;
-
-    await dB.user.save(user);
-
-    res.status(200).json({ message: 'data succesfully updated' });
+    res.status(StatusCodes.OK).json({ message: 'data succesfully updated', user: req.user });
   } catch (error) {
     next(error);
   }

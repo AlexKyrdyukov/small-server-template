@@ -1,9 +1,9 @@
 import express from 'express';
 import cors from 'cors';
 
+import ErrorHandler from './middlewares/errorMiddleWare';
 import routes from './routes/index';
 import config from './config';
-import ErrorHandler from './middlewares/errorMiddleWare';
 import './types/express/index';
 
 const app = express();

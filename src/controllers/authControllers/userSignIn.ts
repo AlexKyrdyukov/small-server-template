@@ -2,11 +2,11 @@ import { StatusCodes } from 'http-status-codes';
 
 import type { RequestHandler } from 'express';
 import type UserType from '../../db/entities/User';
-import CustomError from '../../exceptions/CustomError';
 
+import CustomError from '../../exceptions/CustomError';
 import tokenWorker from '../../utils/tokenHelper';
 import hashHelper from '../../utils/hashHelper';
-import dB from '../../db';
+import db from '../../db';
 
 type BodyType = {
   email: string;
@@ -28,7 +28,7 @@ const loginUser: HandlerType = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
-    const user = await dB.user
+    const user = await db.user
       .createQueryBuilder('user')
       .addSelect('user.password')
       .where('user.email = :email', { email })

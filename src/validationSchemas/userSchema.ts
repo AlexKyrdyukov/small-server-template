@@ -23,11 +23,11 @@ const signIn = yup.object({
 
 const updatedPass = yup.object({
   body: yup.object({
-    oldPassword: yup.string().trim().ensure().required('this field is required')
+    password: yup.string().trim().ensure().required('this field is required')
       .min(3, 'password cannot be shorter than 3 characters')
       .max(8, 'password cannot be longer than 8 character'),
 
-    newPassword: yup.string().trim().ensure().notOneOf([yup.ref('oldPassword')], 'old Password & new password dont must match')
+    newPassword: yup.string().trim().ensure().notOneOf([yup.ref('password')], 'old Password & new password dont must match')
       .required('this field is required')
       .min(3, 'password cannot be shorter than 3 characters')
       .max(8, 'password cannot be longer than 8 character'),

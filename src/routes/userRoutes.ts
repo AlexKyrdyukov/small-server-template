@@ -3,13 +3,10 @@ import userController from '../controllers/userControllers';
 import authMiddleware from '../middlewares/authMiddleware';
 import userSchema from '../validationSchemas/userSchema';
 import generatorValidate from '../middlewares/validationMiddleware';
-import idMiddleware from '../middlewares/idMiddleware';
 
 const routes = express.Router();
 
 routes.use(authMiddleware);
-
-routes.use('/:userId', idMiddleware);
 
 routes.delete('/:userId', userController.deleteUser);
 

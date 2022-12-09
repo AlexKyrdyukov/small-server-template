@@ -1,14 +1,14 @@
-import CryptoJS from 'crypto-js';
+import { StatusCodes } from 'http-status-codes';
 
 import type { RequestHandler } from 'express';
 
-import config from '../../config';
-import dB from '../../db';
+import CustomError from '../../exceptions/CustomError';
+import hashHelper from '../../utils/hashHelper';
+import db from '../../db';
 
 type BodyType = {
-  oldPassword: string;
+  password: string;
   newPassword: string;
-  repeatNewPassword: string;
 };
 
 type ParamsType = Record<string, never>;
@@ -17,34 +17,30 @@ type QueryType = Record<string, never>;
 
 type ResponseType = {
   message: string;
-  enteredData?: BodyType;
 };
 
 type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>;
 
 const updateUserPass: HandlerType = async (req, res, next) => {
   try {
-    const { oldPassword, newPassword } = req.body;
-
-    const hashOldPassword = CryptoJS.SHA512(oldPassword + config.hash.salt).toString();
-
-    if (hashOldPassword !== req.user.password) {
-      return res.status(403).json({
-        message: 'the entered passwords invalid ',
-        enteredData: req.body,
-      });
+    if (req.user.id !== +req.params.userId) {
+      throw new CustomError(StatusCodes.BAD_REQUEST, 'invalid request, please check entered data');
     }
+    const { password, newPassword } = req.body;
+    const user = await db.user
+      .createQueryBuilder('user')
+      .addSelect('user.password')
+      .where('user.id = :id', { id: req.user.id })
+      .getOne();
 
-    const user = await dB.user.findOne({ where: { id: req.user.id } });
-    const hashNewPassword = CryptoJS.SHA512(newPassword + config.hash.salt).toString();
-
-    user.password = hashNewPassword;
-
-    await dB.user.save(user);
-
-    res.status(200).json({ message: 'new password succesfully updated' });
+    const flag = hashHelper.checkPassword(password, user.password);
+    if (!flag) {
+      throw new CustomError(StatusCodes.BAD_REQUEST, 'password invalid, please enter correct passwpord, and repeat request ');
+    }
+    user.password = hashHelper.hashPassword(newPassword);
+    await db.user.save(user);
+    res.status(StatusCodes.OK).json({ message: 'new password succesfully updated' });
   } catch (error) {
-    console.error(error);
     next(error);
   }
 };
