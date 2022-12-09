@@ -1,6 +1,7 @@
+import { StatusCodes } from 'http-status-codes';
 import type { RequestHandler } from 'express';
 
-import repository from '../../db/index';
+import dB from '../../db';
 
 type BodyType = Record<string, never>;
 
@@ -14,17 +15,15 @@ type ResponseType = {
 
 type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>;
 
-const deleteUser: HandlerType = async (req, res) => {
+const deleteUser: HandlerType = async (req, res, next) => {
   try {
-    const user = await repository.userRepository.findOne({ where: { id: req.user.id } });
-    if (!user) {
-      return res.status(404).json({ message: 'user not found' });
-    }
-    await repository.userRepository.remove(user);
-    res.status(204).json({ message: 'user be removed' });
+    // eslint-disable-next-line no-console
+    console.log(req.query, req.params, req.body);
+    await dB.user.remove(req.user);
+    delete req.user;
+    res.sendStatus(StatusCodes.NO_CONTENT);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'try the request later' });
+    next(error);
   }
 };
 

@@ -1,12 +1,12 @@
 import type { RequestHandler } from 'express';
 
 import type UserType from '../../db/entities/User';
-import repository from '../../db/index';
+import dB from '../../db';
 
 type BodyType = {
-  newName: string;
-  newDob: Date;
-  newEmail: string;
+  fullName: string;
+  dob: Date;
+  email: string;
 };
 
 type ParamsType = Record<string, never>;
@@ -23,22 +23,21 @@ type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>
 
 const updateUser: HandlerType = async (req, res, next) => {
   try {
-    const { newName, newDob, newEmail } = req.body;
+    const userDob = req.body.dob;
+    const userEmail = req.body.email;
+    const userFullName = req.body.fullName;
+    const query = req.query;
+    const params = req.params;
+    // eslint-disable-next-line no-console
+    console.log(query, params);
 
-    const user = await repository.userRepository.findOne({ where: { id: req.user.id } });
+    const user = await dB.user.findOne({ where: { id: req.user.id } });
 
-    if (!user) {
-      return res.status(404).json({
-        message: 'user not found',
-        enteredData: req.body,
-      });
-    }
+    user.fullName = userFullName;
+    user.dob = userDob;
+    user.email = userEmail;
 
-    user.fullName = newName;
-    user.dob = newDob;
-    user.email = newEmail;
-
-    await repository.userRepository.save(user);
+    await dB.user.save(user);
 
     res.status(200).json({ message: 'data succesfully updated' });
   } catch (error) {

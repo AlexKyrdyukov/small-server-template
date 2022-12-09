@@ -3,6 +3,8 @@ import type { ErrorRequestHandler } from 'express';
 import config from '../config';
 
 const ErrorHandler: ErrorRequestHandler = (err, req, res, _next) => {
+  // eslint-disable-next-line no-console
+  console.log(err);
   const errStatus = err.status || 500;
   const errMsg = err.message || 'Something went wrong';
   res.status(errStatus).json({

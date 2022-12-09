@@ -1,10 +1,12 @@
-// import CryptoJS from 'crypto-js';
-// import jwt from 'jsonwebtoken';
-import type { RequestHandler } from 'express';
+import { StatusCodes } from 'http-status-codes';
 
+import type { RequestHandler } from 'express';
 import type UserType from '../../db/entities/User';
-// import repository from '../../db/index';
-// import config from '../../config';
+import CustomError from '../../exceptions/CustomError';
+
+import tokenWorker from '../../utils/tokenHelper';
+import hashHelper from '../../utils/hashHelper';
+import dB from '../../db';
 
 type BodyType = {
   email: string;
@@ -16,8 +18,6 @@ type ParamsType = Record<string, never>;
 type QueryType = Record<string, never>;
 
 type ResponseType = {
-  // message: string;
-  // userInfo?: UserType;
   user: UserType;
   token: string;
 };
@@ -26,31 +26,27 @@ type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>
 
 const loginUser: HandlerType = async (req, res, next) => {
   try {
-    // const { email, password } = req.body;
+    const { email, password } = req.body;
 
-    // const user = await repository.userRepository.findOne({
-    //   where: {
-    //     email,
-    //   },
-    // });
+    const user = await dB.user
+      .createQueryBuilder('user')
+      .addSelect('user.password')
+      .where('user.email = :email', { email })
+      .getOne();
 
-    // if (!user) {}
-    // const hashPassword = CryptoJS.SHA512(password + config.hash.salt).toString();
-    // if (user.password !== hashPassword) { }
+    if (!user) {
+      throw new CustomError(StatusCodes.BAD_REQUEST, 'user not found');
+    }
+    const flag = hashHelper.checkPassword(password, user.password);
+    delete user.password;
 
-    // eslint-disable-next-line max-len
-    // const token = jwt.sign({ id: user.id }, config.token.secret, { algorithm: 'HS512', expiresIn: '1h' });
+    if (!flag) {
+      throw new CustomError(StatusCodes.BAD_REQUEST, 'password invalid, please enter correct passwpord, and repeat request ');
+    }
 
-    // const userInfo = {
-    //   fullName: user.fullName,
-    //   dob: user.dob,
-    //   email: user.email,
-    //   token,
-    // };
-
-    // res.json({ userInfo });
+    const token = tokenWorker.create(user.id);
+    res.status(StatusCodes.OK).json({ user, token });
   } catch (error) {
-    console.error(error);
     next(error);
   }
 };

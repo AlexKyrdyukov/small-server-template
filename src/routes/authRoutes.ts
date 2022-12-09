@@ -1,15 +1,18 @@
 import express from 'express';
 
-import authController from '../controllers/authControllers';
+import authControllers from '../controllers/authControllers';
 import userSchema from '../validationSchemas/userSchema';
 import generatorValidate from '../middlewares/validationMiddleware';
+import authMidlleware from '../middlewares/authMiddleware';
 
 const routes = express.Router();
 
-routes.post('/sign-in', generatorValidate(userSchema.signIn), authController.userSignIn);
+routes.post('/sign-in', generatorValidate(userSchema.signIn), authControllers.userSignIn);
 
-routes.post('/sign-up', generatorValidate(userSchema.signUp), authController.userSignUp);
+routes.post('/sign-up', generatorValidate(userSchema.signUp), authControllers.userSignUp);
 
-// routes.get('/me');
+routes.use(authMidlleware);
+
+routes.get('/me', authControllers.getUser);
 
 export default routes;

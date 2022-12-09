@@ -1,29 +1,21 @@
-// import type { AnyObject, OptionalObjectSchema, TypeOfShape } from 'yup/lib/object';
-import { ValidationError } from 'yup';
 import type { Handler } from 'express';
-// import type { RequiredDateSchema } from 'yup/lib/date';
-import type { RequiredStringSchema } from 'yup/lib/string';
+import type * as yup from 'yup';
 
-type UserSchemaType =
-  OptionalObjectSchema<{
-    body: OptionalObjectSchema<{
-      fullName?: RequiredStringSchema<string, AnyObject>;
-      email?: RequiredStringSchema<string, AnyObject>;
-      password?: RequiredStringSchema<string, AnyObject>;
-      dob?: RequiredStringSchema<string, AnyObject>;
-    }>;
-  }>;
+import type { OptionalObjectSchema } from 'yup/lib/object';
 
-export type ValidationSheasType = {
-  [key: string]: yup.StringSchema | yup.NumberSchema | yup.DateSchema | yup.AnyObjectSchema;
+type SchemaType =
+  OptionalObjectSchema<ValidationType>;
+
+export type ValidationShemaType = {
+  [key: string]: yup.StringSchema | yup.NumberSchema | yup.DateSchema;
 };
 export type ValidationType = {
-  body?: ValidationSheasType;
-  query?: ValidationSheasType;
-  params?: ValidationSheasType;
+  body?: OptionalObjectSchema<ValidationShemaType>;
+  query?: OptionalObjectSchema<ValidationShemaType>;
+  params?: OptionalObjectSchema<ValidationShemaType>;
 };
 
-const generatorValidate = (schema: UserSchemaType): Handler => {
+const generatorValidate = (schema: SchemaType): Handler => {
   return async (req, res, next) => {
     try {
       await schema
@@ -34,11 +26,6 @@ const generatorValidate = (schema: UserSchemaType): Handler => {
         });
       next();
     } catch (error) {
-      if (error instanceof ValidationError) {
-        // return res.status(400).json({ message: 'please enter correctly data' });
-        next(error);
-      }
-
       next(error);
     }
   };

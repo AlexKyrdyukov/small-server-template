@@ -3,7 +3,7 @@ import CryptoJS from 'crypto-js';
 import type { RequestHandler } from 'express';
 
 import config from '../../config';
-import repository from '../../db/index';
+import dB from '../../db';
 
 type BodyType = {
   oldPassword: string;
@@ -22,7 +22,7 @@ type ResponseType = {
 
 type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>;
 
-const updateUserPass: HandlerType = async (req, res) => {
+const updateUserPass: HandlerType = async (req, res, next) => {
   try {
     const { oldPassword, newPassword } = req.body;
 
@@ -35,17 +35,17 @@ const updateUserPass: HandlerType = async (req, res) => {
       });
     }
 
-    const user = await repository.userRepository.findOne({ where: { id: req.user.id } });
+    const user = await dB.user.findOne({ where: { id: req.user.id } });
     const hashNewPassword = CryptoJS.SHA512(newPassword + config.hash.salt).toString();
 
     user.password = hashNewPassword;
 
-    await repository.userRepository.save(user);
+    await dB.user.save(user);
 
     res.status(200).json({ message: 'new password succesfully updated' });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'try the request later' });
+    next(error);
   }
 };
 

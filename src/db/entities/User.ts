@@ -5,26 +5,19 @@ class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'varchar' })
-  password?: string;
+  @Column({ type: 'varchar', select: false })
+  password: string;
 
   @Column({
-    nullable: false,
-    type: 'varchar',
-  })
-  fullName?: string;
+    nullable: false, type: 'varchar' })
+  fullName: string;
 
   @Column({
-    unique: true,
-    nullable: false,
-    type: 'varchar',
-  })
-  email?: string;
+    unique: true, nullable: false, type: 'varchar' })
+  email: string;
 
-  @Column({
-    type: 'date',
-  })
-  dob?: Date | string;
+  @Column({ type: 'date' })
+  dob: Date | string;
 }
 
 export default User;

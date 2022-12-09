@@ -1,12 +1,13 @@
-import CryptoJS from 'crypto-js';
-import jwt from 'jsonwebtoken';
-import type { RequestHandler } from 'express';
+import { StatusCodes } from 'http-status-codes';
 
-import User from '../../db/entities/User';
+import type { RequestHandler } from 'express';
 import type UserType from '../../db/entities/User';
 
-import repository from '../../db/index';
-import config from '../../config';
+import CustomError from '../../exceptions/CustomError';
+import tokenWorker from '../../utils/tokenHelper';
+import hashWorker from '../../utils/hashHelper';
+import User from '../../db/entities/User';
+import dB from '../../db';
 
 type BodyType = UserType;
 
@@ -16,39 +17,33 @@ type QueryType = Record<string, never>;
 
 type ResponseType = {
   message: string;
-  userInfo?: UserType;
+  user: UserType;
+  token: string;
 };
 
 type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>;
 
 const signupUser: HandlerType = async (req, res, next) => {
   try {
-    const user = await repository.userRepository.findOne({ where: {
+    const userDb = await dB.user.findOne({ where: {
       email: req.body.email,
     } });
 
-    if (user) {
-      return res.status(400).json({ message: 'user with this email already exists' });
+    if (userDb) {
+      throw new CustomError(StatusCodes.BAD_REQUEST, 'user with this email already exists please enter correct data');
     }
 
     const newUser = new User();
     newUser.fullName = req.body.fullName;
     newUser.email = req.body.email;
-    newUser.password = CryptoJS.SHA512(req.body.password + config.hashProperty.hashSalt).toString();
+    newUser.password = hashWorker.hashPassword(req.body.password);
     newUser.dob = req.body.dob;
 
-    const saveUser = await repository.userRepository.save(newUser);
+    const user = await dB.user.save(newUser);
+    delete user.password;
 
-    const token = jwt.sign({ id: saveUser.id }, config.tokenProperty.tokenSecret, { algorithm: 'HS512', expiresIn: '1h' });
-
-    const userInfo = {
-      fullName: saveUser.fullName,
-      dob: saveUser.dob,
-      email: saveUser.email,
-      token,
-    };
-
-    res.status(200).json({ message: 'user successfully registered', userInfo });
+    const token = tokenWorker.create(user.id);
+    res.status(StatusCodes.CREATED).json({ message: 'user successfully registered', user, token });
   } catch (error) {
     next(error);
   }
