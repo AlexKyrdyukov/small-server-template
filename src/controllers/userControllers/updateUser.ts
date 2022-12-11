@@ -26,7 +26,7 @@ type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>
 const updateUser: HandlerType = async (req, res, next) => {
   try {
     if (req.user.id !== +req.params.userId) {
-      throw new CustomError(StatusCodes.BAD_REQUEST, 'invalid request, please check entered data');
+      throw new CustomError(StatusCodes.FORBIDDEN, 'invalid request, please check entered data');
     }
     req.user.fullName = req.body.fullName;
     req.user.dob = req.body.dob;

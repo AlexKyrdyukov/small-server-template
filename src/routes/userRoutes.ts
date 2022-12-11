@@ -8,7 +8,7 @@ const routes = express.Router();
 
 routes.use(authMiddleware);
 
-routes.delete('/:userId', userController.deleteUser);
+routes.delete('/:userId', generatorValidate(userSchema.deleteUser), userController.deleteUser);
 
 routes.patch('/:userId', generatorValidate(userSchema.updatedUser), userController.updateUser);
 

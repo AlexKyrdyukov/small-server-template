@@ -20,7 +20,7 @@ type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>
 const deleteUser: HandlerType = async (req, res, next) => {
   try {
     if (req.user.id !== +req.params.userId) {
-      throw new CustomError(StatusCodes.BAD_REQUEST, 'invalid request, please check entered data');
+      throw new CustomError(StatusCodes.FORBIDDEN, 'invalid request, please check entered data');
     }
     await db.user.remove(req.user);
     delete req.user;

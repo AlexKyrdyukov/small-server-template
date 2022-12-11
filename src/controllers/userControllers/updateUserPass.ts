@@ -24,7 +24,7 @@ type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>
 const updateUserPass: HandlerType = async (req, res, next) => {
   try {
     if (req.user.id !== +req.params.userId) {
-      throw new CustomError(StatusCodes.BAD_REQUEST, 'invalid request, please check entered data');
+      throw new CustomError(StatusCodes.FORBIDDEN, 'invalid request, please check entered data');
     }
     const { password, newPassword } = req.body;
     const user = await db.user
