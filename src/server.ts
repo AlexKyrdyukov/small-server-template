@@ -10,6 +10,6 @@ import connectToDb from './db/connectToDb';
       console.log(`app listening on port ${config.server.port}`);
     });
   } catch (error) {
-    // console.error('error:', error);
+    console.error('error:', error);
   }
 })();

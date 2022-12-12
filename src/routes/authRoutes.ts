@@ -7,9 +7,9 @@ import authMidlleware from '../middlewares/auth';
 
 const routes = express.Router();
 
-routes.post('/sign-in', generatorValidate(userSchema.signIn), authControllers.userSignIn);
+routes.post('/sign-in', generatorValidate(userSchema), authControllers.userSignIn);
 
-routes.post('/sign-up', generatorValidate(userSchema.signUp), authControllers.userSignUp);
+routes.post('/sign-up', generatorValidate(userSchema), authControllers.userSignUp);
 
 routes.use(authMidlleware);
 

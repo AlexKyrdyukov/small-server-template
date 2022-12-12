@@ -1,4 +1,7 @@
+import { StatusCodes } from 'http-status-codes';
 import jwt from 'jsonwebtoken';
+
+import CustomError from '../exceptions/CustomError';
 import config from '../config';
 
 const create = (id: number) => {
@@ -6,7 +9,12 @@ const create = (id: number) => {
 };
 
 const decoded = (token: string) => {
-  return jwt.verify(token, config.token.secret) as {id: number};
+  try {
+    const payload = jwt.verify(token, config.token.secret) as { id: number };
+    return payload;
+  } catch (error) {
+    throw new CustomError(StatusCodes.FORBIDDEN, 'please sign in system');
+  }
 };
 
 export default {
