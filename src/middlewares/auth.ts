@@ -9,10 +9,10 @@ const authVerification = async (req: Request, res: Response, next: NextFunction)
   try {
     const token = req.headers.authorization.split(' ')[1];
     if (!token) {
-      throw new CustomError(StatusCodes.BAD_REQUEST, 'please sign in');
+      throw new CustomError(StatusCodes.FORBIDDEN, 'please sign in');
     }
-    const decodedToken = tokenWorker.decoded(token);
-    req.user = await db.user.findOne({ where: { id: decodedToken.id } });
+    const payload = tokenWorker.decoded(token);
+    req.user = await db.user.findOne({ where: { id: payload.id } });
     if (!req.user) {
       throw new CustomError(StatusCodes.NOT_FOUND, 'user not found');
     }

@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 
-import ErrorHandler from './middlewares/errorMiddleWare';
+import ErrorHandler from './middlewares/error';
 import routes from './routes/index';
 import config from './config';
 import './types/express/index';
@@ -11,6 +11,7 @@ const app = express();
 app.use(cors({
   origin: config.urls.client,
 }));
+
 app.use(express.json());
 
 app.use('/api', routes);

@@ -1,6 +1,9 @@
 import * as yup from 'yup';
+// import type User from '../db/entities/User';
+// import type { RequiredObjectSchema } from 'yup/lib/object';
 
 const sample = {
+  object: yup.object(),
   fullName: yup.string()
     .ensure()
     .trim()
@@ -33,48 +36,48 @@ const sample = {
   id: yup.number().integer().positive().required(),
 };
 
-const signUp = yup.object({
-  body: yup.object({
+const signUp = {
+  body: ({
     fullName: sample.fullName,
     dob: sample.dob,
     email: sample.email,
     password: sample.password,
   }),
-});
+};
 
-const signIn = yup.object({
-  body: yup.object({
+const signIn = {
+  body: {
     email: sample.email,
     password: sample.password,
-  }),
-});
+  },
+};
 
-const updatedPass = yup.object({
-  body: yup.object({
+const updatedPass = {
+  body: {
     password: sample.password,
     newPassword: sample.newPassword,
-  }),
-  params: yup.object({
+  },
+  params: {
     userId: sample.id,
-  }),
-});
+  },
+};
 
-const updatedUser = yup.object({
-  body: yup.object({
+const updatedUser = {
+  body: {
     fullName: sample.fullName,
     email: sample.email,
     dob: sample.dob,
-  }),
-  params: yup.object({
+  },
+  params: {
     userId: sample.id,
-  }),
-});
+  },
+};
 
-const deleteUser = yup.object({
-  params: yup.object({
+const deleteUser = {
+  params: {
     userId: sample.id,
-  }),
-});
+  },
+};
 
 export default {
   signIn,

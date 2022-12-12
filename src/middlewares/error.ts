@@ -5,6 +5,8 @@ import CustomError from '../exceptions/CustomError';
 import config from '../config';
 
 const ErrorHandler: ErrorRequestHandler = (err, req, res, _next) => {
+  // // eslint-disable-next-line no-console
+  // console.log(err);
   if (err instanceof CustomError) {
     return res.status(err.status).json({ message: err.message });
   }
