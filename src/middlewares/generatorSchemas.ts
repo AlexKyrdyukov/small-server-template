@@ -1,15 +1,9 @@
+import { StatusCodes } from 'http-status-codes';
 /* eslint-disable no-console */
-// import { ValidationError } from 'yup';
+import _ from 'lodash';
 
-import type { Handler } from 'express';
 import * as yup from 'yup';
-
-// import type * as yup from 'yup';
-
-// import type { OptionalObjectSchema } from 'yup/lib/object';
-
-// type SchemaType =
-// OptionalObjectSchema<ValidationType>;
+import type { Handler } from 'express';
 
 type ValidationShemaType = {
   [key: string]: yup.StringSchema | yup.NumberSchema | yup.DateSchema;
@@ -19,69 +13,70 @@ type ValidationType = {
   query?: ValidationShemaType;
   params?: ValidationShemaType;
 };
-// export type ValidationType = {
-// body?: OptionalObjectSchema<ValidationShemaType>;
-// query?: OptionalObjectSchema<ValidationShemaType>;
-// params?: OptionalObjectSchema<ValidationShemaType>;
-// };
 
-const generatorValidate = (schema: ValidationType) => {
-  // return async (req, res, next) => {
-  const errors: Array<{
-    key: string;
-    path: string;
-    message: string;
-    value: string;
-    errors: string[];
-    inner: [];
-    name: string;
-  }> = [];
-  const validationMiddleware: Handler = (req, _res, next) => {
+const createValidationMiddleware = (schema: ValidationType) => {
+  const validationMiddleware: Handler = async (req, res, next) => {
     try {
+      const errors: Array<{
+        key?: Array<string> | undefined;
+        path: Array<string> | string;
+        message: string;
+        value: string;
+        errors: string[];
+        inner: yup.ValidationError[] | undefined;
+        name: string;
+      }> = [];
       const rootShape: Record<string, yup.AnyObjectSchema> = {};
+      const keysRequest = [
+        ...Object.keys(req.body),
+        ...Object.keys(req.params),
+        ...Object.keys(req.query),
+      ];
+      const keysSchema = [
+        ...Object.keys(schema.body),
+        ...Object.keys(schema.params),
+        ...Object.keys(schema.query),
+      ];
+      console.log(keysRequest, keysSchema);
+      const arrKey = _.difference(keysRequest, keysSchema);
+      console.log(arrKey);
+      if (arrKey.length) {
+        errors.push({
+          key: arrKey,
+          errors: ['errors'],
+          path: arrKey,
+          value: 'err.value',
+          inner: undefined,
+          name: 'err.name',
+          message: `please delete field ${arrKey} for correct request`,
+        });
+        throw new yup.ValidationError({errors}, 'value', 'path');
+      }
       Object.entries(schema).forEach(([key, value]) => {
         rootShape[key] = yup.object().shape(value);
-        const yupSchema = yup.object(rootShape);
-        // eslint-disable-next-line no-console
-        yupSchema.validate(req, { abortEarly: true })
-          .then((_responseData) => {
-            // eslint-disable-next-line no-console
-            console.log('no errors');
-            // eslint-disable-next-line no-console
-            // console.log(responseData);
-          })
-          .catch((err) => {
-            // console.log(err);
-            console.log(err.name);
-            // console.log(err.errors);
-            errors.push(err);
-          });
-        // .catch((err) => {
-        console.log('errorfrom catch', errors);
-        // });
       });
-      // eslint-disable-next-line no-console
-      // console.log('eeeeeeeeeeeeeeeeeeeeee', errors);
-
-      // if (errors.length) {
-      // throw new ValidationError(errors);
-      // }
-      // eslint-disable-next-line no-console
-      // const error: Array<{
-      // key: string;
-      // path: string;
-      // message:string;
-      // }> = [];
+      const yupSchema = yup.object(rootShape);
+      await yupSchema.validate(req, { abortEarly: false })
+        .catch((err) => errors.push({
+          errors: err.errors,
+          path: err.path,
+          value: err.value,
+          inner: err.inner,
+          name: err.name,
+          message: err.meassage,
+        }));
+      if (errors.length) {
+        console.log('errlength try error', errors);
+        throw new yup.ValidationError(errors, 'value', 'path');
+      }
       next();
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log('error');
+      console.log('err error');
       next(error);
     }
   };
-  // eslint-disable-next-line no-console
-  console.log(validationMiddleware, 'val');
+
   return validationMiddleware;
 };
 
-export default generatorValidate;
+export default createValidationMiddleware;

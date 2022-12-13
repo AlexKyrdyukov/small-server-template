@@ -39,7 +39,6 @@ const loginUser: HandlerType = async (req, res, next) => {
     }
     const flag = hashHelper.checkPassword(password, user.password);
     delete user.password;
-
     if (!flag) {
       throw new CustomError(StatusCodes.BAD_REQUEST, 'password invalid, please enter correct passwpord, and repeat request ');
     }
