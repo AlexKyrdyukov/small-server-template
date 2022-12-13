@@ -40,7 +40,6 @@ const requiredNewPassword = yup.string().trim()
   .min(3, 'password cannot be shorter than 3 characters')
   .max(8, 'password cannot be longer than 8 character');
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const sharedValidation = {
   paramsId,
   requiredParamsId,
