@@ -33,9 +33,9 @@ const updateUserPass: HandlerType = async (req, res, next) => {
       .where('user.id = :id', { id: req.user.id })
       .getOne();
 
-    const flag = hashHelper.checkPassword(password, user.password);
-    if (!flag) {
-      throw new CustomError(StatusCodes.BAD_REQUEST, 'password invalid, please enter correct passwpord, and repeat request ');
+    const passwordVerification = hashHelper.checkPassword(password, user.password);
+    if (!passwordVerification) {
+      throw new CustomError(StatusCodes.BAD_REQUEST, 'password invalid, please enter correct password, and repeat request ');
     }
     user.password = hashHelper.hashPassword(newPassword);
     await db.user.save(user);

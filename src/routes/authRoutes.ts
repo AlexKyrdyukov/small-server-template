@@ -1,8 +1,8 @@
 import express from 'express';
 
 import authControllers from '../controllers/authControllers';
-import version from '../validationSchemas/userSchema';
-import generatorValidate from '../middlewares/generatorSchemas';
+import version from '../validationSchemas/userSchemas';
+import generatorValidate from '../middlewares/createValidation';
 import authMidlleware from '../middlewares/auth';
 
 const routes = express.Router();

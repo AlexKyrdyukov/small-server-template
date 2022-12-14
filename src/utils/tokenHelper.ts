@@ -9,7 +9,7 @@ const create = (id: number) => {
   return jwt.sign({ id }, config.token.secret, { algorithm: 'HS512', expiresIn: '1h' });
 };
 
-const decoded = (token: string) => {
+const decode = (token: string) => {
   try {
     const payload = jwt.verify(token, config.token.secret) as { id: number };
     return payload;
@@ -20,5 +20,5 @@ const decoded = (token: string) => {
 
 export default {
   create,
-  decoded,
+  decode,
 };

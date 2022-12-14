@@ -5,22 +5,16 @@ class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({
-    type: 'varchar', select: false,
-  })
+  @Column({ type: 'varchar', select: false, nullable: false })
   password: string;
 
-  @Column({
-    nullable: false, type: 'varchar',
-  })
+  @Column({ nullable: true, type: 'varchar' })
   fullName: string;
 
-  @Column({
-    unique: true, nullable: false, type: 'varchar',
-  })
+  @Column({ unique: true, nullable: false, type: 'varchar' })
   email: string;
 
-  @Column({ type: 'date' })
+  @Column({ type: 'date', nullable: true })
   dob: Date | string;
 }
 

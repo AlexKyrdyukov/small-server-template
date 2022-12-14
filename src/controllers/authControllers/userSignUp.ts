@@ -25,13 +25,13 @@ type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>
 
 const signupUser: HandlerType = async (req, res, next) => {
   try {
-    const userDb = await db.user.findOne({
+    const existUser = await db.user.findOne({
       where: {
         email: req.body.email,
       },
     });
 
-    if (userDb) {
+    if (existUser) {
       throw new CustomError(StatusCodes.BAD_REQUEST, 'user with this email already exists please enter correct data');
     }
 

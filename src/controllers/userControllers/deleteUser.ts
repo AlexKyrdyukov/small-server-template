@@ -23,7 +23,6 @@ const deleteUser: HandlerType = async (req, res, next) => {
       throw new CustomError(StatusCodes.FORBIDDEN, 'invalid request, please check entered data');
     }
     await db.user.remove(req.user);
-    delete req.user;
     res.sendStatus(StatusCodes.NO_CONTENT);
   } catch (error) {
     next(error);

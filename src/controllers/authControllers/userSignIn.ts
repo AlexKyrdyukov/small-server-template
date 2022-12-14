@@ -37,10 +37,10 @@ const loginUser: HandlerType = async (req, res, next) => {
     if (!user) {
       throw new CustomError(StatusCodes.BAD_REQUEST, 'user not found');
     }
-    const flag = hashHelper.checkPassword(password, user.password);
+    const passwordVerification = hashHelper.checkPassword(password, user.password);
     delete user.password;
-    if (!flag) {
-      throw new CustomError(StatusCodes.BAD_REQUEST, 'password invalid, please enter correct passwpord, and repeat request ');
+    if (!passwordVerification) {
+      throw new CustomError(StatusCodes.BAD_REQUEST, 'password invalid, please enter correct password, and repeat request');
     }
 
     const token = tokenWorker.create(user.id);

@@ -1,7 +1,8 @@
-/* eslint-disable no-console */
 import type { Handler } from 'express';
-import _ from 'lodash';
 import * as yup from 'yup';
+import _ from 'lodash';
+import { StatusCodes } from 'http-status-codes';
+import CustomError from '../exceptions/CustomError';
 
 type ValidationShemaType = {
   [key: string]: yup.StringSchema | yup.NumberSchema | yup.DateSchema;
@@ -16,14 +17,11 @@ type ValidationType = {
 const createValidationMiddleware = (schema: ValidationType) => {
   const validationMiddleware: Handler = async (req, res, next) => {
     try {
-      const errors: Array<{
-        key: string[];
-        path?: string;
-        message: string;
-        value: string;
-        errors: string[];
-        inner: yup.ValidationError[];
-        name: string;
+      const error: Array<{
+        field?: string[];
+        message?: string;
+        errors?: string[];
+        inner?: string[];
       }> = [];
 
       const rootShape: Record<string, yup.AnyObjectSchema> = {};
@@ -41,39 +39,26 @@ const createValidationMiddleware = (schema: ValidationType) => {
       ];
 
       const arrKey = _.difference(keysRequest, keysSchema);
-
       if (arrKey.length) {
-        errors.push({
-          key: arrKey,
-          errors: [`please delete ${arrKey} field for validation your data`],
-          path: `${arrKey}`,
-          value: 'err.value',
-          inner: [],
-          name: 'ValidationError',
-          message: `please delete field ${arrKey} for correct request`,
+        error.push({
+          field: arrKey,
+          errors: [`please deleted ${arrKey} fields`],
         });
-        throw new yup.ValidationError(errors);
       }
-
       Object.entries(schema).forEach(([key, value]) => {
         rootShape[key] = yup.object().shape(value);
       });
 
       const yupSchema = yup.object(rootShape);
-
       await yupSchema.validate(req, { abortEarly: false })
-        .catch((err) => errors.push({
-          key: ['null'],
-          errors: err.errors,
-          path: err.path,
-          value: err.value,
+        .catch((err) => error.push({
           inner: err.inner,
-          message: 'error validation',
-          name: err.name,
+          // errors: err.errors,
         }));
-      if (errors.length) {
-        throw new yup.ValidationError(errors);
+      if (error.length) {
+        throw new CustomError(StatusCodes.BAD_REQUEST, 'error entered data', error);
       }
+
       next();
     } catch (error) {
       next(error);
