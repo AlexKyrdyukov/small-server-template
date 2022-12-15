@@ -1,8 +1,7 @@
   type PayloadType = Array<{
-    key?: string[];
-    message?: string;
+    field?: string[];
+    message?: string[];
     errors?: string[];
-    inner?: string[];
   }>;
 
 class CustomError extends Error {

@@ -22,13 +22,12 @@ const createValidationMiddleware = (schema: ValidationType) => {
     try {
       const error: Array<{
         field?: string[];
-        message?: string;
+        message?: string[];
         errors?: string[];
-        inner?: string[];
       }> = [];
 
       const rootShape: Record<string, yup.AnyObjectSchema> = {};
-
+      console.log(req.body);
       const keysRequest = [
         ...Object.keys(req.body),
         ...Object.keys(req.params),
@@ -36,19 +35,19 @@ const createValidationMiddleware = (schema: ValidationType) => {
       ];
 
       const keysSchema = [
-        ...Object.keys(schema.body),
-        ...Object.keys(schema.params),
-        ...Object.keys(schema.query),
+        ...Object.keys(schema.body ? schema.body : {}),
+        ...Object.keys(schema.params ? schema.params : {}),
+        ...Object.keys(schema.query ? schema.query : {}),
       ];
 
       const arrKey = _.difference(keysRequest, keysSchema);
 
-      if (arrKey.length) {
-        error.push({
-          field: arrKey,
-          errors: [`please deleted ${arrKey} field(s)`],
-        });
-      }
+      // if (arrKey.length) {
+      //   error.push({
+      //     field: arrKey,
+      //     message: [`please deleted ${arrKey} field(s)`],
+      //   });
+      // }
 
       Object.entries(schema).forEach(([key, value]) => {
         rootShape[key] = yup.object().shape(value);
@@ -57,9 +56,16 @@ const createValidationMiddleware = (schema: ValidationType) => {
       const yupSchema = yup.object(rootShape);
       await yupSchema.validate(req, { abortEarly: false })
         .catch((err) => error.push({
-          // inner: err.inner,
           errors: err.errors,
         }));
+
+      if (arrKey.length) {
+        error[0] = {
+          field: arrKey,
+          message: [`please deleted ${arrKey} field(s)`],
+        };
+      }
+
       if (error.length) {
         throw new CustomError(StatusCodes.BAD_REQUEST, errorText.USER_INVALID_REQUEST, error);
       }

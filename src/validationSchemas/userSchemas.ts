@@ -7,8 +7,6 @@ const signUp = {
     email: sharedValidation.requiredBodyEmail,
     password: sharedValidation.bodyPassword,
   },
-  params: {},
-  query: {},
 };
 
 const signIn = {
@@ -16,9 +14,6 @@ const signIn = {
     email: sharedValidation.requiredBodyEmail,
     password: sharedValidation.requiredBodyPassword,
   },
-  params: {},
-  query: {},
-
 };
 
 const updatedPass = {
@@ -29,7 +24,6 @@ const updatedPass = {
   params: {
     userId: sharedValidation.requiredParamsId,
   },
-  query: {},
 
 };
 
@@ -42,15 +36,12 @@ const updatedUser = {
   params: {
     userId: sharedValidation.requiredParamsId,
   },
-  query: {},
 };
 
 const deleteUser = {
-  body: {},
   params: {
     userId: sharedValidation.requiredParamsId,
   },
-  query: {},
 };
 
 export default {
