@@ -2,9 +2,9 @@ import express from 'express';
 import cors from 'cors';
 
 import ErrorHandler from './middlewares/errorHandler';
-import routes from './routes/index';
+import routes from './routes';
 import config from './config';
-import './types/express/index';
+import './types/express';
 
 const app = express();
 

@@ -6,6 +6,7 @@ import type UserType from '../../db/entities/User';
 import CustomError from '../../exceptions/CustomError';
 import tokenWorker from '../../utils/tokenHelper';
 import hashHelper from '../../utils/hashHelper';
+import errorText from '../../utils/consts/error';
 import db from '../../db';
 
 type BodyType = {
@@ -35,12 +36,12 @@ const loginUser: HandlerType = async (req, res, next) => {
       .getOne();
 
     if (!user) {
-      throw new CustomError(StatusCodes.BAD_REQUEST, 'user not found');
+      throw new CustomError(StatusCodes.BAD_REQUEST, errorText.USER_NOT_FOUND);
     }
     const passwordVerification = hashHelper.checkPassword(password, user.password);
     delete user.password;
     if (!passwordVerification) {
-      throw new CustomError(StatusCodes.BAD_REQUEST, 'password invalid, please enter correct password, and repeat request');
+      throw new CustomError(StatusCodes.BAD_REQUEST, errorText.USER_INVALID_PASSWORD);
     }
 
     const token = tokenWorker.create(user.id);

@@ -7,6 +7,7 @@ import CustomError from '../../exceptions/CustomError';
 import tokenWorker from '../../utils/tokenHelper';
 import hashWorker from '../../utils/hashHelper';
 import User from '../../db/entities/User';
+import errorText from '../../utils/consts/error';
 import db from '../../db';
 
 type BodyType = UserType;
@@ -32,7 +33,7 @@ const signupUser: HandlerType = async (req, res, next) => {
     });
 
     if (existUser) {
-      throw new CustomError(StatusCodes.BAD_REQUEST, 'user with this email already exists please enter correct data');
+      throw new CustomError(StatusCodes.BAD_REQUEST, errorText.USER_ALREADY_EXISTS);
     }
 
     const newUser = new User();

@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import type { ErrorRequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import config from '../config';
@@ -13,7 +12,6 @@ const ErrorHandler: ErrorRequestHandler = (err, req, res, _next) => {
   }
 
   res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-    success: false,
     message: config.server.internalErrorMessage,
   });
 };

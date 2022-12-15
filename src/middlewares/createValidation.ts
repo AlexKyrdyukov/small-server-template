@@ -1,8 +1,11 @@
+/* eslint-disable no-console */
 import type { Handler } from 'express';
 import * as yup from 'yup';
 import _ from 'lodash';
 import { StatusCodes } from 'http-status-codes';
+
 import CustomError from '../exceptions/CustomError';
+import errorText from '../utils/consts/error';
 
 type ValidationShemaType = {
   [key: string]: yup.StringSchema | yup.NumberSchema | yup.DateSchema;
@@ -39,12 +42,14 @@ const createValidationMiddleware = (schema: ValidationType) => {
       ];
 
       const arrKey = _.difference(keysRequest, keysSchema);
+
       if (arrKey.length) {
         error.push({
           field: arrKey,
-          errors: [`please deleted ${arrKey} fields`],
+          errors: [`please deleted ${arrKey} field(s)`],
         });
       }
+
       Object.entries(schema).forEach(([key, value]) => {
         rootShape[key] = yup.object().shape(value);
       });
@@ -52,11 +57,11 @@ const createValidationMiddleware = (schema: ValidationType) => {
       const yupSchema = yup.object(rootShape);
       await yupSchema.validate(req, { abortEarly: false })
         .catch((err) => error.push({
-          inner: err.inner,
-          // errors: err.errors,
+          // inner: err.inner,
+          errors: err.errors,
         }));
       if (error.length) {
-        throw new CustomError(StatusCodes.BAD_REQUEST, 'error entered data', error);
+        throw new CustomError(StatusCodes.BAD_REQUEST, errorText.USER_INVALID_REQUEST, error);
       }
 
       next();

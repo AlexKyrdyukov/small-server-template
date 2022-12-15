@@ -4,6 +4,7 @@ import type { RequestHandler } from 'express';
 
 import CustomError from '../../exceptions/CustomError';
 import hashHelper from '../../utils/hashHelper';
+import errorText from '../../utils/consts/error';
 import db from '../../db';
 
 type BodyType = {
@@ -24,7 +25,7 @@ type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>
 const updateUserPass: HandlerType = async (req, res, next) => {
   try {
     if (req.user.id !== +req.params.userId) {
-      throw new CustomError(StatusCodes.FORBIDDEN, 'invalid request, please check entered data');
+      throw new CustomError(StatusCodes.FORBIDDEN, errorText.USER_INVALID_REQUEST);
     }
     const { password, newPassword } = req.body;
     const user = await db.user
@@ -35,9 +36,10 @@ const updateUserPass: HandlerType = async (req, res, next) => {
 
     const passwordVerification = hashHelper.checkPassword(password, user.password);
     if (!passwordVerification) {
-      throw new CustomError(StatusCodes.BAD_REQUEST, 'password invalid, please enter correct password, and repeat request ');
+      throw new CustomError(StatusCodes.BAD_REQUEST, errorText.USER_INVALID_PASSWORD);
     }
     user.password = hashHelper.hashPassword(newPassword);
+
     await db.user.save(user);
     res.status(StatusCodes.OK).json({ message: 'new password succesfully updated' });
   } catch (error) {
