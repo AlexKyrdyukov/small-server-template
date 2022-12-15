@@ -1,17 +1,11 @@
-  type PayloadType = Array<{
-    field?: string[];
-    message?: string[];
-    errors?: string[];
-  }>;
-
 class CustomError extends Error {
   status: number;
 
   message: string;
 
-  payload?: PayloadType;
+  payload?: unknown;
 
-  constructor(status: number, message: string, payload?: PayloadType) {
+  constructor(status: number, message: string, payload?: unknown) {
     super(message);
     this.status = status;
     this.message = message;
