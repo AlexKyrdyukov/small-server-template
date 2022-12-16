@@ -13,7 +13,6 @@ const create = (id: number) => {
 const decode = (token: string) => {
   try {
     const payload = jwt.verify(token, config.token.secret) as { id: number };
-    console.log(payload);
     return payload;
   } catch (error) {
     throw new CustomError(StatusCodes.FORBIDDEN, errorText.USER_SIGN_IN);

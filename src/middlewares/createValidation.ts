@@ -29,15 +29,17 @@ type ErrorType = {
 
 const createValidationMiddleware = (schema: ValidationType) => {
   const validationMiddleware: Handler = async (req, res, next) => {
-    console.log('evemnt');
     try {
       const errors: Array<{
         path: string;
         message?: string;
         key?: string;
       }> = [];
+
       let textMessage = '';
+
       const rootShape: Record<string, yup.AnyObjectSchema> = {};
+
       const keysRequest = [
         ...Object.keys(req.body),
         ...Object.keys(req.params),
@@ -55,6 +57,7 @@ const createValidationMiddleware = (schema: ValidationType) => {
       Object.entries(schema).forEach(([key, value]) => {
         rootShape[key] = yup.object().shape(value);
       });
+
       const yupSchema = yup.object(rootShape);
       const handleError = (err: ErrorType) => {
         err.inner.forEach((item) => {
@@ -69,10 +72,11 @@ const createValidationMiddleware = (schema: ValidationType) => {
         .catch((err) => handleError(err));
 
       if (invalidKeys.length) {
-        textMessage = `Please delete from request next keys ${invalidKeys}`;
+        const keys = invalidKeys.join(', ');
+        textMessage = `Please delete from request next keys: ${keys}`;
       }
 
-      if (errors.length) {
+      if (errors.length || invalidKeys.length) {
         throw new CustomError(
           StatusCodes.BAD_REQUEST, errorText.USER_INVALID_REQUEST, { textMessage, errors },
         );
@@ -80,7 +84,6 @@ const createValidationMiddleware = (schema: ValidationType) => {
 
       next();
     } catch (error) {
-      console.log(error);
       next(error);
     }
   };

@@ -3,7 +3,7 @@ import sharedValidation from './dataValidation';
 const signUp = {
   body: {
     fullName: sharedValidation.fullName,
-    dob: sharedValidation.requiredDob,
+    dob: sharedValidation.dob,
     email: sharedValidation.requiredEmail,
     password: sharedValidation.requiredPassword,
   },
@@ -12,7 +12,7 @@ const signUp = {
 const signIn = {
   body: {
     email: sharedValidation.requiredEmail,
-    password: sharedValidation.requiredNewPassword,
+    password: sharedValidation.requiredPassword,
   },
 };
 
