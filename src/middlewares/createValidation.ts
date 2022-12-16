@@ -18,6 +18,7 @@ type ValidationType = {
 };
 
 type ParamsType = {
+  errors: string[];
   path: string;
 };
 
@@ -25,17 +26,17 @@ type ErrorType = {
   inner: ParamsType[];
   errors: string[];
 };
+
 const createValidationMiddleware = (schema: ValidationType) => {
   const validationMiddleware: Handler = async (req, res, next) => {
+    console.log('evemnt');
     try {
-      const error: Array<{
-        field?: string[];
-        message?: string[];
-        errors?: string[];
-        inner?: ParamsType[];
-        path?: string[];
+      const errors: Array<{
+        path: string;
+        message?: string;
+        key?: string;
       }> = [];
-
+      let textMessage = '';
       const rootShape: Record<string, yup.AnyObjectSchema> = {};
       const keysRequest = [
         ...Object.keys(req.body),
@@ -49,40 +50,37 @@ const createValidationMiddleware = (schema: ValidationType) => {
         ...Object.keys(schema.query ? schema.query : {}),
       ];
 
-      const invalidFields = _.difference(keysRequest, keysSchema);
+      const invalidKeys = _.difference(keysRequest, keysSchema);
 
       Object.entries(schema).forEach(([key, value]) => {
         rootShape[key] = yup.object().shape(value);
       });
       const yupSchema = yup.object(rootShape);
-
       const handleError = (err: ErrorType) => {
-        error[0] = {
-          ...error[0],
-          errors: err.errors,
-          inner: err.inner,
-        };
-        error[0].path = error[0].inner.map((item) => item.path);
-        delete error[0].inner;
+        err.inner.forEach((item) => {
+          errors.push({
+            message: item.errors.join("'"),
+            path: item.path.split('.')[0],
+            key: item.path.split('.')[1],
+          });
+        });
       };
-
       await yupSchema.validate(req, { abortEarly: false })
         .catch((err) => handleError(err));
 
-      if (invalidFields.length) {
-        error[0] = {
-          ...error[0],
-          field: invalidFields,
-          message: [`please deleted ${invalidFields} field(s)`],
-        };
+      if (invalidKeys.length) {
+        textMessage = `Please delete from request next keys ${invalidKeys}`;
       }
 
-      if (error.length) {
-        throw new CustomError(StatusCodes.BAD_REQUEST, errorText.USER_INVALID_REQUEST, error);
+      if (errors.length) {
+        throw new CustomError(
+          StatusCodes.BAD_REQUEST, errorText.USER_INVALID_REQUEST, { textMessage, errors },
+        );
       }
 
       next();
     } catch (error) {
+      console.log(error);
       next(error);
     }
   };

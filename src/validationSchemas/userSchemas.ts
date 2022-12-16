@@ -2,45 +2,45 @@ import sharedValidation from './dataValidation';
 
 const signUp = {
   body: {
-    fullName: sharedValidation.requiredFullName,
-    dob: sharedValidation.requiredBodyDob,
-    email: sharedValidation.requiredBodyEmail,
-    password: sharedValidation.bodyPassword,
+    fullName: sharedValidation.fullName,
+    dob: sharedValidation.requiredDob,
+    email: sharedValidation.requiredEmail,
+    password: sharedValidation.requiredPassword,
   },
 };
 
 const signIn = {
   body: {
-    email: sharedValidation.requiredBodyEmail,
-    password: sharedValidation.requiredBodyPassword,
+    email: sharedValidation.requiredEmail,
+    password: sharedValidation.requiredNewPassword,
   },
 };
 
 const updatedPass = {
   body: {
-    password: sharedValidation.requiredBodyPassword,
+    password: sharedValidation.requiredPassword,
     newPassword: sharedValidation.requiredNewPassword,
   },
   params: {
-    userId: sharedValidation.requiredParamsId,
+    userId: sharedValidation.requiredUserId,
   },
 
 };
 
 const updatedUser = {
   body: {
-    fullName: sharedValidation.requiredFullName,
-    email: sharedValidation.requiredBodyEmail,
-    dob: sharedValidation.requiredBodyDob,
+    fullName: sharedValidation.fullName,
+    email: sharedValidation.requiredEmail,
+    dob: sharedValidation.dob,
   },
   params: {
-    userId: sharedValidation.requiredParamsId,
+    userId: sharedValidation.requiredUserId,
   },
 };
 
 const deleteUser = {
   params: {
-    userId: sharedValidation.requiredParamsId,
+    userId: sharedValidation.requiredUserId,
   },
 };
 

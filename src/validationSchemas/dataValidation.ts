@@ -37,16 +37,16 @@ const requiredNewPassword = yup.string()
   .max(8, 'password cannot be longer than 8 character');
 
 export default {
-  paramsId: userId,
-  requiredParamsId: requiredUserId,
-  bodyFullName: fullName,
-  requiredFullName,
-  bodyEmail: email,
-  requiredBodyEmail: requiredEmail,
-  bodyPassword: password,
-  requiredBodyPassword: requiredPassword,
+  userId,
+  fullName,
+  email,
   dob,
-  requiredBodyDob: requiredDob,
+  password,
   newPassword,
   requiredNewPassword,
+  requiredPassword,
+  requiredDob,
+  requiredEmail,
+  requiredFullName,
+  requiredUserId,
 };
