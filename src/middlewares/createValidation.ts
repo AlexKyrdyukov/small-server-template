@@ -17,11 +17,16 @@ type ValidationType = {
   params?: ValidationShemaType;
 };
 
+type ParamsType = {
+  path: string;
+};
+
+type ErrorType = {
+  inner: ParamsType[];
+  errors: string[];
+};
 const createValidationMiddleware = (schema: ValidationType) => {
   const validationMiddleware: Handler = async (req, res, next) => {
-    type ParamsType = {
-      path: string;
-    };
     try {
       const error: Array<{
         field?: string[];
@@ -44,29 +49,35 @@ const createValidationMiddleware = (schema: ValidationType) => {
         ...Object.keys(schema.query ? schema.query : {}),
       ];
 
-      const arrKey = _.difference(keysRequest, keysSchema);
+      const invalidFields = _.difference(keysRequest, keysSchema);
 
       Object.entries(schema).forEach(([key, value]) => {
         rootShape[key] = yup.object().shape(value);
       });
       const yupSchema = yup.object(rootShape);
 
-      await yupSchema.validate(req, { abortEarly: false })
-        .catch((err) => error.push({
+      const handleError = (err: ErrorType) => {
+        error[0] = {
+          ...error[0],
           errors: err.errors,
           inner: err.inner,
-        }));
+        };
+        error[0].path = error[0].inner.map((item) => item.path);
+        delete error[0].inner;
+      };
 
-      if (arrKey.length) {
-        error[error.length] = {
-          field: arrKey,
-          message: [`please deleted ${arrKey} field(s)`],
+      await yupSchema.validate(req, { abortEarly: false })
+        .catch((err) => handleError(err));
+
+      if (invalidFields.length) {
+        error[0] = {
+          ...error[0],
+          field: invalidFields,
+          message: [`please deleted ${invalidFields} field(s)`],
         };
       }
 
       if (error.length) {
-        error[0].path = error[0].inner.map((item) => item.path);
-        delete error[0].inner;
         throw new CustomError(StatusCodes.BAD_REQUEST, errorText.USER_INVALID_REQUEST, error);
       }
 
