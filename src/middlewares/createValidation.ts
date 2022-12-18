@@ -1,7 +1,8 @@
 /* eslint-disable no-console */
-import type { Handler } from 'express';
 import * as yup from 'yup';
+
 import _ from 'lodash';
+import type { Handler } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
 import CustomError from '../exceptions/CustomError';

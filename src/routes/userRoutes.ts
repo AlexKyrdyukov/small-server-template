@@ -1,4 +1,5 @@
 import express from 'express';
+
 import userController from '../controllers/userControllers';
 import authMiddleware from '../middlewares/auth';
 import version from '../validationSchemas/userSchemas';

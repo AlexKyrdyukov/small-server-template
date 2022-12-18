@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
-import { StatusCodes } from 'http-status-codes';
 import jwt from 'jsonwebtoken';
+import { StatusCodes } from 'http-status-codes';
 
 import CustomError from '../exceptions/CustomError';
 import errorText from '../utils/consts/error';

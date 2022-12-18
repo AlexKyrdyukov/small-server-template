@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
-import type { ErrorRequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes';
+
+import type { ErrorRequestHandler } from 'express';
 import config from '../config';
 import CustomError from '../exceptions/CustomError';
 
