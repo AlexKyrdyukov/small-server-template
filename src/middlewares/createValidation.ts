@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import * as yup from 'yup';
 import { StatusCodes } from 'http-status-codes';
 import _ from 'lodash';
@@ -37,8 +36,6 @@ const createValidationMiddleware = (schema: ValidationType) => {
         key?: string;
       }> = [];
 
-      const textMessage = '';
-
       const rootShape: Record<string, yup.AnyObjectSchema> = {};
 
       const keysRequest = {
@@ -47,25 +44,19 @@ const createValidationMiddleware = (schema: ValidationType) => {
         query: Object.keys(req.query),
       };
 
-      const keysSchema = {
-        body: Object.keys(schema.body || {}),
-        params: Object.keys(schema.params || {}),
-        query: Object.keys(schema.query || {}),
-      };
-      console.log(Object.entries(keysSchema));
-      Object.entries(keysRequest).forEach(([key, value]) => {
-        
-        value.filter((item) => console.log(item));
-      });
-      const objReq = {
-        body: req.body,
-        query: req.query,
-        params: req.params,
-      };
-
       Object.entries(schema).forEach(([key, value]) => {
+        const arr = keysRequest[key as keyof typeof keysRequest];
+        const diff = _.difference(arr, Object.keys(value));
+        if (diff.length) {
+          diff.forEach((item) => {
+            errors.push({
+              key: item,
+              path: key,
+              message: 'please delete entered field',
+            });
+          });
+        }
         rootShape[key] = yup.object().shape(value);
-        // console.log([value]);
       });
 
       const yupSchema = yup.object(rootShape);
@@ -82,14 +73,9 @@ const createValidationMiddleware = (schema: ValidationType) => {
           });
         });
 
-      // if (invalidKeys.length) {
-      // const keys = invalidKeys.join(', ');
-      // textMessage = `Please delete from request next keys: ${keys}`;
-      // }
-
       if (errors.length) {
         throw new CustomError(
-          StatusCodes.BAD_REQUEST, errorText.USER_INVALID_REQUEST, { textMessage, errors },
+          StatusCodes.BAD_REQUEST, errorText.USER_INVALID_REQUEST, errors,
         );
       }
 

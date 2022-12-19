@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import jwt from 'jsonwebtoken';
 import { StatusCodes } from 'http-status-codes';
 

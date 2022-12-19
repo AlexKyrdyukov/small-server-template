@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { StatusCodes } from 'http-status-codes';
 
 import type { ErrorRequestHandler } from 'express';
@@ -10,7 +9,7 @@ const errorHandler: ErrorRequestHandler = (err, req, res, _next) => {
   if (err instanceof CustomError) {
     return res.status(err.status).json({
       message: err.message,
-      error: err.payload,
+      errors: err.payload,
     });
   }
 

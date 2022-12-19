@@ -13,7 +13,9 @@ const authVerification = async (req: Request, res: Response, next: NextFunction)
       throw new CustomError(StatusCodes.FORBIDDEN, errorText.USER_SIGN_IN);
     }
     const payload = tokenWorker.decode(token);
+
     req.user = await db.user.findOne({ where: { id: payload.id } });
+
     if (!req.user) {
       throw new CustomError(StatusCodes.NOT_FOUND, errorText.USER_NOT_FOUND);
     }
