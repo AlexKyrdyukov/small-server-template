@@ -14,7 +14,7 @@ const decode = (token: string) => {
   try {
     const payload = jwt.verify(token, config.token.secret) as { id: number };
     return payload;
-  } catch (error) {
+  } catch {
     throw new CustomError(StatusCodes.FORBIDDEN, errorText.USER_SIGN_IN);
   }
 };

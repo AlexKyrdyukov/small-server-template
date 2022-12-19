@@ -37,47 +37,57 @@ const createValidationMiddleware = (schema: ValidationType) => {
         key?: string;
       }> = [];
 
-      let textMessage = '';
+      const textMessage = '';
 
       const rootShape: Record<string, yup.AnyObjectSchema> = {};
 
-      const keysRequest = [
-        ...Object.keys(req.body),
-        ...Object.keys(req.params),
-        ...Object.keys(req.query),
-      ];
+      const keysRequest = {
+        body: Object.keys(req.body),
+        params: Object.keys(req.params),
+        query: Object.keys(req.query),
+      };
 
-      const keysSchema = [
-        ...Object.keys(schema.body ? schema.body : {}),
-        ...Object.keys(schema.params ? schema.params : {}),
-        ...Object.keys(schema.query ? schema.query : {}),
-      ];
-
-      const invalidKeys = _.difference(keysRequest, keysSchema);
+      const keysSchema = {
+        body: Object.keys(schema.body || {}),
+        params: Object.keys(schema.params || {}),
+        query: Object.keys(schema.query || {}),
+      };
+      console.log(Object.entries(keysSchema));
+      Object.entries(keysRequest).forEach(([key, value]) => {
+        
+        value.filter((item) => console.log(item));
+      });
+      const objReq = {
+        body: req.body,
+        query: req.query,
+        params: req.params,
+      };
 
       Object.entries(schema).forEach(([key, value]) => {
         rootShape[key] = yup.object().shape(value);
+        // console.log([value]);
       });
 
       const yupSchema = yup.object(rootShape);
-      const handleError = (err: ErrorType) => {
-        err.inner.forEach((item) => {
-          errors.push({
-            message: item.errors.join("'"),
-            path: item.path.split('.')[0],
-            key: item.path.split('.')[1],
+      await yupSchema.validate(req, { abortEarly: false })
+        .catch((err: ErrorType) => {
+          err.inner.forEach((item) => {
+            const [path, key] = item.path.split('.');
+            errors.push({
+              // eslint-disable-next-line max-len
+              message: item.errors.join(), // because in the "errors" array the property message type is described as a string
+              path,
+              key,
+            });
           });
         });
-      };
-      await yupSchema.validate(req, { abortEarly: false })
-        .catch((err) => handleError(err));
 
-      if (invalidKeys.length) {
-        const keys = invalidKeys.join(', ');
-        textMessage = `Please delete from request next keys: ${keys}`;
-      }
+      // if (invalidKeys.length) {
+      // const keys = invalidKeys.join(', ');
+      // textMessage = `Please delete from request next keys: ${keys}`;
+      // }
 
-      if (errors.length || invalidKeys.length) {
+      if (errors.length) {
         throw new CustomError(
           StatusCodes.BAD_REQUEST, errorText.USER_INVALID_REQUEST, { textMessage, errors },
         );

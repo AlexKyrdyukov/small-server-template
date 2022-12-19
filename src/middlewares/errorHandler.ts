@@ -6,7 +6,7 @@ import type { ErrorRequestHandler } from 'express';
 import CustomError from '../exceptions/CustomError';
 import config from '../config';
 
-const ErrorHandler: ErrorRequestHandler = (err, req, res, _next) => {
+const errorHandler: ErrorRequestHandler = (err, req, res, _next) => {
   if (err instanceof CustomError) {
     return res.status(err.status).json({
       message: err.message,
@@ -19,4 +19,4 @@ const ErrorHandler: ErrorRequestHandler = (err, req, res, _next) => {
   });
 };
 
-export default ErrorHandler;
+export default errorHandler;

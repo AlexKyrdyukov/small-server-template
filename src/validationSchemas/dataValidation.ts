@@ -23,27 +23,12 @@ const password = yup.string()
   .max(8, 'password cannot be longer than 8 character');
 const requiredPassword = password.required('field password is required');
 
-const newPassword = yup.string()
-  .trim()
-  .notOneOf([yup.ref('password')], 'old Password & new password dont must match')
-  .min(3, 'password cannot be shorter than 3 characters')
-  .max(8, 'password cannot be longer than 8 character');
-
-const requiredNewPassword = yup.string()
-  .trim()
-  .notOneOf([yup.ref('password')], 'old Password & new password dont must match')
-  .required('this field is required')
-  .min(3, 'password cannot be shorter than 3 characters')
-  .max(8, 'password cannot be longer than 8 character');
-
 export default {
   userId,
   fullName,
   email,
   dob,
   password,
-  newPassword,
-  requiredNewPassword,
   requiredPassword,
   requiredDob,
   requiredEmail,

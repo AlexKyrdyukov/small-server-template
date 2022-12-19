@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import type { Request, Response, NextFunction } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
@@ -13,9 +12,7 @@ const authVerification = async (req: Request, res: Response, next: NextFunction)
     if (!token) {
       throw new CustomError(StatusCodes.FORBIDDEN, errorText.USER_SIGN_IN);
     }
-    console.log(token);
     const payload = tokenWorker.decode(token);
-    console.log('event');
     req.user = await db.user.findOne({ where: { id: payload.id } });
     if (!req.user) {
       throw new CustomError(StatusCodes.NOT_FOUND, errorText.USER_NOT_FOUND);

@@ -19,7 +19,7 @@ const signIn = {
 const updatedPass = {
   body: {
     password: sharedValidation.requiredPassword,
-    newPassword: sharedValidation.requiredNewPassword,
+    newPassword: sharedValidation.requiredPassword,
   },
   params: {
     userId: sharedValidation.requiredUserId,

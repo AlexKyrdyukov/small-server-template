@@ -6,7 +6,9 @@ class CustomError extends Error {
   payload?: unknown;
 
   constructor(
-    status: number, message: string, payload?: { errors?: unknown; textMessage: string },
+    status: number,
+    message: string,
+    payload?: unknown,
   ) {
     super(message);
     this.status = status;

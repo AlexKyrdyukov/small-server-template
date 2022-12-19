@@ -4,7 +4,7 @@ import type { RequestHandler } from 'express';
 import type UserType from '../../db/entities/User';
 
 import CustomError from '../../exceptions/CustomError';
-import tokenWorker from '../../utils/tokenHelper';
+import tokenHelper from '../../utils/tokenHelper';
 import hashHelper from '../../utils/hashHelper';
 import errorText from '../../utils/consts/error';
 import db from '../../db';
@@ -44,7 +44,7 @@ const loginUser: HandlerType = async (req, res, next) => {
       throw new CustomError(StatusCodes.BAD_REQUEST, errorText.USER_INVALID_PASSWORD);
     }
 
-    const token = tokenWorker.create(user.id);
+    const token = tokenHelper.create(user.id);
     res.status(StatusCodes.OK).json({ user, token });
   } catch (error) {
     next(error);

@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 
-import ErrorHandler from './middlewares/errorHandler';
+import errorHandler from './middlewares/errorHandler';
 import routes from './routes';
 import config from './config';
 import './types/express';
@@ -15,6 +15,6 @@ app.use(cors({
 app.use(express.json());
 
 app.use('/api', routes);
-app.use(ErrorHandler);
+app.use(errorHandler);
 
 export default app;
