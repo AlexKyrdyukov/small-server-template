@@ -37,11 +37,10 @@ const signupUser: HandlerType = async (req, res, next) => {
     }
 
     const newUser = new User();
-    newUser.fullName = req.body.fullName;
     newUser.email = req.body.email;
     newUser.password = hashHelper.hashPassword(req.body.password);
-    newUser.dob = req.body.dob;
-
+    // eslint-disable-next-line no-console
+    console.log(newUser);
     const user = await db.user.save(newUser);
     delete user.password;
 

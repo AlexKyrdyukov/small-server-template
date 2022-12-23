@@ -2,8 +2,6 @@ import sharedValidation from './dataValidation';
 
 const signUp = {
   body: {
-    fullName: sharedValidation.fullName,
-    dob: sharedValidation.dob,
     email: sharedValidation.requiredEmail,
     password: sharedValidation.requiredPassword,
   },

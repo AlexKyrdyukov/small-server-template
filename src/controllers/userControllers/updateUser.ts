@@ -30,7 +30,7 @@ const updateUser: HandlerType = async (req, res, next) => {
       throw new CustomError(StatusCodes.FORBIDDEN, errorText.USER_INVALID_REQUEST);
     }
     req.user.fullName = req.body.fullName;
-    req.user.dob = req.body.dob;
+    // req.user.avatar = req.body.avatar;
     req.user.email = req.body.email;
 
     await db.user.save(req.user);

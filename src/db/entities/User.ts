@@ -14,8 +14,8 @@ class User {
   @Column({ unique: true, nullable: false, type: 'varchar' })
   email: string;
 
-  @Column({ type: 'date', nullable: true })
-  dob: Date | string;
+  @Column({ type: 'varchar', nullable: true })
+  avatar: string;
 }
 
 export default User;
