@@ -31,7 +31,6 @@ const signupUser: HandlerType = async (req, res, next) => {
         email: req.body.email,
       },
     });
-
     if (existenUser) {
       throw new CustomError(StatusCodes.BAD_REQUEST, errorText.USER_ALREADY_EXISTS);
     }
@@ -39,8 +38,6 @@ const signupUser: HandlerType = async (req, res, next) => {
     const newUser = new User();
     newUser.email = req.body.email;
     newUser.password = hashHelper.hashPassword(req.body.password);
-    // eslint-disable-next-line no-console
-    console.log(newUser);
     const user = await db.user.save(newUser);
     delete user.password;
 
