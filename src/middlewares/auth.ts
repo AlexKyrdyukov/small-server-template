@@ -8,7 +8,14 @@ import db from '../db';
 
 const authVerification = async (req: Request, res: Response, next: NextFunction) => {
   try {
+    // eslint-disable-next-line no-console
+    console.log(req.headers.authorization);
+    if (!req.headers.authorization) {
+      throw new CustomError(StatusCodes.FORBIDDEN, errorText.USER_SIGN_IN);
+    }
     const token = req.headers.authorization.split(' ')[1];
+    // eslint-disable-next-line no-console
+    console.log(token);
     if (!token) {
       throw new CustomError(StatusCodes.FORBIDDEN, errorText.USER_SIGN_IN);
     }

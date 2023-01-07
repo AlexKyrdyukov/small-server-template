@@ -18,12 +18,14 @@ const config = {
     publicFolderName: mainConfig.SERVER_PUBLIC_FOLDER_NAME,
   },
   hash: {
-    paswwordSalt: mainConfig.PASSWORD_HASH_SALT,
+    paswordSalt: mainConfig.PASSWORD_HASH_SALT,
     passwordType: mainConfig.PASSWORD_HASH_TYPE,
   },
   token: {
     secret: mainConfig.TOKEN_SECRET,
-    authExpiration: mainConfig.TOKEN_AUTH_EXPIRATION,
+    accesExpiration: mainConfig.ACCESS_TOKEN_AUTH_EXPIRATION,
+    refreshExpiration: mainConfig.REFRESH_TOKEN_AUTH_EXPIRATION,
+    algorithm: mainConfig.TOKEN_HASH_TYPE,
   },
   urls: {
     clientApp: mainConfig.CLIENT_APP_URL,
