@@ -24,7 +24,7 @@ type ResponseType = {
 
 type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>;
 
-const signupUser: HandlerType = async (req, res, next) => {
+const signUpUser: HandlerType = async (req, res, next) => {
   try {
     const existenUser = await db.user.findOne({
       where: {
@@ -48,4 +48,4 @@ const signupUser: HandlerType = async (req, res, next) => {
   }
 };
 
-export default signupUser;
+export default signUpUser;

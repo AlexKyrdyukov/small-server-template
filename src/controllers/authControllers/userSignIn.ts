@@ -25,7 +25,7 @@ type ResponseType = {
 
 type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>;
 
-const loginUser: HandlerType = async (req, res, next) => {
+const signInUser: HandlerType = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
@@ -51,4 +51,4 @@ const loginUser: HandlerType = async (req, res, next) => {
   }
 };
 
-export default loginUser;
+export default signInUser;
