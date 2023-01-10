@@ -27,7 +27,12 @@ const password = yup.string()
   .max(8, 'password cannot be longer than 8 character');
 const requiredPassword = password.required('field password is required');
 
+const file = yup.string()
+  .trim()
+  .required();
+
 export default {
+  file,
   userId,
   fullName,
   email,

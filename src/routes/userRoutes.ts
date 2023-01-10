@@ -15,4 +15,6 @@ routes.patch('/:userId', createValidationMiddleware(version.updatedUser), userCo
 
 routes.patch('/:userId/password', createValidationMiddleware(version.updatedPass), userController.updateUserPass);
 
+routes.post('/:userId/avatar', createValidationMiddleware(version.loadAvatar), userController.loadAvatar);
+
 export default routes;

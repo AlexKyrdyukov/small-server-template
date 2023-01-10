@@ -42,7 +42,17 @@ const deleteUser = {
   },
 };
 
+const loadAvatar = {
+  body: {
+    file: sharedValidation.file,
+  },
+  params: {
+    userId: sharedValidation.requiredUserId,
+  },
+};
+
 export default {
+  loadAvatar,
   signIn,
   signUp,
   updatedPass,
