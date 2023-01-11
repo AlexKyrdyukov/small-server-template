@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, AfterLoad } from 'typeorm';
+import config from '../../config';
 
 @Entity()
 class User {
@@ -16,6 +17,11 @@ class User {
 
   @Column({ type: 'varchar', nullable: true })
   avatar: string;
+
+  @AfterLoad()
+  changePath() {
+    this.avatar = `${config.urls.current}/${this.avatar}`;
+  }
 }
 
 export default User;
