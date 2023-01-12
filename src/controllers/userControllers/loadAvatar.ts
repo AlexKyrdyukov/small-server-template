@@ -26,11 +26,10 @@ type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>
 
 const loadAvatar: HandlerType = async (req, res, next) => {
   try {
-    fileHelpers.remove();
-
     if (req.user.id !== +req.params.userId) {
       throw new CustomError(StatusCodes.FORBIDDEN, errorText.USER_INVALID_REQUEST);
     }
+    fileHelpers.remove();
     req.user.avatar = fileHelpers.write(req.body.file);
 
     await db.user.save(req.user);
