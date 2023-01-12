@@ -1,4 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, AfterLoad } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, AfterLoad, OneToOne, JoinColumn } from 'typeorm';
+
+import Basket from './Basket';
+
 import config from '../../config';
 
 @Entity()
@@ -17,6 +20,10 @@ class User {
 
   @Column({ type: 'varchar', nullable: true })
   avatar: string;
+
+  // @OneToOne(() => Basket)
+  // @JoinColumn()
+  // profile: Basket;
 
   @AfterLoad()
   changePath() {

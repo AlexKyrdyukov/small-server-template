@@ -38,6 +38,7 @@ const signInUser: HandlerType = async (req, res, next) => {
     if (!user) {
       throw new CustomError(StatusCodes.BAD_REQUEST, errorText.USER_NOT_FOUND);
     }
+
     const passwordVerification = hashHelper.checkPassword(password, user.password);
     delete user.password;
     if (!passwordVerification) {
@@ -45,6 +46,7 @@ const signInUser: HandlerType = async (req, res, next) => {
     }
 
     const token = tokenHelper.create(user.id);
+
     res.status(StatusCodes.OK).json({ user, token });
   } catch (error) {
     next(error);
