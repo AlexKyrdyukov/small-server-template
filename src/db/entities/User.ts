@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, AfterLoad, OneToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, AfterLoad } from 'typeorm';
 
 import Basket from './Basket';
 

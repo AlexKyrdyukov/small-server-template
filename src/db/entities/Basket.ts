@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
-import Book from './Book';
+import Book from './Books';
 
 @Entity()
 class Basket {

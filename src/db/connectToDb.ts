@@ -8,7 +8,11 @@ const connectToDb = async () => {
     console.log(
       'DB connected',
     );
-
+    process.on('', async (con) => {
+      // eslint-disable-next-line no-console
+      console.log('pizda', con);
+    });
+    // eslint-disable-next-line no-console
     process.on('SIGINT', async () => {
       if (!connection.isInitialized) {
         return;
