@@ -7,10 +7,6 @@ class Genres {
 
   @Column({ unique: true, nullable: false, type: 'varchar' })
   name: string;
-
-  // @ManyToMany(() => Book, (book) => book.id)
-  // @JoinTable()
-  // categories: Book[];
 }
 
 export default Genres;

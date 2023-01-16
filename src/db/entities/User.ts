@@ -27,7 +27,7 @@ class User {
 
   @AfterLoad()
   changePath() {
-    this.avatar = `${config.urls.current}/${this.avatar}`;
+    this.avatar = `${config.urls.current}/userAvatar/${this.avatar}`;
   }
 }
 

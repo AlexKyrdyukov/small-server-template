@@ -1,7 +1,7 @@
 import fs from 'fs';
 import { randomUUID } from 'crypto';
 
-const directory = 'public/static';
+const directory = 'public/static/userAvatar';
 
 const remove = () => {
   fs.readdir(directory, (err, files) => {

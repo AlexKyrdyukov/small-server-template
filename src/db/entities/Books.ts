@@ -1,4 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, AfterLoad, ManyToMany, JoinTable } from 'typeorm';
+import config from '../../config';
+import Genres from './Genres';
 
 @Entity()
 class Books {
@@ -11,28 +13,31 @@ class Books {
   @Column({ unique: true, nullable: false, type: 'varchar' })
   author: string;
 
-  @Column({ unique: false, nullable: true, type: 'varchar' })
-  price?: string;
+  @Column({ unique: false, nullable: true, type: 'integer' })
+  price?: number;
 
-  @Column({ unique: false, nullable: true, type: 'float' })
+  @Column({ unique: false, nullable: true, type: 'integer' })
   raiting: number;
 
   @Column({ unique: false, nullable: false, type: 'varchar' })
   coverType: string;
 
   @Column({ unique: false, nullable: true, type: 'varchar' })
-  annotation?: string;
-  // @Column({ unique: false, nullable: false, type: 'varchar' })
-  // genreId: string;
+  annotation?: string | null;
 
   @Column({ unique: false, nullable: false, type: 'varchar' })
   image: string;
 
-  @Column({ unique: false, nullable: false, type: 'varchar' })
-  genres: Array<string>;
+  @ManyToMany(() => Genres)
+  @JoinTable()
+  genres: Genres[];
 
-  // @ManyToMany(() => Genres, (genres) => genres.id)
-  // genres: Genres[];
+  @AfterLoad()
+  changeData() {
+    this.image = `${config.urls.current}/bookCover/${this.image}`;
+    this.price /= 100;
+    this.raiting /= 10;
+  }
 }
 
 export default Books;

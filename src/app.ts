@@ -12,9 +12,13 @@ app.use(cors({
   origin: config.urls.clientApp,
 }));
 
-app.use(express.json());
+app.use(express.json({
+  limit: '50mb',
+}));
+
 app.use('/api', routes);
-app.use('/api', express.static('public/static'));
+app.use('/api/userAvatar', express.static('public/static/userAvatar'));
+app.use('/api/bookCover', express.static('public/static/bookCover'));
 app.use(errorHandler);
 
 export default app;
