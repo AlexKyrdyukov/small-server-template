@@ -21,10 +21,6 @@ class User {
   @Column({ type: 'varchar', nullable: true })
   avatar: string;
 
-  // @OneToOne(() => Basket)
-  // @JoinColumn()
-  // profile: Basket;
-
   @AfterLoad()
   changePath() {
     this.avatar = `${config.urls.current}/userAvatar/${this.avatar}`;
