@@ -1,6 +1,6 @@
 import AppDataSource from './dataSource';
 import User from './entities/User';
-import Books from './entities/Books';
+import Books from './entities/Book';
 import Genres from './entities/Genres';
 
 export default {

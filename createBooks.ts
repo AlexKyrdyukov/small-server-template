@@ -1,6 +1,6 @@
 import db from './src/db';
 import connectToDb from './src/db/connectToDb';
-import Books from './src/db/entities/Books';
+import Book from './src/db/entities/Book';
 import Genres from './src/db/entities/Genres';
 
 const genres = [
@@ -75,7 +75,7 @@ const annotation = [
     });
 
     for (let i = 0; i < 4; i++) {
-      const book = new Books();
+      const book = new Book();
       book.name = name[Math.floor(Math.random() * name.length)];
       book.author = author[Math.floor(Math.random() * author.length)];
       book.image = image[Math.floor(Math.random() * image.length)];

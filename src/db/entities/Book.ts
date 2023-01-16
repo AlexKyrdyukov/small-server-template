@@ -1,9 +1,10 @@
 import { Entity, Column, PrimaryGeneratedColumn, AfterLoad, ManyToMany, JoinTable } from 'typeorm';
+
 import config from '../../config';
 import Genres from './Genres';
 
 @Entity()
-class Books {
+class Book {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -43,4 +44,4 @@ class Books {
   }
 }
 
-export default Books;
+export default Book;

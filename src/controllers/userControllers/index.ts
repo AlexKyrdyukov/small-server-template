@@ -3,11 +3,9 @@ import updateUser from './updateUser';
 import updateUserPass from './updateUserPass';
 import loadAvatar from './loadAvatar';
 
-const userControllers = {
+export default {
   deleteUser,
   updateUser,
   updateUserPass,
   loadAvatar,
 };
-
-export default userControllers;

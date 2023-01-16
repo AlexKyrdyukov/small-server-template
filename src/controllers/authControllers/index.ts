@@ -2,10 +2,8 @@ import userSignIn from './userSignIn';
 import userSignUp from './userSignUp';
 import getUser from './getUser';
 
-const authControllers = {
+export default {
   userSignIn,
   userSignUp,
   getUser,
 };
-
-export default authControllers;
