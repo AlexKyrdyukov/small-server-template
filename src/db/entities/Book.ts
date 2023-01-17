@@ -1,7 +1,8 @@
 import { Entity, Column, PrimaryGeneratedColumn, AfterLoad, ManyToMany, JoinTable } from 'typeorm';
 
-import config from '../../config';
 import Genres from './Genres';
+
+import dbHelper from '../../utils/dbHelper';
 
 @Entity()
 class Book {
@@ -14,11 +15,14 @@ class Book {
   @Column({ unique: false, nullable: false, type: 'varchar' })
   author: string;
 
-  @Column({ unique: false, nullable: false, type: 'integer' })
+  @Column({ unique: false, nullable: false, type: 'money' })
   price?: number;
 
   @Column({ unique: false, nullable: false, type: 'integer' })
   raiting: number;
+
+  @Column({ unique: false, nullable: false, type: 'boolean' })
+  isAvailable: boolean;
 
   @Column({ unique: false, nullable: false, type: 'varchar' })
   coverType: string;
@@ -32,15 +36,18 @@ class Book {
   @Column({ unique: false, nullable: false, type: 'varchar' })
   image: string;
 
+  @Column({ unique: false, nullable: false, type: 'date'})
+  dateOfIssue: string;
+
   @ManyToMany(() => Genres)
   @JoinTable()
   genres: Genres[];
 
   @AfterLoad()
   changeData() {
-    this.image = `${config.urls.current}/bookCover/${this.image}`;
-    this.price /= 100;
-    this.raiting /= 10;
+    this.image = dbHelper.changePath(this.image, 'bookCover');
+    this.price = dbHelper.valueCalculation(this.price, 100);
+    this.raiting = dbHelper.valueCalculation(this.raiting, 10);
   }
 }
 

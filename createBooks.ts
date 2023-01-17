@@ -30,14 +30,15 @@ const author = [
   'Marianne Flitz',
   'Rupi Kaur'];
 
-const name = ['The Psychology of Money',
+const name = [
+  'The Two towers',
   'Book of Fairy Tales',
-  'How to stop worrying and start living',
+  'The Crying book',
   'Moby Dick',
   'The Weight of Things',
   'Milk and honey'];
 
-const price = [1420, 885, 932, 1100, 1300, 3900];
+const price = [14200, 8850, 9320, 11000, 13000, 39000];
 
 const raiting = [40, 46, 33, 26, 13, 37];
 
@@ -74,7 +75,7 @@ const annotation = [
       await db.genres.save(genre);
     });
 
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 40; i++) {
       const book = new Book();
       book.name = name[Math.floor(Math.random() * name.length)];
       book.author = author[Math.floor(Math.random() * author.length)];
@@ -84,13 +85,14 @@ const annotation = [
       book.price = price[Math.floor(Math.random() * price.length)];
       book.raiting = raiting[Math.floor(Math.random() * raiting.length)];
       book.description = description;
+      book.isAvailable = !!(i % 10);
       const genresArray: Genres[] = [];
 
       for (let i = 0; i < Math.floor(1 + Math.random() * 3); i++) {
         const index = Math.floor(Math.random() * genres.length);
-        const ganre = genres[index];
+        const genre = genres[index];
         // eslint-disable-next-line no-await-in-loop
-        const currentGenre = await db.genres.findOne({ where: { name: ganre } });
+        const currentGenre = await db.genres.findOne({ where: { name: genre } });
         if (currentGenre) {
           const { name, id } = currentGenre;
           genresArray.push({ name, id });

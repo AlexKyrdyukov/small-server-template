@@ -8,6 +8,6 @@ const routes = express.Router();
 
 routes.use('/user', userRouter);
 routes.use('/auth', authRouter);
-routes.use('./books', booksRouter);
+routes.use('/books', booksRouter);
 
 export default routes;

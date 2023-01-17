@@ -7,20 +7,23 @@ import db from '../../db';
 
 type BodyType = Record<string, never>;
 
-type ParamsType = Record<string, never>;
+type ParamsType = {
+  bookId: number;
+};
 
 type QueryType = Record<string, never>;
 
 type ResponseType = {
-  books: Book[];
+  book: Book;
 };
 
 type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>;
 
 const getBooks: HandlerType = async (req, res, next) => {
   try {
-    const books = await db.books.find({ where: {} });
-    res.status(StatusCodes.OK).json({ books });
+    const { bookId } = req.params;
+    const book = await db.books.findOne({ where: { id: bookId } });
+    res.status(StatusCodes.OK).json({ book });
   } catch (error) {
     next(error);
   }

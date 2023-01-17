@@ -1,8 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, AfterLoad } from 'typeorm';
 
-import Basket from './Basket';
-
-import config from '../../config';
+import dbHelper from '../../utils/dbHelper';
 
 @Entity()
 class User {
@@ -18,12 +16,12 @@ class User {
   @Column({ unique: true, nullable: false, type: 'varchar' })
   email: string;
 
-  @Column({ type: 'varchar', nullable: true })
-  avatar: string;
+  @Column({ unique: false, type: 'varchar', nullable: true })
+  avatar?: string;
 
   @AfterLoad()
-  changePath() {
-    this.avatar = `${config.urls.current}/userAvatar/${this.avatar}`;
+  changeData() {
+    this.avatar = dbHelper.changePath(this.avatar, 'userAvatar');
   }
 }
 

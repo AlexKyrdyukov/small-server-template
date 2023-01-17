@@ -33,7 +33,7 @@ const loadAvatar: HandlerType = async (req, res, next) => {
     req.user.avatar = fileHelpers.write(req.body.file);
 
     await db.user.save(req.user);
-    res.status(StatusCodes.OK).json({ message: 'data succesfully updated', avatar: `${config.urls.current}/userAvatar/${req.user.avatar}` });
+    res.status(StatusCodes.OK).json({ message: 'data succesfully updated', avatar: `${config.urls.current}/public/static/userAvatar/${req.user.avatar}` });
   } catch (error) {
     next(error);
   }

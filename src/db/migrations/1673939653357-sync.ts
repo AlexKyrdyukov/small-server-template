@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class sync1673904290596 implements MigrationInterface {
-    name = 'sync1673904290596'
+export class sync1673939653357 implements MigrationInterface {
+    name = 'sync1673939653357'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`
@@ -13,7 +13,7 @@ export class sync1673904290596 implements MigrationInterface {
             )
         `);
         await queryRunner.query(`
-            CREATE TABLE "books" (
+            CREATE TABLE "book" (
                 "id" SERIAL NOT NULL,
                 "name" character varying NOT NULL,
                 "author" character varying NOT NULL,
@@ -23,7 +23,7 @@ export class sync1673904290596 implements MigrationInterface {
                 "annotation" character varying,
                 "description" character varying NOT NULL,
                 "image" character varying NOT NULL,
-                CONSTRAINT "PK_f3f2f25a099d24e12545b70b022" PRIMARY KEY ("id")
+                CONSTRAINT "PK_a3afef72ec8f80e6e5c310b28a4" PRIMARY KEY ("id")
             )
         `);
         await queryRunner.query(`
@@ -31,13 +31,6 @@ export class sync1673904290596 implements MigrationInterface {
                 "id" SERIAL NOT NULL,
                 "userId" integer NOT NULL,
                 CONSTRAINT "PK_895e6f44b73a72425e434a614cc" PRIMARY KEY ("id")
-            )
-        `);
-        await queryRunner.query(`
-            CREATE TABLE "raiting" (
-                "id" SERIAL NOT NULL,
-                "userId" integer NOT NULL,
-                CONSTRAINT "PK_2d1a6b619eaf28bef9da0da1bbc" PRIMARY KEY ("id")
             )
         `);
         await queryRunner.query(`
@@ -52,55 +45,62 @@ export class sync1673904290596 implements MigrationInterface {
             )
         `);
         await queryRunner.query(`
-            CREATE TABLE "books_genres_genres" (
-                "booksId" integer NOT NULL,
-                "genresId" integer NOT NULL,
-                CONSTRAINT "PK_5773bf45b53a35762fd16cc97a0" PRIMARY KEY ("booksId", "genresId")
+            CREATE TABLE "raiting" (
+                "id" SERIAL NOT NULL,
+                "userId" integer NOT NULL,
+                CONSTRAINT "PK_2d1a6b619eaf28bef9da0da1bbc" PRIMARY KEY ("id")
             )
         `);
         await queryRunner.query(`
-            CREATE INDEX "IDX_e1c8b5fb4c9afac80b2591b0c8" ON "books_genres_genres" ("booksId")
+            CREATE TABLE "book_genres_genres" (
+                "bookId" integer NOT NULL,
+                "genresId" integer NOT NULL,
+                CONSTRAINT "PK_687d2e122fd011d88def4ecc323" PRIMARY KEY ("bookId", "genresId")
+            )
         `);
         await queryRunner.query(`
-            CREATE INDEX "IDX_8d2218df7344c443d9ded15492" ON "books_genres_genres" ("genresId")
+            CREATE INDEX "IDX_bbd4b3ebbbe38dd95113b400c3" ON "book_genres_genres" ("bookId")
         `);
         await queryRunner.query(`
-            ALTER TABLE "books_genres_genres"
-            ADD CONSTRAINT "FK_e1c8b5fb4c9afac80b2591b0c84" FOREIGN KEY ("booksId") REFERENCES "books"("id") ON DELETE CASCADE ON UPDATE CASCADE
+            CREATE INDEX "IDX_ba73b7f2901953b05c4c6ec725" ON "book_genres_genres" ("genresId")
         `);
         await queryRunner.query(`
-            ALTER TABLE "books_genres_genres"
-            ADD CONSTRAINT "FK_8d2218df7344c443d9ded154921" FOREIGN KEY ("genresId") REFERENCES "genres"("id") ON DELETE CASCADE ON UPDATE CASCADE
+            ALTER TABLE "book_genres_genres"
+            ADD CONSTRAINT "FK_bbd4b3ebbbe38dd95113b400c37" FOREIGN KEY ("bookId") REFERENCES "book"("id") ON DELETE CASCADE ON UPDATE CASCADE
+        `);
+        await queryRunner.query(`
+            ALTER TABLE "book_genres_genres"
+            ADD CONSTRAINT "FK_ba73b7f2901953b05c4c6ec7258" FOREIGN KEY ("genresId") REFERENCES "genres"("id") ON DELETE CASCADE ON UPDATE CASCADE
         `);
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`
-            ALTER TABLE "books_genres_genres" DROP CONSTRAINT "FK_8d2218df7344c443d9ded154921"
+            ALTER TABLE "book_genres_genres" DROP CONSTRAINT "FK_ba73b7f2901953b05c4c6ec7258"
         `);
         await queryRunner.query(`
-            ALTER TABLE "books_genres_genres" DROP CONSTRAINT "FK_e1c8b5fb4c9afac80b2591b0c84"
+            ALTER TABLE "book_genres_genres" DROP CONSTRAINT "FK_bbd4b3ebbbe38dd95113b400c37"
         `);
         await queryRunner.query(`
-            DROP INDEX "public"."IDX_8d2218df7344c443d9ded15492"
+            DROP INDEX "public"."IDX_ba73b7f2901953b05c4c6ec725"
         `);
         await queryRunner.query(`
-            DROP INDEX "public"."IDX_e1c8b5fb4c9afac80b2591b0c8"
+            DROP INDEX "public"."IDX_bbd4b3ebbbe38dd95113b400c3"
         `);
         await queryRunner.query(`
-            DROP TABLE "books_genres_genres"
-        `);
-        await queryRunner.query(`
-            DROP TABLE "user"
+            DROP TABLE "book_genres_genres"
         `);
         await queryRunner.query(`
             DROP TABLE "raiting"
         `);
         await queryRunner.query(`
+            DROP TABLE "user"
+        `);
+        await queryRunner.query(`
             DROP TABLE "basket"
         `);
         await queryRunner.query(`
-            DROP TABLE "books"
+            DROP TABLE "book"
         `);
         await queryRunner.query(`
             DROP TABLE "genres"

@@ -17,8 +17,7 @@ app.use(express.json({
 }));
 
 app.use('/api', routes);
-app.use('/api/userAvatar', express.static('public/static/userAvatar'));
-app.use('/api/bookCover', express.static('public/static/bookCover'));
+app.use('/api/public/static', express.static('public/static'));
 app.use(errorHandler);
 
 export default app;
