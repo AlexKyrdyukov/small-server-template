@@ -36,7 +36,7 @@ class Book {
   @Column({ unique: false, nullable: false, type: 'varchar' })
   image: string;
 
-  @Column({ unique: false, nullable: false, type: 'date'})
+  @Column({ unique: false, nullable: false, type: 'date' })
   dateOfIssue: string;
 
   @ManyToMany(() => Genres)

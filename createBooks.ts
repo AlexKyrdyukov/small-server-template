@@ -51,6 +51,15 @@ const image = ['psychology_of_money.svg',
   'weight_of_things.svg',
   'milk_and_honey.svg'];
 
+const dateIssue = [
+  '1999-10-31',
+  '1878-12-18',
+  '1889-04-20',
+  '1952-10-07',
+  '1870-04-22',
+  '1934-03-09',
+];
+
 const description =
   // eslint-disable-next-line no-multi-str
   '“Rupi Kaur is the Writer of the Decade.” – The New Republic\
@@ -84,6 +93,7 @@ const annotation = [
       book.coverType = coverType[Math.floor(Math.random() * coverType.length)];
       book.price = price[Math.floor(Math.random() * price.length)];
       book.raiting = raiting[Math.floor(Math.random() * raiting.length)];
+      book.dateOfIssue = dateIssue[Math.floor(Math.random() * dateIssue.length)];
       book.description = description;
       book.isAvailable = !!(i % 10);
       const genresArray: Genres[] = [];
