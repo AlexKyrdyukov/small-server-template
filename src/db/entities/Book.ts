@@ -15,8 +15,8 @@ class Book {
   @Column({ unique: false, nullable: false, type: 'varchar' })
   author: string;
 
-  @Column({ unique: false, nullable: false, type: 'money' })
-  price?: number;
+  @Column({ unique: false, nullable: false, type: 'decimal' })
+  price: number;
 
   @Column({ unique: false, nullable: false, type: 'integer' })
   raiting: number;

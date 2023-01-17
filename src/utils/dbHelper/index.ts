@@ -6,10 +6,14 @@ const changePath = (image: string, path: string): string => {
 };
 
 const valueCalculation = (value: number, divider: number) => {
-  // eslint-disable-next-line no-console
-  console.log(value / divider);
   // eslint-disable-next-line no-mixed-operators
-  return value * divider / divider;
+  const result = value * divider / divider;
+  const stringValue = String(result);
+  const last = stringValue.slice(-2);
+  const first = stringValue.slice(0, -2);
+  // eslint-disable-next-line no-console
+  console.log(stringValue, first, last);
+  return +`${first}.${last}`;
 };
 
 export default {
