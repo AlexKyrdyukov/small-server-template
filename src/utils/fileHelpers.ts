@@ -1,10 +1,17 @@
 import fs from 'fs';
 import { randomUUID } from 'crypto';
 
-const directory = 'public/static/userAvatar';
+const directory = 'public/uploads/userAvatars';
 
 const remove = (pathFile: string) => {
-  fs.unlink(pathFile, (err) => {
+  const arrayPath = pathFile.split('/');
+
+  const nameFile = arrayPath[arrayPath.length - 1];
+
+  if (nameFile === 'null') {
+    return;
+  }
+  fs.unlink(`${directory}/${nameFile}`, (err) => {
     if (err) {
       console.error(err);
     }

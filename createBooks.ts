@@ -85,7 +85,7 @@ const annotation = [
       await db.genres.save(genre);
     });
 
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 40; i++) {
       const book = new Book();
       book.name = name[Math.floor(Math.random() * name.length)];
       book.author = author[Math.floor(Math.random() * author.length)];

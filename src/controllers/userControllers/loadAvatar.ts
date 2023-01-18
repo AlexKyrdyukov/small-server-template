@@ -29,10 +29,13 @@ const loadAvatar: HandlerType = async (req, res, next) => {
     if (req.user.userId !== +req.params.userId) {
       throw new CustomError(StatusCodes.FORBIDDEN, errorText.USER_INVALID_REQUEST);
     }
+    // eslint-disable-next-line no-console
+    console.log(req.user.avatar);
     fileHelpers.remove(req.user.avatar);
     req.user.avatar = fileHelpers.write(req.body.file);
 
     await db.user.save(req.user);
+
     res.status(StatusCodes.OK).json({ message: 'data succesfully updated', avatar: dbHelper.getFileUrl(req.user.avatar, 'userAvatars') });
   } catch (error) {
     next(error);
