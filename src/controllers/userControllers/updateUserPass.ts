@@ -2,9 +2,9 @@ import { StatusCodes } from 'http-status-codes';
 
 import type { RequestHandler } from 'express';
 
-import CustomError from '../../exceptions/CustomError';
+import CustomError from '../../utils/CustomError';
 import hashHelper from '../../utils/hashHelper';
-import errorText from '../../utils/consts/error';
+import errorText from '../../utils/errorMessages';
 import db from '../../db';
 
 type BodyType = {
@@ -24,14 +24,14 @@ type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>
 
 const updateUserPass: HandlerType = async (req, res, next) => {
   try {
-    if (req.user.id !== +req.params.userId) {
+    if (req.user.userId !== +req.params.userId) {
       throw new CustomError(StatusCodes.FORBIDDEN, errorText.USER_INVALID_REQUEST);
     }
     const { password, newPassword } = req.body;
     const user = await db.user
       .createQueryBuilder('user')
       .addSelect('user.password')
-      .where('user.id = :id', { id: req.user.id })
+      .where('user.id = :id', { id: req.user.userId })
       .getOne();
 
     const passwordVerification = hashHelper.checkPassword(password, user.password);

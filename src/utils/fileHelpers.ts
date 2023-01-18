@@ -3,16 +3,10 @@ import { randomUUID } from 'crypto';
 
 const directory = 'public/static/userAvatar';
 
-const remove = () => {
-  fs.readdir(directory, (err, files) => {
-    if (err) console.error(err);
-    if (!files.length) {
-      return;
-    }
-    for (const file of files) {
-      fs.unlink(`${directory}/${file}`, (err) => {
-        if (err) console.error(err);
-      });
+const remove = (pathFile: string) => {
+  fs.unlink(pathFile, (err) => {
+    if (err) {
+      console.error(err);
     }
   });
 };

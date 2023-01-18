@@ -10,12 +10,15 @@ const mainConfig = {
 };
 
 const config = {
-  nodeEnv: mainConfig.NODE_ENV === 'true',
+  nodeEnv: mainConfig.NODE_ENV,
+  jsonLimit: mainConfig.JSON_LIMIT,
   server: {
     port: mainConfig.SERVER_PORT,
     endointsPrefix: mainConfig.SERVER_ENDPOINTS_PREFIX,
     internalErrorMessage: mainConfig.SERVER_INTERNAL_ERROR_MESSAGE,
     publicFolderName: mainConfig.SERVER_PUBLIC_FOLDER_NAME,
+    jsonLimit: mainConfig.SERVER_JSON_LIMIT,
+    imageUrl: mainConfig.SERVER_IMAGE_URL,
   },
   hash: {
     paswordSalt: mainConfig.PASSWORD_HASH_SALT,
@@ -23,8 +26,8 @@ const config = {
   },
   token: {
     secret: mainConfig.TOKEN_SECRET,
-    accesExpiration: mainConfig.ACCESS_TOKEN_AUTH_EXPIRATION,
-    refreshExpiration: mainConfig.REFRESH_TOKEN_AUTH_EXPIRATION,
+    accesLimit: mainConfig.ACCESS_TOKEN_AUTH_EXPIRATION,
+    refreshLimit: mainConfig.REFRESH_TOKEN_AUTH_EXPIRATION,
     algorithm: mainConfig.TOKEN_HASH_TYPE,
   },
   urls: {

@@ -3,10 +3,10 @@ import { StatusCodes } from 'http-status-codes';
 import type { RequestHandler } from 'express';
 import type UserType from '../../db/entities/User';
 
-import CustomError from '../../exceptions/CustomError';
+import CustomError from '../../utils/CustomError';
 import tokenHelper from '../../utils/tokenHelper';
 import hashHelper from '../../utils/hashHelper';
-import errorText from '../../utils/consts/error';
+import errorText from '../../utils/errorMessages';
 import db from '../../db';
 
 type BodyType = {
@@ -45,7 +45,7 @@ const signInUser: HandlerType = async (req, res, next) => {
       throw new CustomError(StatusCodes.BAD_REQUEST, errorText.USER_INVALID_PASSWORD);
     }
 
-    const token = tokenHelper.create(user.id);
+    const token = await tokenHelper.create(user.userId);
 
     res.status(StatusCodes.OK).json({ user, token });
   } catch (error) {

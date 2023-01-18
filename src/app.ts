@@ -4,20 +4,19 @@ import cors from 'cors';
 import errorHandler from './middlewares/errorHandler';
 import routes from './routes';
 import config from './config';
+
 import './types/express';
 
 const app = express();
 
-app.use(cors({
-  origin: config.urls.clientApp,
-}));
+app.use(cors({ origin: config.urls.clientApp }));
 
-app.use(express.json({
-  limit: '50mb',
-}));
+app.use(express.json({ limit: config.server.jsonLimit }));
 
-app.use('/api', routes);
-app.use('/api/public/static', express.static('public/static'));
+app.use(express.static(config.server.publicFolderName));
+
+app.use(config.server.endointsPrefix, routes);
+
 app.use(errorHandler);
 
 export default app;

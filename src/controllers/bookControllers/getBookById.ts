@@ -19,14 +19,14 @@ type ResponseType = {
 
 type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>;
 
-const getBooks: HandlerType = async (req, res, next) => {
+const getBook: HandlerType = async (req, res, next) => {
   try {
     const { bookId } = req.params;
-    const book = await db.books.findOne({ where: { id: bookId } });
+    const book = await db.books.findOne({ where: { bookId } });
     res.status(StatusCodes.OK).json({ book });
   } catch (error) {
     next(error);
   }
 };
 
-export default getBooks;
+export default getBook;

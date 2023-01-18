@@ -1,9 +1,9 @@
 import type { Request, Response, NextFunction } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
-import CustomError from '../exceptions/CustomError';
+import CustomError from '../utils/CustomError';
 import tokenWorker from '../utils/tokenHelper';
-import errorText from '../utils/consts/error';
+import errorText from '../utils/errorMessages';
 import db from '../db';
 
 const authVerification = async (req: Request, res: Response, next: NextFunction) => {
@@ -15,11 +15,12 @@ const authVerification = async (req: Request, res: Response, next: NextFunction)
 
     const payload = tokenWorker.decode(token);
 
-    req.user = await db.user.findOne({ where: { id: payload.id } });
+    req.user = await db.user.findOne({ where: { userId: payload.id } });
 
     if (!req.user) {
       throw new CustomError(StatusCodes.NOT_FOUND, errorText.USER_NOT_FOUND);
     }
+
     next();
   } catch (error) {
     next(error);

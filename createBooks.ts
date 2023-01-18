@@ -44,12 +44,13 @@ const raiting = [40, 46, 33, 26, 13, 37];
 
 const coverType = ['Hardcover', 'Paperback'];
 
-const image = ['psychology_of_money.svg',
-  'fairy_tails.svg',
-  'stop_worring.svg',
-  'moby_dick.svg',
-  'weight_of_things.svg',
-  'milk_and_honey.svg'];
+const bookCovers = [
+  'cover_1.svg',
+  'cover_2.svg',
+  'cover_3.svg',
+  'cover_4.svg',
+  'cover_5.svg',
+  'cover_6.svg'];
 
 const dateIssue = [
   '1999-10-31',
@@ -84,18 +85,19 @@ const annotation = [
       await db.genres.save(genre);
     });
 
-    for (let i = 0; i < 40; i++) {
+    for (let i = 0; i < 4; i++) {
       const book = new Book();
       book.name = name[Math.floor(Math.random() * name.length)];
       book.author = author[Math.floor(Math.random() * author.length)];
-      book.image = image[Math.floor(Math.random() * image.length)];
-      book.annotation = annotation[Math.floor(Math.random() * annotation.length)];
-      book.coverType = coverType[Math.floor(Math.random() * coverType.length)];
       book.price = price[Math.floor(Math.random() * price.length)];
       book.raiting = raiting[Math.floor(Math.random() * raiting.length)];
-      book.dateOfIssue = dateIssue[Math.floor(Math.random() * dateIssue.length)];
-      book.description = description;
       book.isAvailable = !!(i % 10);
+      book.coverType = coverType[Math.floor(Math.random() * coverType.length)];
+      book.bestSeller = !!(i % 10);
+      book.description = description;
+      book.image = bookCovers[Math.floor(Math.random() * bookCovers.length)];
+      // book.annotation = annotation[Math.floor(Math.random() * annotation.length)];
+      book.dateOfIssue = dateIssue[Math.floor(Math.random() * dateIssue.length)];
       const genresArray: Genres[] = [];
 
       for (let i = 0; i < Math.floor(1 + Math.random() * 3); i++) {
@@ -104,8 +106,11 @@ const annotation = [
         // eslint-disable-next-line no-await-in-loop
         const currentGenre = await db.genres.findOne({ where: { name: genre } });
         if (currentGenre) {
-          const { name, id } = currentGenre;
-          genresArray.push({ name, id });
+          // const { name, genreId } = currentGenre;
+          // genresArray.push({ name, genreId });
+          // eslint-disable-next-line no-console
+          console.log(currentGenre);
+          genresArray.push(currentGenre);
         }
       }
 

@@ -1,7 +1,7 @@
 import express from 'express';
 
 import authControllers from '../controllers/authControllers';
-import version from '../validationSchemas/userSchemas';
+import version from '../validationSchemas/auth';
 import generatorValidate from '../middlewares/createValidation';
 import authMidlleware from '../middlewares/auth';
 

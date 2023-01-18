@@ -1,27 +1,27 @@
-import { Entity, Column, PrimaryGeneratedColumn, AfterLoad } from 'typeorm';
+import * as typeorm from 'typeorm';
 
 import dbHelper from '../../utils/dbHelper';
 
-@Entity()
+@typeorm.Entity()
 class User {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @typeorm.PrimaryGeneratedColumn()
+  userId: number;
 
-  @Column({ type: 'varchar', select: false, nullable: false })
+  @typeorm.Column({ unique: false, nullable: false, type: 'varchar', select: false })
   password: string;
 
-  @Column({ nullable: true, type: 'varchar' })
+  @typeorm.Column({ unique: false, nullable: true, type: 'varchar' })
   fullName: string;
 
-  @Column({ unique: true, nullable: false, type: 'varchar' })
+  @typeorm.Column({ unique: true, nullable: false, type: 'varchar' })
   email: string;
 
-  @Column({ unique: false, type: 'varchar', nullable: true })
+  @typeorm.Column({ unique: false, nullable: true, type: 'varchar' })
   avatar?: string;
 
-  @AfterLoad()
+  @typeorm.AfterLoad()
   changeData() {
-    this.avatar = dbHelper.changePath(this.avatar, 'userAvatar');
+    this.avatar = dbHelper.getFileUrl(this.avatar, 'userAvatars');
   }
 }
 

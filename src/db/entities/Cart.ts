@@ -1,17 +1,16 @@
 import * as typeorm from 'typeorm';
-
 import Book from './Book';
 
 @typeorm.Entity()
-class Raiting {
+class Cart {
   @typeorm.PrimaryGeneratedColumn()
-  id: number;
+  cartId: number;
 
   @typeorm.Column({ unique: false, nullable: false, type: 'integer' })
   userId: number;
 
   @typeorm.OneToMany(() => Book, (book) => book.bookId)
-  bookId: number;
+  books: Book[];
 }
 
-export default Raiting;
+export default Cart;

@@ -3,8 +3,8 @@ import { StatusCodes } from 'http-status-codes';
 import type { RequestHandler } from 'express';
 import type UserType from '../../db/entities/User';
 
-import CustomError from '../../exceptions/CustomError';
-import errorText from '../../utils/consts/error';
+import CustomError from '../../utils/CustomError';
+import errorText from '../../utils/errorMessages';
 import db from '../../db';
 
 type BodyType = {
@@ -26,7 +26,7 @@ type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>
 
 const updateUser: HandlerType = async (req, res, next) => {
   try {
-    if (req.user.id !== +req.params.userId) {
+    if (req.user.userId !== +req.params.userId) {
       throw new CustomError(StatusCodes.FORBIDDEN, errorText.USER_INVALID_REQUEST);
     }
     req.user.fullName = req.body.fullName;

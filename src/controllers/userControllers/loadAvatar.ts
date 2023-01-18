@@ -3,11 +3,11 @@ import { StatusCodes } from 'http-status-codes';
 import type { RequestHandler } from 'express';
 import type UserType from '../../db/entities/User';
 
-import config from '../../config';
-import CustomError from '../../exceptions/CustomError';
+import CustomError from '../../utils/CustomError';
 import fileHelpers from '../../utils/fileHelpers';
-import errorText from '../../utils/consts/error';
+import errorText from '../../utils/errorMessages';
 import db from '../../db';
+import dbHelper from '../../utils/dbHelper';
 
 type BodyType = {
   file: string;
@@ -26,14 +26,14 @@ type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>
 
 const loadAvatar: HandlerType = async (req, res, next) => {
   try {
-    if (req.user.id !== +req.params.userId) {
+    if (req.user.userId !== +req.params.userId) {
       throw new CustomError(StatusCodes.FORBIDDEN, errorText.USER_INVALID_REQUEST);
     }
-    fileHelpers.remove();
+    fileHelpers.remove(req.user.avatar);
     req.user.avatar = fileHelpers.write(req.body.file);
 
     await db.user.save(req.user);
-    res.status(StatusCodes.OK).json({ message: 'data succesfully updated', avatar: `${config.urls.current}/public/static/userAvatar/${req.user.avatar}` });
+    res.status(StatusCodes.OK).json({ message: 'data succesfully updated', avatar: dbHelper.getFileUrl(req.user.avatar, 'userAvatars') });
   } catch (error) {
     next(error);
   }

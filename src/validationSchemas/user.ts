@@ -1,18 +1,4 @@
-import sharedValidation from './dataValidation';
-
-const signUp = {
-  body: {
-    email: sharedValidation.requiredEmail,
-    password: sharedValidation.requiredPassword,
-  },
-};
-
-const signIn = {
-  body: {
-    email: sharedValidation.requiredEmail,
-    password: sharedValidation.requiredPassword,
-  },
-};
+import sharedValidation from './sharedValidation';
 
 const updatedPass = {
   body: {
@@ -22,7 +8,6 @@ const updatedPass = {
   params: {
     userId: sharedValidation.requiredUserId,
   },
-
 };
 
 const updatedUser = {
@@ -53,8 +38,6 @@ const loadAvatar = {
 
 export default {
   loadAvatar,
-  signIn,
-  signUp,
   updatedPass,
   updatedUser,
   deleteUser,

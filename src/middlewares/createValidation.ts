@@ -4,8 +4,8 @@ import _ from 'lodash';
 
 import type { Handler } from 'express';
 
-import CustomError from '../exceptions/CustomError';
-import errorText from '../utils/consts/error';
+import CustomError from '../utils/CustomError';
+import errorText from '../utils/errorMessages';
 
 type ValidationShemaType = {
   [key: string]: yup.StringSchema | yup.NumberSchema | yup.DateSchema;

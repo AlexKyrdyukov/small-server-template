@@ -1,53 +1,53 @@
-import { Entity, Column, PrimaryGeneratedColumn, AfterLoad, ManyToMany, JoinTable } from 'typeorm';
+import * as typeorm from 'typeorm';
 
 import Genres from './Genres';
 
 import dbHelper from '../../utils/dbHelper';
 
-@Entity()
+@typeorm.Entity()
 class Book {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @typeorm.PrimaryGeneratedColumn()
+  bookId: number;
 
-  @Column({ unique: false, nullable: false, type: 'varchar' })
+  @typeorm.Column({ unique: false, nullable: false, type: 'varchar' })
   name: string;
 
-  @Column({ unique: false, nullable: false, type: 'varchar' })
+  @typeorm.Column({ unique: false, nullable: false, type: 'varchar' })
   author: string;
 
-  @Column({ unique: false, nullable: false, type: 'decimal' })
+  @typeorm.Column({ unique: false, nullable: false, type: 'integer' })
   price: number;
 
-  @Column({ unique: false, nullable: false, type: 'integer' })
+  @typeorm.Column({ unique: false, nullable: false, type: 'integer' })
   raiting: number;
 
-  @Column({ unique: false, nullable: false, type: 'boolean' })
+  @typeorm.Column({ unique: false, nullable: false, type: 'boolean' })
   isAvailable: boolean;
 
-  @Column({ unique: false, nullable: false, type: 'varchar' })
+  @typeorm.Column({ unique: false, nullable: false, type: 'varchar' })
   coverType: string;
 
-  @Column({ unique: false, nullable: true, type: 'varchar' })
-  annotation?: string | null;
+  @typeorm.Column({ unique: false, nullable: true, type: 'boolean' })
+  bestSeller: boolean;
 
-  @Column({ unique: false, nullable: false, type: 'varchar' })
+  @typeorm.Column({ unique: false, nullable: false, type: 'varchar' })
   description: string;
 
-  @Column({ unique: false, nullable: false, type: 'varchar' })
+  @typeorm.Column({ unique: false, nullable: false, type: 'varchar' })
   image: string;
 
-  @Column({ unique: false, nullable: false, type: 'date' })
+  @typeorm.Column({ unique: false, nullable: false, type: 'date' })
   dateOfIssue: string;
 
-  @ManyToMany(() => Genres)
-  @JoinTable()
+  @typeorm.ManyToMany(() => Genres, (genre) => genre.books)
+  @typeorm.JoinTable()
   genres: Genres[];
 
-  @AfterLoad()
+  @typeorm.AfterLoad()
   changeData() {
-    this.image = dbHelper.changePath(this.image, 'bookCover');
-    this.price = dbHelper.valueCalculation(this.price, 100);
-    this.raiting = dbHelper.valueCalculation(this.raiting, 10);
+    this.image = dbHelper.getFileUrl(this.image, 'bookCovers');
+    // this.price = dbHelper.valueCalculation(this.price, 100);
+    // this.raiting = dbHelper.valueCalculation(this.raiting, 10);
   }
 }
 

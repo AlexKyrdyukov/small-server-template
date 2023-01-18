@@ -3,11 +3,11 @@ import { StatusCodes } from 'http-status-codes';
 import type { RequestHandler } from 'express';
 import type UserType from '../../db/entities/User';
 
-import CustomError from '../../exceptions/CustomError';
+import CustomError from '../../utils/CustomError';
 import tokenHelper from '../../utils/tokenHelper';
 import hashHelper from '../../utils/hashHelper';
 import User from '../../db/entities/User';
-import errorText from '../../utils/consts/error';
+import errorText from '../../utils/errorMessages';
 import db from '../../db';
 
 type BodyType = UserType;
@@ -41,7 +41,7 @@ const signUpUser: HandlerType = async (req, res, next) => {
     const user = await db.user.save(newUser);
     delete user.password;
 
-    const token = tokenHelper.create(user.id);
+    const token = await tokenHelper.create(user.userId);
     res.status(StatusCodes.CREATED).json({ message: 'user successfully registered', user, token });
   } catch (error) {
     next(error);
