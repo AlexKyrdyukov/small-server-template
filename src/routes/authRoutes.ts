@@ -1,8 +1,8 @@
 import express from 'express';
 
 import { authControllers } from '../controllers';
-import version from '../validationSchemas/auth';
 import generatorValidate from '../middlewares/createValidation';
+import version from '../validationSchemas/auth';
 import authMidlleware from '../middlewares/auth';
 
 const routes = express.Router();
@@ -13,4 +13,4 @@ routes.post('/sign-up', generatorValidate(version.signUp), authControllers.signU
 
 routes.get('/me', authMidlleware, authControllers.getById);
 
-export default routes;
+export default routes as unknown as NodeModule;

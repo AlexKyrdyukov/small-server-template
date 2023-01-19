@@ -8,30 +8,30 @@ class Logger {
     console.error('data:', `${data},`, 'TYPE ERROR;', '\n message:', info);
   }
 
-  static log(info: string) {
+  static log(info: string | NodeJS.ErrnoException) {
     const data = this.getTime();
     // eslint-disable-next-line no-console
     console.log('data:', `${data},`, 'TYPE LOG;', '\n message:', info);
   }
 
-  static warn(info: string) {
+  static warn(info: string | NodeJS.ErrnoException) {
     const data = this.getTime();
     console.warn('data:', `${data},`, 'TYPE WARN;', '\n message:', info);
   }
 
-  static assert(info: string) {
+  static assert(info: string | NodeJS.ErrnoException) {
     const data = this.getTime();
     // eslint-disable-next-line no-console
     console.assert('data:', `${data},`, 'TYPE ASSERT;', '\n message:', info);
   }
 
-  static debug(info: string) {
+  static debug(info: string | NodeJS.ErrnoException) {
     const data = this.getTime();
     // eslint-disable-next-line no-console
     console.debug('data:', `${data},`, 'TYPE DEBUG;', '\n message:', info);
   }
 
-  static info(info: string) {
+  static info(info: string | NodeJS.ErrnoException) {
     const data = this.getTime();
     // eslint-disable-next-line no-console
     console.info('data:', `${data},`, 'TYPE INFO;', '\n message:', info);

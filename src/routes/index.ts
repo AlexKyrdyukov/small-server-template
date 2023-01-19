@@ -1,20 +1,29 @@
-import express from 'express';
+import express, { Router } from 'express';
 import requireDirectory from 'require-directory';
 
-import userRouter from './userRoutes';
-import authRouter from './authRoutes';
-import booksRouter from './booksRoutes';
+const route = requireDirectory(module, `${process.cwd()}/src/routes`, {
+  visit: whenLoadModule,
+});
 
-const route = requireDirectory(module);
+function whenLoadModule(obj: unknown) {
+  // eslint-disable-next-line no-console
+  console.log(obj);
+  if (obj instanceof Router) {
+    // eslint-disable-next-line no-console
+    console.log(obj);
+  }
+}
 
+const types = Object.entries(route);
 // eslint-disable-next-line no-console
-// console.log(route, userRouter.stack[1]);
+console.log(route, types, process.cwd());
+
 const routes = express.Router();
 
-routes.use('/user', userRouter);
+// routes.use('/user', userRouter);
 
-routes.use('/auth', authRouter);
+// routes.use('/auth', authRouter);
 
-routes.use('/books', booksRouter);
+// routes.use('/books', booksRouter);
 
 export default routes;

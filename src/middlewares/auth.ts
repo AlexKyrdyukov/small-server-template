@@ -14,8 +14,6 @@ const authVerification = async (req: Request, res: Response, next: NextFunction)
     const token = req.headers.authorization.split(' ')[1];
 
     const payload = await tokenHelpers.decode(token);
-    // eslint-disable-next-line no-console
-    console.log(payload);
 
     req.user = await db.user.findOne({ where: { userId: payload.id } });
 
