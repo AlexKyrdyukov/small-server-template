@@ -15,7 +15,7 @@ type QueryType = Record<string, never>;
 type ResponseType = {
   message: string;
   user: UsersEntity;
-  token: string;
+  token: string | unknown; // change type
 };
 
 type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>;
