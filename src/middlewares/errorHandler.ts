@@ -2,7 +2,7 @@ import { StatusCodes } from 'http-status-codes';
 
 import type { ErrorRequestHandler } from 'express';
 
-import { CustomError } from '../utils';
+import { CustomError, Logger } from '../utils';
 import config from '../config';
 
 const errorHandler: ErrorRequestHandler = (err, req, res, _next) => {
@@ -13,7 +13,7 @@ const errorHandler: ErrorRequestHandler = (err, req, res, _next) => {
     });
   }
 
-  console.error('Unexpected error:', err);
+  Logger.error(err);
 
   res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
     message: config.server.internalErrorMessage,

@@ -1,9 +1,9 @@
-import userSignIn from './userSignIn';
-import userSignUp from './userSignUp';
-import getUser from './getUser';
+import signIn from './userSignIn';
+import signUp from './userSignUp';
+import getById from './getUser';
 
 export default {
-  userSignIn,
-  userSignUp,
-  getUser,
+  signIn,
+  signUp,
+  getById,
 };

@@ -1,6 +1,6 @@
 import * as typeorm from 'typeorm';
 
-import Book from './Book';
+import { BooksEntity } from '../../db';
 
 @typeorm.Entity()
 class Raiting {
@@ -10,7 +10,7 @@ class Raiting {
   @typeorm.Column({ unique: false, nullable: false, type: 'integer' })
   userId: number;
 
-  @typeorm.OneToMany(() => Book, (book) => book.bookId)
+  @typeorm.OneToMany(() => BooksEntity, (book) => book.bookId)
   bookId: number;
 }
 

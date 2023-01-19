@@ -1,6 +1,6 @@
 import express from 'express';
 
-import userController from '../controllers/userControllers';
+import { userControllers } from '../controllers';
 import authMiddleware from '../middlewares/auth';
 import version from '../validationSchemas/user';
 import createValidationMiddleware from '../middlewares/createValidation';
@@ -9,12 +9,12 @@ const routes = express.Router();
 
 routes.use(authMiddleware);
 
-routes.delete('/:userId', createValidationMiddleware(version.deleteUser), userController.deleteUser);
+routes.delete('/:userId', createValidationMiddleware(version.deleteUser), userControllers.remove);
 
-routes.patch('/:userId', createValidationMiddleware(version.updatedUser), userController.updateUser);
+routes.patch('/:userId', createValidationMiddleware(version.updatedUser), userControllers.update);
 
-routes.patch('/:userId/password', createValidationMiddleware(version.updatedPass), userController.updateUserPass);
+routes.patch('/:userId/password', createValidationMiddleware(version.updatedPass), userControllers.updatePass);
 
-routes.post('/:userId/avatar', createValidationMiddleware(version.loadAvatar), userController.loadAvatar);
+routes.post('/:userId/avatar', createValidationMiddleware(version.loadAvatar), userControllers.loadAvatar);
 
 export default routes;

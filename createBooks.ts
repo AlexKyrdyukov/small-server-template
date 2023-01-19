@@ -1,7 +1,4 @@
-import db from './src/db';
-import connectToDb from './src/db/connectToDb';
-import Book from './src/db/entities/Book';
-import Genres from './src/db/entities/Genres';
+import db, { connectToDb, BooksEntity, GenresEntity } from './src/db';
 
 const genres = [
   'Fiction',
@@ -80,13 +77,13 @@ const annotation = [
     await connectToDb();
 
     genres.forEach(async (item) => {
-      const genre = new Genres();
+      const genre = new GenresEntity();
       genre.name = item;
       await db.genres.save(genre);
     });
 
     for (let i = 0; i < 40; i++) {
-      const book = new Book();
+      const book = new BooksEntity();
       book.name = name[Math.floor(Math.random() * name.length)];
       book.author = author[Math.floor(Math.random() * author.length)];
       book.price = price[Math.floor(Math.random() * price.length)];
@@ -98,7 +95,7 @@ const annotation = [
       book.image = bookCovers[Math.floor(Math.random() * bookCovers.length)];
       // book.annotation = annotation[Math.floor(Math.random() * annotation.length)];
       book.dateOfIssue = dateIssue[Math.floor(Math.random() * dateIssue.length)];
-      const genresArray: Genres[] = [];
+      const genresArray: GenresEntity[] = [];
 
       for (let i = 0; i < Math.floor(1 + Math.random() * 3); i++) {
         const index = Math.floor(Math.random() * genres.length);
@@ -106,10 +103,6 @@ const annotation = [
         // eslint-disable-next-line no-await-in-loop
         const currentGenre = await db.genres.findOne({ where: { name: genre } });
         if (currentGenre) {
-          // const { name, genreId } = currentGenre;
-          // genresArray.push({ name, genreId });
-          // eslint-disable-next-line no-console
-          console.log(currentGenre);
           genresArray.push(currentGenre);
         }
       }

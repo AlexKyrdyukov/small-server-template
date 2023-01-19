@@ -1,15 +1,15 @@
 import app from './app';
 import config from './config';
-import connectToDb from './db/connectToDb';
+import { connectToDb } from './db';
+import { Logger } from './utils';
 
 (async () => {
   try {
     await connectToDb();
     app.listen(config.server.port, () => {
-      // eslint-disable-next-line no-console
-      console.log(`app listening on port ${config.server.port}`);
+      Logger.log(`app listening on port ${config.server.port}`);
     });
   } catch (error) {
-    console.error('error:', error);
+    Logger.error(error);
   }
 })();

@@ -1,13 +1,11 @@
+import type { RequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
-import type { RequestHandler } from 'express';
-import type UserType from '../../db/entities/User';
+import type { UsersEntity } from '../../db';
 
-import CustomError from '../../utils/CustomError';
-import tokenHelper from '../../utils/tokenHelper';
-import hashHelper from '../../utils/hashHelper';
-import errorText from '../../utils/errorMessages';
 import db from '../../db';
+
+import { CustomError, errorMessages, tokenHelpers, hashHelpers } from '../../utils';
 
 type BodyType = {
   email: string;
@@ -19,7 +17,7 @@ type ParamsType = Record<string, never>;
 type QueryType = Record<string, never>;
 
 type ResponseType = {
-  user: UserType;
+  user: UsersEntity;
   token: string;
 };
 
@@ -36,16 +34,16 @@ const signInUser: HandlerType = async (req, res, next) => {
       .getOne();
 
     if (!user) {
-      throw new CustomError(StatusCodes.BAD_REQUEST, errorText.USER_NOT_FOUND);
+      throw new CustomError(StatusCodes.BAD_REQUEST, errorMessages.USER_NOT_FOUND);
     }
 
-    const passwordVerification = hashHelper.checkPassword(password, user.password);
+    const passwordVerification = hashHelpers.checkPassword(password, user.password);
     delete user.password;
     if (!passwordVerification) {
-      throw new CustomError(StatusCodes.BAD_REQUEST, errorText.USER_INVALID_PASSWORD);
+      throw new CustomError(StatusCodes.BAD_REQUEST, errorMessages.USER_INVALID_PASSWORD);
     }
 
-    const token = await tokenHelper.create(user.userId);
+    const token = await tokenHelpers.create(user.userId);
 
     res.status(StatusCodes.OK).json({ user, token });
   } catch (error) {

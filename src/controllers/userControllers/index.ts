@@ -1,11 +1,11 @@
-import deleteUser from './deleteUser';
-import updateUser from './updateUser';
-import updateUserPass from './updateUserPass';
+import remove from './deleteUser';
+import update from './updateUser';
+import updatePass from './updateUserPass';
 import loadAvatar from './loadAvatar';
 
 export default {
-  deleteUser,
-  updateUser,
-  updateUserPass,
+  remove,
+  update,
+  updatePass,
   loadAvatar,
 };

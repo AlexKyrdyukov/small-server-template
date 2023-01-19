@@ -1,9 +1,10 @@
-import { StatusCodes } from 'http-status-codes';
-
 import type { RequestHandler } from 'express';
 
-import type Book from '../../db/entities/Book';
+import { StatusCodes } from 'http-status-codes';
+
 import db from '../../db';
+
+import type { BooksEntity } from '../../db';
 
 type BodyType = Record<string, never>;
 
@@ -14,7 +15,7 @@ type ParamsType = {
 type QueryType = Record<string, never>;
 
 type ResponseType = {
-  book: Book;
+  book: BooksEntity;
 };
 
 type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>;

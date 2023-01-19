@@ -1,11 +1,12 @@
+import type { RequestHandler } from 'express';
+
 import { StatusCodes } from 'http-status-codes';
 
-import type { RequestHandler } from 'express';
-import type UserType from '../../db/entities/User';
-
-import CustomError from '../../utils/CustomError';
-import errorText from '../../utils/errorMessages';
 import db from '../../db';
+
+import type { UsersEntity } from '../../db';
+
+import { CustomError, errorMessages } from '../../utils';
 
 type BodyType = {
   fullName: string;
@@ -19,7 +20,7 @@ type QueryType = Record<string, never>;
 
 type ResponseType = {
   message: string;
-  user: UserType;
+  user: UsersEntity;
 };
 
 type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>;
@@ -27,7 +28,7 @@ type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>
 const updateUser: HandlerType = async (req, res, next) => {
   try {
     if (req.user.userId !== +req.params.userId) {
-      throw new CustomError(StatusCodes.FORBIDDEN, errorText.USER_INVALID_REQUEST);
+      throw new CustomError(StatusCodes.FORBIDDEN, errorMessages.USER_INVALID_REQUEST);
     }
     req.user.fullName = req.body.fullName;
     // req.user.avatar = req.body.avatar;

@@ -1,5 +1,6 @@
 import * as typeorm from 'typeorm';
-import Book from './Book';
+
+import { BooksEntity } from '../../db';
 
 @typeorm.Entity()
 class Cart {
@@ -9,8 +10,8 @@ class Cart {
   @typeorm.Column({ unique: false, nullable: false, type: 'integer' })
   userId: number;
 
-  @typeorm.OneToMany(() => Book, (book) => book.bookId)
-  books: Book[];
+  @typeorm.OneToMany(() => BooksEntity, (book) => book.bookId)
+  books: BooksEntity[];
 }
 
 export default Cart;

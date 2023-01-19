@@ -1,8 +1,8 @@
 import jwt from 'jsonwebtoken';
 import { StatusCodes } from 'http-status-codes';
 
-import CustomError from './CustomError';
-import errorText from './errorMessages';
+import { CustomError, errorMessages } from '../utils';
+
 import config from '../config';
 
 const create = async (id: number) => {
@@ -24,7 +24,7 @@ const decode = (token: string) => {
     const payload = jwt.verify(token, config.token.secret) as { id: number };
     return payload;
   } catch {
-    throw new CustomError(StatusCodes.FORBIDDEN, errorText.USER_SIGN_IN);
+    throw new CustomError(StatusCodes.FORBIDDEN, errorMessages.USER_SIGN_IN);
   }
 };
 

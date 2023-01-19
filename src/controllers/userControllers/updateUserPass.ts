@@ -1,11 +1,10 @@
-import { StatusCodes } from 'http-status-codes';
-
 import type { RequestHandler } from 'express';
 
-import CustomError from '../../utils/CustomError';
-import hashHelper from '../../utils/hashHelper';
-import errorText from '../../utils/errorMessages';
+import { StatusCodes } from 'http-status-codes';
+
 import db from '../../db';
+
+import { CustomError, errorMessages, hashHelpers } from '../../utils';
 
 type BodyType = {
   password: string;
@@ -25,7 +24,7 @@ type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>
 const updateUserPass: HandlerType = async (req, res, next) => {
   try {
     if (req.user.userId !== +req.params.userId) {
-      throw new CustomError(StatusCodes.FORBIDDEN, errorText.USER_INVALID_REQUEST);
+      throw new CustomError(StatusCodes.FORBIDDEN, errorMessages.USER_INVALID_REQUEST);
     }
     const { password, newPassword } = req.body;
     const user = await db.user
@@ -34,11 +33,11 @@ const updateUserPass: HandlerType = async (req, res, next) => {
       .where('user.id = :id', { id: req.user.userId })
       .getOne();
 
-    const passwordVerification = hashHelper.checkPassword(password, user.password);
+    const passwordVerification = hashHelpers.checkPassword(password, user.password);
     if (!passwordVerification) {
-      throw new CustomError(StatusCodes.BAD_REQUEST, errorText.USER_INVALID_PASSWORD);
+      throw new CustomError(StatusCodes.BAD_REQUEST, errorMessages.USER_INVALID_PASSWORD);
     }
-    user.password = hashHelper.hashPassword(newPassword);
+    user.password = hashHelpers.hashPassword(newPassword);
 
     await db.user.save(user);
     res.status(StatusCodes.OK).json({ message: 'new password succesfully updated' });

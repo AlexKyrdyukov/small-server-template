@@ -1,6 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
 import type { RequestHandler } from 'express';
-import type UserType from '../../db/entities/User';
+
+import type { UsersEntity } from '../../db';
 
 type BodyType = Record<string, never>;
 
@@ -9,7 +10,7 @@ type ParamsType = Record<string, never>;
 type QueryType = Record<string, never>;
 
 type ResponseType = {
-  user: UserType;
+  user: UsersEntity;
 };
 
 type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>;

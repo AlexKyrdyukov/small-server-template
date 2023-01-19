@@ -1,8 +1,8 @@
 import * as typeorm from 'typeorm';
 
-import Genres from './Genres';
+import { GenresEntity } from '../../db';
 
-import dbHelper from '../../utils/dbHelper';
+import { dbHelpers } from '../../utils';
 
 @typeorm.Entity()
 class Book {
@@ -39,13 +39,13 @@ class Book {
   @typeorm.Column({ unique: false, nullable: false, type: 'date' })
   dateOfIssue: string;
 
-  @typeorm.ManyToMany(() => Genres, (genre) => genre.books)
+  @typeorm.ManyToMany(() => GenresEntity, (genre) => genre.books)
   @typeorm.JoinTable()
-  genres: Genres[];
+  genres: GenresEntity[];
 
   @typeorm.AfterLoad()
   changeData() {
-    this.image = dbHelper.getFileUrl(this.image, 'bookCovers');
+    this.image = dbHelpers.getFileUrl(this.image, 'bookCovers');
     // this.price = dbHelper.valueCalculation(this.price, 100);
     // this.raiting = dbHelper.valueCalculation(this.raiting, 10);
   }

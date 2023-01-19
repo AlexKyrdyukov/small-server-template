@@ -1,11 +1,10 @@
 import * as yup from 'yup';
-import { StatusCodes } from 'http-status-codes';
 import _ from 'lodash';
 
 import type { Handler } from 'express';
+import { StatusCodes } from 'http-status-codes';
 
-import CustomError from '../utils/CustomError';
-import errorText from '../utils/errorMessages';
+import { CustomError, errorMessages } from '../utils';
 
 type ValidationShemaType = {
   [key: string]: yup.StringSchema | yup.NumberSchema | yup.DateSchema;
@@ -65,8 +64,7 @@ const createValidationMiddleware = (schema: ValidationType) => {
           err.inner.forEach((item) => {
             const [path, key] = item.path.split('.');
             errors.push({
-              // eslint-disable-next-line max-len
-              message: item.errors.join(), // because in the "errors" array the property message type is described as a string
+              message: item.errors.join(),
               path,
               key,
             });
@@ -75,7 +73,7 @@ const createValidationMiddleware = (schema: ValidationType) => {
 
       if (errors.length) {
         throw new CustomError(
-          StatusCodes.BAD_REQUEST, errorText.USER_INVALID_REQUEST, errors,
+          StatusCodes.BAD_REQUEST, errorMessages.USER_INVALID_REQUEST, errors,
         );
       }
 

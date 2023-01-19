@@ -1,6 +1,6 @@
 import * as typeorm from 'typeorm';
 
-import Book from './Book';
+import { BooksEntity } from '../../db';
 
 @typeorm.Entity()
 class Genres {
@@ -10,8 +10,8 @@ class Genres {
   @typeorm.Column({ unique: true, nullable: false, type: 'varchar' })
   name: string;
 
-  @typeorm.ManyToMany(() => Book, (book) => book.genres)
-  books: Book[];
+  @typeorm.ManyToMany(() => BooksEntity, (book) => book.genres)
+  books: BooksEntity[];
 }
 
 export default Genres;

@@ -19,6 +19,7 @@
     "lint:fix": "eslint . -c .eslintrc.js --ext .ts --ignore-path .eslintignore --fix"
   },
   "dependencies": {
+    "@types/require-directory": "^2.1.2",
     "cors": "^2.8.5",
     "crypto-js": "^4.1.1",
     "dayjs": "^1.11.6",
@@ -29,6 +30,7 @@
     "lodash": "^4.17.21",
     "pg": "^8.8.0",
     "reflect-metadata": "^0.1.13",
+    "require-directory": "^2.1.1",
     "typeorm": "^0.3.11",
     "yup": "^0.32.11"
   },

@@ -1,4 +1,5 @@
 import CryptoJS from 'crypto-js';
+
 import config from '../config';
 
 const hashPassword = (password: string) => {

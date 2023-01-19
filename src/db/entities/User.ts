@@ -1,6 +1,6 @@
 import * as typeorm from 'typeorm';
 
-import dbHelper from '../../utils/dbHelper';
+import { dbHelpers } from '../../utils';
 
 @typeorm.Entity()
 class User {
@@ -21,7 +21,7 @@ class User {
 
   @typeorm.AfterLoad()
   changeData() {
-    this.avatar = dbHelper.getFileUrl(this.avatar, 'userAvatars');
+    this.avatar = dbHelpers.getFileUrl(this.avatar, 'userAvatars');
   }
 }
 

@@ -1,4 +1,5 @@
 import { DataSource } from 'typeorm';
+
 import path from 'path';
 
 import config from '../config';

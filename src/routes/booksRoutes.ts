@@ -1,10 +1,11 @@
 import express from 'express';
 
-import booksControllers from '../controllers/bookControllers';
+import { bookControllers } from '../controllers';
 
 const routes = express();
 
-routes.get('/', booksControllers.getBooks);
-routes.get('/:bookId', booksControllers.getBooksById);
+routes.get('/', bookControllers.getAll);
+
+routes.get('/:bookId', bookControllers.getById);
 
 export default routes;
