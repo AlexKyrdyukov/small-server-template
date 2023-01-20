@@ -2,7 +2,7 @@ import express from 'express';
 
 import { bookControllers } from '../controllers';
 
-const routes = express();
+const routes = express.Router();
 
 routes.get('/', bookControllers.getAll);
 

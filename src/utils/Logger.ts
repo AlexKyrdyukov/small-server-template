@@ -7,36 +7,36 @@ class Logger {
 
   static error(info: string | NodeJS.ErrnoException) {
     const data = this.getTime();
-    console.error('data:', `${data},`, chalk.red('TYPE ERROR;'), '\n message:', info);
+    console.error(chalk.red(`data: ${data}, TYPE ERROR;`), '\n message:', info);
   }
 
   static log(info: string | NodeJS.ErrnoException) {
     const data = this.getTime();
     // eslint-disable-next-line no-console
-    console.log('data:', `${data},`, chalk.blue('TYPE LOG;'), '\n message:', info);
+    console.log(chalk.blue(`data: ${data}, TYPE LOG;`), '\n message:', info);
   }
 
   static warn(info: string | NodeJS.ErrnoException) {
     const data = this.getTime();
-    console.warn('data:', `${data},`, 'TYPE WARN;', '\n message:', info);
+    console.warn(chalk.greenBright(`data: ${data}, TYPE WARN;`), '\n message:', info);
   }
 
   static assert(info: string | NodeJS.ErrnoException) {
     const data = this.getTime();
     // eslint-disable-next-line no-console
-    console.assert('data:', `${data},`, 'TYPE ASSERT;', '\n message:', info);
+    console.assert(chalk.yellowBright(`data: ${data}, TYPE ASSERT;`), '\n message:', info);
   }
 
   static debug(info: string | NodeJS.ErrnoException) {
     const data = this.getTime();
     // eslint-disable-next-line no-console
-    console.debug('data:', `${data},`, 'TYPE DEBUG;', '\n message:', info);
+    console.debug(chalk.gray(`data: ${data}, TYPE DEBUG;`), '\n message:', info);
   }
 
   static info(info: string | NodeJS.ErrnoException) {
     const data = this.getTime();
     // eslint-disable-next-line no-console
-    console.info('data:', `${data},`, 'TYPE INFO;', '\n message:', info);
+    console.info(chalk.bgYellowBright(`data: ${data}, TYPE INFO;`), '\n message:', info);
   }
 }
 

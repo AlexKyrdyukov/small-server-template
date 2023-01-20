@@ -23,7 +23,7 @@ class Book {
   @typeorm.DeleteDateColumn()
   deletedDate: Date;
 
-  @typeorm.VirtualColumn({ type: 'varchar' })
+  @typeorm.VirtualColumn({ query: (book) => book })
   priceString: string;
 
   @typeorm.Column({ unique: false, nullable: false, type: 'varchar' })

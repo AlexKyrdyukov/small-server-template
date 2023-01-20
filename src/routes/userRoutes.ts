@@ -1,3 +1,4 @@
+/* eslint-disable import/no-import-module-exports */
 import express from 'express';
 
 import { userControllers } from '../controllers';
