@@ -7,6 +7,15 @@ class User {
   @typeorm.PrimaryGeneratedColumn()
   userId: number;
 
+  @typeorm.CreateDateColumn()
+  createdDate: Date;
+
+  @typeorm.UpdateDateColumn()
+  updatedDate: Date;
+
+  @typeorm.DeleteDateColumn()
+  deletedDate: Date;
+
   @typeorm.Column({ unique: false, nullable: false, type: 'varchar', select: false })
   password: string;
 

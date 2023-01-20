@@ -1,3 +1,5 @@
+import chalk from 'chalk';
+
 class Logger {
   static getTime() {
     return new Date().toLocaleString();
@@ -5,13 +7,13 @@ class Logger {
 
   static error(info: string | NodeJS.ErrnoException) {
     const data = this.getTime();
-    console.error('data:', `${data},`, 'TYPE ERROR;', '\n message:', info);
+    console.error('data:', `${data},`, chalk.red('TYPE ERROR;'), '\n message:', info);
   }
 
   static log(info: string | NodeJS.ErrnoException) {
     const data = this.getTime();
     // eslint-disable-next-line no-console
-    console.log('data:', `${data},`, 'TYPE LOG;', '\n message:', info);
+    console.log('data:', `${data},`, chalk.blue('TYPE LOG;'), '\n message:', info);
   }
 
   static warn(info: string | NodeJS.ErrnoException) {

@@ -39,7 +39,10 @@ const price = [14200, 8850, 9320, 11000, 13000, 39000];
 
 const raiting = [40, 46, 33, 26, 13, 37];
 
-const coverType = ['Hardcover', 'Paperback'];
+enum CoverENUM {
+  HARD = 'Hardcover',
+  SOFT = 'Paperback',
+}
 
 const bookCovers = [
   'cover_1.svg',
@@ -89,7 +92,7 @@ const annotation = [
       book.price = price[Math.floor(Math.random() * price.length)];
       book.raiting = raiting[Math.floor(Math.random() * raiting.length)];
       book.isAvailable = !!(i % 10);
-      book.coverType = coverType[Math.floor(Math.random() * coverType.length)];
+      book.coverType = Cover.HARD;
       book.bestSeller = !!(i % 10);
       book.description = description;
       book.image = bookCovers[Math.floor(Math.random() * bookCovers.length)];

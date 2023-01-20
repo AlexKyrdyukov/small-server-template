@@ -13,4 +13,4 @@ routes.post('/sign-up', generatorValidate(version.signUp), authControllers.signU
 
 routes.get('/me', authMidlleware, authControllers.getById);
 
-export default routes as unknown as NodeModule;
+export default routes;

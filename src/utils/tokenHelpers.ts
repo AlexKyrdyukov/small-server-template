@@ -39,7 +39,7 @@ const decode = async (token: string) => {
       },
       (err, data) => {
         if (err) {
-          Logger.log(err);
+          Logger.error(err);
           return reject(
             new CustomError(StatusCodes.FORBIDDEN, errorMessages.USER_SIGN_IN),
           );

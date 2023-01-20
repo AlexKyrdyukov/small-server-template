@@ -4,10 +4,27 @@ import { GenresEntity } from '../../db';
 
 import { dbHelpers } from '../../utils';
 
+enum CoverENUM {
+  HARD = 'Hardcover',
+  SOFT = 'Paperback',
+}
+
 @typeorm.Entity()
 class Book {
   @typeorm.PrimaryGeneratedColumn()
   bookId: number;
+
+  @typeorm.CreateDateColumn()
+  createdDate: Date;
+
+  @typeorm.UpdateDateColumn()
+  updatedDate: Date;
+
+  @typeorm.DeleteDateColumn()
+  deletedDate: Date;
+
+  @typeorm.VirtualColumn({ type: 'varchar' })
+  priceString: string;
 
   @typeorm.Column({ unique: false, nullable: false, type: 'varchar' })
   name: string;
@@ -24,11 +41,14 @@ class Book {
   @typeorm.Column({ unique: false, nullable: false, type: 'boolean' })
   isAvailable: boolean;
 
-  @typeorm.Column({ unique: false, nullable: false, type: 'varchar' })
-  coverType: string;
+  @typeorm.Column({ unique: false, nullable: false, type: 'enum', enum: CoverENUM, default: [CoverENUM.HARD] })
+  coverType: CoverENUM[];
 
   @typeorm.Column({ unique: false, nullable: true, type: 'boolean' })
   bestSeller: boolean;
+
+  @typeorm.Column({ unique: false, nullable: true, type: 'boolean' })
+  new: boolean;
 
   @typeorm.Column({ unique: false, nullable: false, type: 'varchar' })
   description: string;
@@ -46,8 +66,6 @@ class Book {
   @typeorm.AfterLoad()
   changeData() {
     this.image = dbHelpers.getFileUrl(this.image, 'bookCovers');
-    // this.price = dbHelper.valueCalculation(this.price, 100);
-    // this.raiting = dbHelper.valueCalculation(this.raiting, 10);
   }
 }
 

@@ -27,18 +27,17 @@ const updateUserPass: HandlerType = async (req, res, next) => {
       throw new CustomError(StatusCodes.FORBIDDEN, errorMessages.USER_INVALID_REQUEST);
     }
     const { password, newPassword } = req.body;
+    const userId = req.user.userId;
     const user = await db.user
       .createQueryBuilder('user')
       .addSelect('user.password')
-      .where('user.id = :id', { id: req.user.userId })
+      .where('user.userId = :userId', { userId })
       .getOne();
-
     const passwordVerification = hashHelpers.checkPassword(password, user.password);
     if (!passwordVerification) {
       throw new CustomError(StatusCodes.BAD_REQUEST, errorMessages.USER_INVALID_PASSWORD);
     }
     user.password = hashHelpers.hashPassword(newPassword);
-
     await db.user.save(user);
     res.status(StatusCodes.OK).json({ message: 'new password succesfully updated' });
   } catch (error) {
