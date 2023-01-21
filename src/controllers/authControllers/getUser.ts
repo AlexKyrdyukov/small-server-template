@@ -15,7 +15,7 @@ type ResponseType = {
 
 type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>;
 
-const getUserData: HandlerType = async (req, res, next) => {
+const getMe: HandlerType = async (req, res, next) => {
   try {
     res.status(StatusCodes.OK).json({ user: req.user });
   } catch (error) {
@@ -23,4 +23,4 @@ const getUserData: HandlerType = async (req, res, next) => {
   }
 };
 
-export default getUserData;
+export default getMe;

@@ -1,33 +1,17 @@
+import express from 'express';
+
 import type { Router } from 'express';
-/* eslint-disable import/no-import-module-exports */
-import express, { Application } from 'express';
 
-import type { RequireDirectoryResult } from 'require-directory';
-import requireDirectory from 'require-directory';
+import { getRouter } from '../utils';
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-type RouteType = {
-  [key: string]: DefaultType;
-};
+const appRouter = getRouter();
 
-type StackType = {
-  stack?: unknown;
-};
+const routes = express.Router();
 
-type DefaultType = {
-  default?: StackType;
-};
+routes.use('/user', appRouter.userRoutes as Router);
 
-const modules = requireDirectory(module, { extensions: ['ts'] });
-const obj: RouteType = {};
-for (const [key, value] of Object.entries(modules)) {
-  obj[key] = value;
-}
-console.log(obj.authRoutes.default);
-export const routes = express.Router();
+routes.use('/auth', appRouter.authRoutes as Router);
 
-routes.use('/user', obj.userRoutes?.default as Router);
+routes.use('/books', appRouter.bookRoutes as Router);
 
-routes.use('/auth', obj.authRouter?.default as Router);
-
-routes.use('/books', obj.bookRouter?.default as Router);
+export default routes;

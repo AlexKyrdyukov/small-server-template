@@ -7,4 +7,5 @@ export default {
   USER_DATA_UPDATED: 'entered data succesfully updated',
   USER_INCORRECTLY_ENTERED_DATA: 'the number of filled fields is correct but the data in them is not valid, please follow the instructions on the page',
   USER_INCORRECTLY_ENTERED_FIELDS: 'extra fields are filled in your request, follow the instructions on the page',
+  USER_INCORRECTLY_AUTHORIZATION_TYPE: 'please authenticate according to the requirements of the application',
 };

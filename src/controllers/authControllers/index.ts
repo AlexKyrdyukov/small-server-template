@@ -1,5 +1,5 @@
-import signIn from './userSignIn';
-import signUp from './userSignUp';
+import signIn from './signIn';
+import signUp from './signUp';
 import getById from './getUser';
 
 export default {

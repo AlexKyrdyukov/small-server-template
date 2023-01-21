@@ -18,12 +18,12 @@ type QueryType = Record<string, never>;
 
 type ResponseType = {
   user: UsersEntity;
-  token: string | unknown; // change type
+  token: string;
 };
 
 type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>;
 
-const signInUser: HandlerType = async (req, res, next) => {
+const signIn: HandlerType = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
@@ -51,4 +51,4 @@ const signInUser: HandlerType = async (req, res, next) => {
   }
 };
 
-export default signInUser;
+export default signIn;

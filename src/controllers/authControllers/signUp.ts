@@ -15,12 +15,12 @@ type QueryType = Record<string, never>;
 type ResponseType = {
   message: string;
   user: UsersEntity;
-  token: string | unknown; // change type
+  token: string;
 };
 
 type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>;
 
-const signUpUser: HandlerType = async (req, res, next) => {
+const signUp: HandlerType = async (req, res, next) => {
   try {
     const existenUser = await db.user.findOne({
       where: {
@@ -44,4 +44,4 @@ const signUpUser: HandlerType = async (req, res, next) => {
   }
 };
 
-export default signUpUser;
+export default signUp;
