@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class sync1674314429219 implements MigrationInterface {
-    name = 'sync1674314429219'
+export class sync1674400339142 implements MigrationInterface {
+    name = 'sync1674400339142'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`
@@ -19,29 +19,6 @@ export class sync1674314429219 implements MigrationInterface {
             )
         `);
         await queryRunner.query(`
-            CREATE TYPE "public"."book_covertype_enum" AS ENUM('Hardcover', 'Paperback')
-        `);
-        await queryRunner.query(`
-            CREATE TABLE "book" (
-                "bookId" SERIAL NOT NULL,
-                "createdDate" TIMESTAMP NOT NULL DEFAULT now(),
-                "updatedDate" TIMESTAMP NOT NULL DEFAULT now(),
-                "deletedDate" TIMESTAMP,
-                "name" character varying NOT NULL,
-                "author" character varying NOT NULL,
-                "price" integer NOT NULL,
-                "raiting" integer NOT NULL,
-                "isInStock" boolean NOT NULL,
-                "coverType" "public"."book_covertype_enum" NOT NULL DEFAULT 'Hardcover',
-                "bestSeller" boolean,
-                "new" boolean,
-                "description" character varying NOT NULL,
-                "image" character varying NOT NULL,
-                "dateOfIssue" date NOT NULL,
-                CONSTRAINT "PK_dc3b1731d65c319e954cb621c1b" PRIMARY KEY ("bookId")
-            )
-        `);
-        await queryRunner.query(`
             CREATE TABLE "genres" (
                 "genreId" SERIAL NOT NULL,
                 "createdDate" TIMESTAMP NOT NULL DEFAULT now(),
@@ -50,6 +27,16 @@ export class sync1674314429219 implements MigrationInterface {
                 "name" character varying NOT NULL,
                 CONSTRAINT "UQ_f105f8230a83b86a346427de94d" UNIQUE ("name"),
                 CONSTRAINT "PK_8e3e2a59aac7ee7889b047fdc0c" PRIMARY KEY ("genreId")
+            )
+        `);
+        await queryRunner.query(`
+            CREATE TABLE "cart" (
+                "cartId" SERIAL NOT NULL,
+                "createdDate" TIMESTAMP NOT NULL DEFAULT now(),
+                "updatedDate" TIMESTAMP NOT NULL DEFAULT now(),
+                "deletedDate" TIMESTAMP,
+                "userId" integer NOT NULL,
+                CONSTRAINT "PK_91b0c422e2c5187437d4dd29747" PRIMARY KEY ("cartId")
             )
         `);
         await queryRunner.query(`
@@ -63,13 +50,26 @@ export class sync1674314429219 implements MigrationInterface {
             )
         `);
         await queryRunner.query(`
-            CREATE TABLE "cart" (
-                "cartId" SERIAL NOT NULL,
+            CREATE TYPE "public"."book_covertype_enum" AS ENUM('Hardcover', 'Paperback')
+        `);
+        await queryRunner.query(`
+            CREATE TABLE "book" (
+                "bookId" SERIAL NOT NULL,
                 "createdDate" TIMESTAMP NOT NULL DEFAULT now(),
                 "updatedDate" TIMESTAMP NOT NULL DEFAULT now(),
                 "deletedDate" TIMESTAMP,
-                "userId" integer NOT NULL,
-                CONSTRAINT "PK_91b0c422e2c5187437d4dd29747" PRIMARY KEY ("cartId")
+                "name" character varying NOT NULL,
+                "author" character varying NOT NULL,
+                "priceInCent" integer,
+                "raiting" integer NOT NULL,
+                "isInStock" boolean NOT NULL,
+                "coverType" "public"."book_covertype_enum" NOT NULL DEFAULT 'Hardcover',
+                "bestSeller" boolean NOT NULL,
+                "new" boolean DEFAULT false,
+                "description" character varying NOT NULL,
+                "image" character varying NOT NULL,
+                "dateOfIssue" date,
+                CONSTRAINT "PK_dc3b1731d65c319e954cb621c1b" PRIMARY KEY ("bookId")
             )
         `);
         await queryRunner.query(`
@@ -112,19 +112,19 @@ export class sync1674314429219 implements MigrationInterface {
             DROP TABLE "book_genres_genres"
         `);
         await queryRunner.query(`
-            DROP TABLE "cart"
+            DROP TABLE "book"
+        `);
+        await queryRunner.query(`
+            DROP TYPE "public"."book_covertype_enum"
         `);
         await queryRunner.query(`
             DROP TABLE "raiting"
         `);
         await queryRunner.query(`
+            DROP TABLE "cart"
+        `);
+        await queryRunner.query(`
             DROP TABLE "genres"
-        `);
-        await queryRunner.query(`
-            DROP TABLE "book"
-        `);
-        await queryRunner.query(`
-            DROP TYPE "public"."book_covertype_enum"
         `);
         await queryRunner.query(`
             DROP TABLE "user"

@@ -49,14 +49,24 @@ const getUrl = (image: string, path: string) => {
 };
 
 const checkNew = (dateIssue: string, createDate: Date) => {
-  const flag = true;
   const data = new Date();
   if (dateIssue) {
     const [year, month, day] = dateIssue.split('-');
     const issueBook = new Date(+year, +month, +day);
-    return flag && ((+data - +issueBook) < 267840000);
+    return ((+data - +issueBook) < 267840000);
   }
-  return flag && ((+data - +createDate) < 267840000);
+  return ((+data - +createDate) < 267840000);
+};
+
+const convertInString = (price: number) => {
+  if (price < 100) {
+    return (price).toString();
+  }
+  return (price / 100).toFixed(2);
+};
+
+const convertInNumber = (price: string) => {
+  return +price;
 };
 
 export default {
@@ -64,4 +74,6 @@ export default {
   write,
   getUrl,
   checkNew,
+  convertInNumber,
+  convertInString,
 };
