@@ -3,7 +3,7 @@ import { StatusCodes } from 'http-status-codes';
 
 import type { Algorithm, JwtPayload } from 'jsonwebtoken';
 
-import { CustomError, errorMessages, Logger } from '../utils';
+import { CustomError, errorMessages } from '../utils';
 
 import config from '../config';
 
@@ -18,7 +18,6 @@ const create = async (id: number) => {
       },
       (err, data) => {
         if (err) {
-          Logger.error(err);
           return reject(
             new CustomError(StatusCodes.INTERNAL_SERVER_ERROR, config.server.internalErrorMessage),
           );
@@ -39,7 +38,6 @@ const decode = async (token: string) => {
       },
       (err, data) => {
         if (err) {
-          Logger.error(err);
           return reject(
             new CustomError(StatusCodes.FORBIDDEN, errorMessages.USER_SIGN_IN),
           );

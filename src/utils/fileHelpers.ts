@@ -2,6 +2,7 @@ import fs from 'fs';
 
 import { randomUUID } from 'crypto';
 import { Logger } from '../utils';
+import config from '../config';
 
 const directory = 'public/uploads/userAvatars/';
 
@@ -15,7 +16,7 @@ const remove = (pathFile: string) => {
   }
   fs.unlink(`${directory}/${nameFile}`, (err) => {
     if (err) {
-      Logger.error(err);
+      Logger.info(err);
     }
   });
 };
@@ -37,13 +38,30 @@ const write = (file: string) => {
   const fileUrl = `${directory}${avatarName}`;
   fs.writeFile(fileUrl, convertImage(image), (err) => {
     if (err) {
-      Logger.error(err);
+      Logger.info(err);
     }
   });
   return avatarName;
 };
 
+const getUrl = (image: string, path: string) => {
+  return `${config.server.imageUrl}${path}/${image}`;
+};
+
+const checkNew = (dateIssue: string, createDate: Date) => {
+  const flag = true;
+  const data = new Date();
+  if (dateIssue) {
+    const [year, month, day] = dateIssue.split('-');
+    const issueBook = new Date(+year, +month, +day);
+    return flag && ((+data - +issueBook) < 267840000);
+  }
+  return flag && ((+data - +createDate) < 267840000);
+};
+
 export default {
   remove,
   write,
+  getUrl,
+  checkNew,
 };

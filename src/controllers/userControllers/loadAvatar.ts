@@ -4,7 +4,7 @@ import type { RequestHandler } from 'express';
 
 import db from '../../db';
 
-import { CustomError, errorMessages, fileHelpers, dbHelpers } from '../../utils';
+import { CustomError, errorMessages, fileHelpers } from '../../utils';
 
 type BodyType = {
   file: string;
@@ -31,7 +31,7 @@ const loadAvatar: HandlerType = async (req, res, next) => {
 
     await db.user.save(req.user);
 
-    res.status(StatusCodes.OK).json({ message: 'data succesfully updated', avatar: dbHelpers.getFileUrl(req.user.avatar, 'userAvatars') });
+    res.status(StatusCodes.OK).json({ message: 'data succesfully updated', avatar: fileHelpers.getUrl(req.user.avatar, 'userAvatars') });
   } catch (error) {
     next(error);
   }

@@ -1,19 +1,19 @@
 import * as typeorm from 'typeorm';
 
-import { dbHelpers } from '../../utils';
+import { fileHelpers } from '../../utils';
 
 @typeorm.Entity()
 class User {
   @typeorm.PrimaryGeneratedColumn()
   userId: number;
 
-  @typeorm.CreateDateColumn()
+  @typeorm.CreateDateColumn({ select: false })
   createdDate: Date;
 
-  @typeorm.UpdateDateColumn()
+  @typeorm.UpdateDateColumn({ select: false })
   updatedDate: Date;
 
-  @typeorm.DeleteDateColumn()
+  @typeorm.DeleteDateColumn({ select: false })
   deletedDate: Date;
 
   @typeorm.Column({ unique: false, nullable: false, type: 'varchar', select: false })
@@ -30,7 +30,7 @@ class User {
 
   @typeorm.AfterLoad()
   changeData() {
-    this.avatar = dbHelpers.getFileUrl(this.avatar, 'userAvatars');
+    this.avatar = fileHelpers.getUrl(this.avatar, 'userAvatars');
   }
 }
 

@@ -7,13 +7,13 @@ class Raiting {
   @typeorm.PrimaryGeneratedColumn()
   raitingId: number;
 
-  @typeorm.CreateDateColumn()
+  @typeorm.CreateDateColumn({ select: false })
   createdDate: Date;
 
-  @typeorm.UpdateDateColumn()
+  @typeorm.UpdateDateColumn({ select: false })
   updatedDate: Date;
 
-  @typeorm.DeleteDateColumn()
+  @typeorm.DeleteDateColumn({ select: false })
   deletedDate: Date;
 
   @typeorm.Column({ unique: false, nullable: false, type: 'integer' })

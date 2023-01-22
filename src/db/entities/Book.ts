@@ -2,7 +2,7 @@ import * as typeorm from 'typeorm';
 
 import { GenresEntity } from '../../db';
 
-import { dbHelpers } from '../../utils';
+import { fileHelpers } from '../../utils';
 
 enum CoverENUM {
   HARD = 'Hardcover',
@@ -14,16 +14,16 @@ class Book {
   @typeorm.PrimaryGeneratedColumn()
   bookId: number;
 
-  @typeorm.CreateDateColumn()
+  @typeorm.CreateDateColumn({ select: false })
   createdDate: Date;
 
-  @typeorm.UpdateDateColumn()
+  @typeorm.UpdateDateColumn({ select: false })
   updatedDate: Date;
 
-  @typeorm.DeleteDateColumn()
+  @typeorm.DeleteDateColumn({ select: false })
   deletedDate: Date;
 
-  @typeorm.VirtualColumn({ query: (book) => book })
+  @typeorm.VirtualColumn({ hstoreType: 'string', query: (alias) => `${alias}.price`, transformer: { to(value) { return +value; }, from(value) { return value > 100 ? (value / 100).toFixed(2) : value.toString(); } } })
   priceString: string;
 
   @typeorm.Column({ unique: false, nullable: false, type: 'varchar' })
@@ -32,22 +32,22 @@ class Book {
   @typeorm.Column({ unique: false, nullable: false, type: 'varchar' })
   author: string;
 
-  @typeorm.Column({ unique: false, nullable: false, type: 'integer' })
+  @typeorm.Column({ unique: false, nullable: false, type: 'integer', select: false })
   price: number;
 
   @typeorm.Column({ unique: false, nullable: false, type: 'integer' })
   raiting: number;
 
   @typeorm.Column({ unique: false, nullable: false, type: 'boolean' })
-  isAvailable: boolean;
+  isInStock: boolean;
 
   @typeorm.Column({ unique: false, nullable: false, type: 'enum', enum: CoverENUM, default: [CoverENUM.HARD] })
   coverType: CoverENUM[];
 
-  @typeorm.Column({ unique: false, nullable: true, type: 'boolean' })
+  @typeorm.Column({ unique: false, nullable: false, type: 'boolean' })
   bestSeller: boolean;
 
-  @typeorm.Column({ unique: false, nullable: true, type: 'boolean' })
+  @typeorm.Column({ unique: false, nullable: true, type: 'boolean', default: false })
   new: boolean;
 
   @typeorm.Column({ unique: false, nullable: false, type: 'varchar' })
@@ -56,7 +56,7 @@ class Book {
   @typeorm.Column({ unique: false, nullable: false, type: 'varchar' })
   image: string;
 
-  @typeorm.Column({ unique: false, nullable: false, type: 'date' })
+  @typeorm.Column({ unique: false, nullable: true, type: 'date', select: false })
   dateOfIssue: string;
 
   @typeorm.ManyToMany(() => GenresEntity, (genre) => genre.books)
@@ -65,7 +65,8 @@ class Book {
 
   @typeorm.AfterLoad()
   changeData() {
-    this.image = dbHelpers.getFileUrl(this.image, 'bookCovers');
+    this.image = fileHelpers.getUrl(this.image, 'bookCovers');
+    this.new = fileHelpers.checkNew(this.dateOfIssue, this.createdDate);
   }
 }
 

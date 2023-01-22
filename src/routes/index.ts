@@ -4,14 +4,14 @@ import type { Router } from 'express';
 
 import { getRouter } from '../utils';
 
-const appRouter = getRouter();
+const { userRoutes, authRoutes, bookRoutes } = getRouter();
 
 const routes = express.Router();
 
-routes.use('/user', appRouter.userRoutes as Router);
+routes.use('/user', userRoutes as Router);
 
-routes.use('/auth', appRouter.authRoutes as Router);
+routes.use('/auth', authRoutes as Router);
 
-routes.use('/books', appRouter.bookRoutes as Router);
+routes.use('/books', bookRoutes as Router);
 
 export default routes;

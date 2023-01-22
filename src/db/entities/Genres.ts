@@ -7,13 +7,13 @@ class Genres {
   @typeorm.PrimaryGeneratedColumn()
   genreId: number;
 
-  @typeorm.CreateDateColumn()
+  @typeorm.CreateDateColumn({ select: false })
   createdDate: Date;
 
-  @typeorm.UpdateDateColumn()
+  @typeorm.UpdateDateColumn({ select: false })
   updatedDate: Date;
 
-  @typeorm.DeleteDateColumn()
+  @typeorm.DeleteDateColumn({ select: false })
   deletedDate: Date;
 
   @typeorm.Column({ unique: true, nullable: false, type: 'varchar' })
