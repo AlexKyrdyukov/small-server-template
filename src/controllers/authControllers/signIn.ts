@@ -1,5 +1,6 @@
-import type { RequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes';
+
+import type { RequestHandler } from 'express';
 
 import type { UsersEntity } from '../../db';
 

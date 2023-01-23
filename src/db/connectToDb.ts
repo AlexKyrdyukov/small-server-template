@@ -1,11 +1,11 @@
-import { Logger } from '../utils';
 import dataSource from './dataSource';
+
+import { Logger } from '../utils';
 
 const connectToDb = async () => {
   try {
     const connection = await dataSource.initialize();
 
-    // eslint-disable-next-line no-console
     Logger.log(
       'DB connected',
     );
@@ -15,7 +15,6 @@ const connectToDb = async () => {
         return;
       }
       await connection.destroy();
-      // eslint-disable-next-line no-console
       Logger.info('DB connection is disconnected due to application termination');
       process.exit(0);
     });
