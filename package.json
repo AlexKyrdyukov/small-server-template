@@ -19,6 +19,7 @@
     "lint:fix": "eslint . -c .eslintrc.js --ext .ts --ignore-path .eslintignore --fix"
   },
   "dependencies": {
+    "@types/change-case": "^2.3.1",
     "@types/require-directory": "^2.1.2",
     "change-case": "^4.1.2",
     "cors": "^2.8.5",
@@ -30,8 +31,10 @@
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
     "pg": "^8.8.0",
+    "redis": "^4.5.1",
     "reflect-metadata": "^0.1.13",
     "require-directory": "^2.1.1",
+    "save": "^2.9.0",
     "typeorm": "^0.3.11",
     "yup": "^0.32.11"
   },

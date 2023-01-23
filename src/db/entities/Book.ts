@@ -26,7 +26,7 @@ class Book {
   @typeorm.VirtualColumn({ hstoreType: 'string', query: (alias) => `${alias}."priceInCent"`, transformer: { to(value) { return +value; }, from(value) { return value > 100 ? (value / 100).toFixed(2) : value.toString(); } } })
   priceInDollar: string;
 
-  // @typeorm.VirtualColumn({ hstoreType: 'string', query: (alias) => `${alias}.price` })
+  // @typeorm.VirtualColumn({ hstoreType: 'string', query: (alias) => `${alias}.priceInCent` })
   // priceInDollar: string;
 
   @typeorm.Column({ unique: false, nullable: false, type: 'varchar' })
