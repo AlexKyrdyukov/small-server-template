@@ -18,9 +18,7 @@ const create = async (id: number) => {
       },
       (err, data) => {
         if (err) {
-          return reject(
-            new CustomError(StatusCodes.INTERNAL_SERVER_ERROR, config.server.internalErrorMessage),
-          );
+          return reject(err);
         }
         resolve(data);
       },

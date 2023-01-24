@@ -30,7 +30,7 @@ class User {
 
   @typeorm.AfterLoad()
   changeData() {
-    this.avatar = fileHelpers.getUrl(this.avatar, 'userAvatars');
+    this.avatar = fileHelpers.getUrlImage(this.avatar, 'userAvatars');
   }
 }
 

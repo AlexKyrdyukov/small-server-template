@@ -82,7 +82,7 @@ const description =
       await db.genres.save(genre);
     });
 
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 20; i++) {
       const book = new BooksEntity();
       book.name = name[Math.floor(Math.random() * name.length)];
       book.author = author[Math.floor(Math.random() * author.length)];
@@ -93,7 +93,6 @@ const description =
       book.bestSeller = !!(i % 5);
       book.description = description;
       book.image = bookCovers[Math.floor(Math.random() * bookCovers.length)];
-      // book.annotation = annotation[Math.floor(Math.random() * annotation.length)];
       book.dateOfIssue = dateIssue[Math.floor(Math.random() * dateIssue.length)];
       const genresArray: GenresEntity[] = [];
 

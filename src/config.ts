@@ -21,8 +21,8 @@ const config = {
     imageUrl: mainConfig.SERVER_IMAGE_URL,
   },
   hash: {
-    paswordSalt: mainConfig.PASSWORD_HASH_SALT,
-    passwordType: mainConfig.PASSWORD_HASH_TYPE,
+    salt: mainConfig.PASSWORD_HASH_SALT,
+    algorithm: mainConfig.PASSWORD_HASH_TYPE as 'HmacSHA512' | 'HmacSHA256' | 'HmacSHA384' | 'HmacSHA224',
   },
   token: {
     secret: mainConfig.TOKEN_SECRET,

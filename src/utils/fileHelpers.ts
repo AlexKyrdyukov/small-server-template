@@ -1,27 +1,28 @@
 import fs from 'fs';
-
 import { randomUUID } from 'crypto';
-import { Logger } from '../utils';
+
 import config from '../config';
 
-const directory = 'public/uploads/userAvatars/';
+const BASE_PATH = 'public/uploads';
 
-const remove = (pathFile: string) => {
-  const arrayPath = pathFile.split('/');
-
-  const nameFile = arrayPath[arrayPath.length - 1];
-
-  if (nameFile === 'null') {
-    return;
-  }
-  fs.unlink(`${directory}/${nameFile}`, (err) => {
-    if (err) {
-      Logger.info(err);
-    }
-  });
+const directories = {
+  avatars: `${BASE_PATH}/userAvatars`,
+  bookCovers: `${BASE_PATH}/bookCovers`,
 };
 
-const convertImage = (image: string) => {
+const removeImage = (fileName: string, dirName: keyof typeof directories) => {
+  return fs.promises.unlink(`${directories[dirName]}/${fileName}`);
+};
+
+const getFileName = (fileUrl: string) => {
+  const fileName = fileUrl.split('/').at(-1);
+  if (fileName === 'null') {
+    return false;
+  }
+  return fileName;
+};
+
+const convertBase64 = (image: string) => {
   return Buffer.from(image, 'base64');
 };
 
@@ -31,49 +32,22 @@ const getExtension = (meta: string) => {
   return currentInfo.slice(0, index);
 };
 
-const write = (file: string) => {
-  const [meta, image] = file.split(',');
+const writeImage = (fileName: string, dirName: keyof typeof directories) => {
+  const [meta, image] = fileName.split(',');
 
   const avatarName = `${randomUUID()}.${getExtension(meta)}`;
-  const fileUrl = `${directory}${avatarName}`;
-  fs.writeFile(fileUrl, convertImage(image), (err) => {
-    if (err) {
-      Logger.info(err);
-    }
-  });
+  const fileUrl = `${directories[dirName]}/${avatarName}`;
+  fs.promises.writeFile(fileUrl, convertBase64(image));
   return avatarName;
 };
 
-const getUrl = (image: string, path: string) => {
+const getUrlImage = (image: string, path: string) => {
   return `${config.server.imageUrl}${path}/${image}`;
 };
 
-const checkNew = (dateIssue: string, createDate: Date) => {
-  const data = new Date();
-  if (dateIssue) {
-    const [year, month, day] = dateIssue.split('-');
-    const issueBook = new Date(+year, +month, +day);
-    return ((+data - +issueBook) < 267840000);
-  }
-  return ((+data - +createDate) < 267840000);
-};
-
-const convertInString = (price: number) => {
-  if (price < 100) {
-    return (price).toString();
-  }
-  return (price / 100).toFixed(2);
-};
-
-const convertInNumber = (price: string) => {
-  return +price;
-};
-
 export default {
-  remove,
-  write,
-  getUrl,
-  checkNew,
-  convertInNumber,
-  convertInString,
+  removeImage,
+  writeImage,
+  getUrlImage,
+  getFileName,
 };

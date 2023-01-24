@@ -2,7 +2,7 @@ import * as typeorm from 'typeorm';
 
 import { GenresEntity } from '../../db';
 
-import { fileHelpers } from '../../utils';
+import { fileHelpers, dataHelper } from '../../utils';
 
 enum CoverENUM {
   HARD = 'Hardcover',
@@ -23,8 +23,8 @@ class Book {
   @typeorm.DeleteDateColumn({ select: false })
   deletedDate: Date;
 
-  @typeorm.VirtualColumn({ hstoreType: 'string', query: (alias) => `${alias}."priceInCent"`, transformer: { to(value) { return +value; }, from(value) { return value > 100 ? (value / 100).toFixed(2) : value.toString(); } } })
-  priceInDollar: string;
+  // @typeorm.VirtualColumn({ hstoreType: 'string', query: (alias) => `${alias}."priceInCent"`, transformer: { to(value) { return +value; }, from(value) { return value > 100 ? (value / 100).toFixed(2) : value.toString(); } } })
+  // priceInDollar: string;
 
   // @typeorm.VirtualColumn({ hstoreType: 'string', query: (alias) => `${alias}.priceInCent` })
   // priceInDollar: string;
@@ -44,8 +44,8 @@ class Book {
   @typeorm.Column({ unique: false, nullable: false, type: 'boolean' })
   isInStock: boolean;
 
-  @typeorm.Column({ unique: false, nullable: false, type: 'simple-array', enum: CoverENUM, default: [CoverENUM.HARD] })
-  coverType: CoverENUM[];
+  @typeorm.Column({ unique: false, nullable: false, type: 'enum', enum: CoverENUM })
+  coverType: CoverENUM;
 
   @typeorm.Column({ unique: false, nullable: false, type: 'boolean' })
   bestSeller: boolean;
@@ -66,11 +66,19 @@ class Book {
   @typeorm.JoinTable()
   genres: GenresEntity[];
 
+  priceInDollar: string;
+
   @typeorm.AfterLoad()
   changeLoadData() {
-    this.image = fileHelpers.getUrl(this.image, 'bookCovers');
-    this.new = fileHelpers.checkNew(this.dateOfIssue, this.createdDate);
+    this.image = fileHelpers.getUrlImage(this.image, 'bookCovers');
+    this.new = dataHelper.checkIsNew(this.dateOfIssue, this.createdDate);
+    this.priceInDollar = dataHelper.convertInString(+this.priceInCent);
     // this.priceString = fileHelpers.convertInString(+this.priceString);
+  }
+
+  @typeorm.AfterInsert()
+  c() {
+    this.priceInCent = dataHelper.convertInNumber(this.priceInDollar);
   }
 }
 
