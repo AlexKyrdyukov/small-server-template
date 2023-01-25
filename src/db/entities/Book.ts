@@ -23,12 +23,6 @@ class Book {
   @typeorm.DeleteDateColumn({ select: false })
   deletedDate: Date;
 
-  // @typeorm.VirtualColumn({ hstoreType: 'string', query: (alias) => `${alias}."priceInCent"`, transformer: { to(value) { return +value; }, from(value) { return value > 100 ? (value / 100).toFixed(2) : value.toString(); } } })
-  // priceInDollar: string;
-
-  // @typeorm.VirtualColumn({ hstoreType: 'string', query: (alias) => `${alias}.priceInCent` })
-  // priceInDollar: string;
-
   @typeorm.Column({ unique: false, nullable: false, type: 'varchar' })
   name: string;
 
@@ -73,7 +67,6 @@ class Book {
     this.image = fileHelpers.getUrlImage(this.image, 'bookCovers');
     this.new = dataHelper.checkIsNew(this.createdDate);
     this.priceInDollar = dataHelper.convertInString(this.priceInCent);
-    // this.priceString = fileHelpers.convertInString(+this.priceString);
   }
 }
 

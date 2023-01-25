@@ -1,17 +1,19 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class sync1674551619073 implements MigrationInterface {
-    name = 'sync1674551619073'
+export class sync1674647806757 implements MigrationInterface {
+    name = 'sync1674647806757'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`
-            ALTER TABLE "book" ALTER COLUMN "rating" RENAME TO "rating123123waqse";
+            ALTER TABLE "book"
+                RENAME COLUMN "raitingBook" TO "raiting"
         `);
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`
-            ALTER TABLE "book" ALTER COLUMN "rating123123waqse" RENAME TO "rating";
+            ALTER TABLE "book"
+                RENAME COLUMN "raiting" TO "raitingBook"
         `);
     }
 

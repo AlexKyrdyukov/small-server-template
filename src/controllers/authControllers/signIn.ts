@@ -19,7 +19,8 @@ type QueryType = Record<string, never>;
 
 type ResponseType = {
   user: UsersEntity;
-  token: string;
+  accessToken: string;
+  refreshToken: string;
 };
 
 type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>;
@@ -44,9 +45,10 @@ const signIn: HandlerType = async (req, res, next) => {
       throw new CustomError(StatusCodes.BAD_REQUEST, errorMessages.USER_INVALID_PASSWORD);
     }
 
-    const token = await tokenHelpers.create(user.userId);
+    const accessToken = await tokenHelpers.create(user.userId);
+    const refreshToken = await tokenHelpers.create(user.userId);
 
-    res.status(StatusCodes.OK).json({ user, token });
+    res.status(StatusCodes.OK).json({ user, accessToken, refreshToken });
   } catch (error) {
     next(error);
   }
