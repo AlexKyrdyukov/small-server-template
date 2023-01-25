@@ -8,7 +8,9 @@ import { CustomError, errorMessages, tokenHelpers, checkAuth } from '../utils';
 
 const authVerification = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const token = checkAuth(req.headers.authorization);
+    const authorization = req.headers.authorization;
+    console.log(req.headers.deviceid);
+    const token = checkAuth(authorization);
     const payload = await tokenHelpers.decode(token);
 
     req.user = await db.user.findOne({ where: { userId: payload.id } });

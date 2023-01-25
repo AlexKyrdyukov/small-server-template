@@ -3,6 +3,7 @@ import { StatusCodes } from 'http-status-codes';
 import type { RequestHandler } from 'express';
 
 import db, { UsersEntity } from '../../db';
+import redis from '../../redis';
 
 import { CustomError, errorMessages, tokenHelpers, hashHelpers } from '../../utils';
 
@@ -15,13 +16,15 @@ type QueryType = Record<string, never>;
 type ResponseType = {
   message: string;
   user: UsersEntity;
-  token: string;
+  accessToken: string;
 };
 
 type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>;
 
 const signUp: HandlerType = async (req, res, next) => {
   try {
+    const deviceId = req.headers.deviceId;
+    console.log(deviceId);
     const existenUser = await db.user.findOne({
       where: {
         email: req.body.email,
@@ -37,8 +40,12 @@ const signUp: HandlerType = async (req, res, next) => {
     const user = await db.user.save(newUser);
     delete user.password;
 
-    const token = await tokenHelpers.create(user.userId);
-    res.status(StatusCodes.CREATED).json({ message: 'user successfully registered', user, token });
+    const accessToken = await tokenHelpers.create(user.userId);
+
+    const refreshToken = await tokenHelpers.create(user.userId);
+    redis.refreshTokens.set(deviceId as string, refreshToken);
+
+    res.status(StatusCodes.CREATED).json({ message: 'user successfully registered', user, accessToken });
   } catch (error) {
     next(error);
   }

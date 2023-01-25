@@ -1,10 +1,10 @@
 import { StatusCodes } from 'http-status-codes';
 
 import type { RequestHandler } from 'express';
-
 import type { UsersEntity } from '../../db';
 
 import db from '../../db';
+import redis from '../../redis';
 
 import { CustomError, errorMessages, tokenHelpers, hashHelpers } from '../../utils';
 
@@ -20,13 +20,14 @@ type QueryType = Record<string, never>;
 type ResponseType = {
   user: UsersEntity;
   accessToken: string;
-  refreshToken: string;
 };
 
 type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>;
 
 const signIn: HandlerType = async (req, res, next) => {
   try {
+    const deviceId = req.headers.deviceId;
+    console.log(deviceId);
     const { email, password } = req.body;
 
     const user = await db.user
@@ -47,8 +48,10 @@ const signIn: HandlerType = async (req, res, next) => {
 
     const accessToken = await tokenHelpers.create(user.userId);
     const refreshToken = await tokenHelpers.create(user.userId);
+    // new method
+    redis.refreshTokens.set(deviceId as string, refreshToken);
 
-    res.status(StatusCodes.OK).json({ user, accessToken, refreshToken });
+    res.status(StatusCodes.OK).json({ user, accessToken });
   } catch (error) {
     next(error);
   }
