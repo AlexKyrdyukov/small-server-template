@@ -35,7 +35,7 @@ class Book {
   @typeorm.Column({ unique: false, nullable: false, type: 'varchar' })
   author: string;
 
-  @typeorm.Column({ unique: false, nullable: true, type: 'integer', select: false })
+  @typeorm.Column({ unique: false, nullable: true, type: 'integer' })
   priceInCent: number;
 
   @typeorm.Column({ unique: false, nullable: false, type: 'integer' })
@@ -71,14 +71,9 @@ class Book {
   @typeorm.AfterLoad()
   changeLoadData() {
     this.image = fileHelpers.getUrlImage(this.image, 'bookCovers');
-    this.new = dataHelper.checkIsNew(this.dateOfIssue, this.createdDate);
-    this.priceInDollar = dataHelper.convertInString(+this.priceInCent);
+    this.new = dataHelper.checkIsNew(this.createdDate);
+    this.priceInDollar = dataHelper.convertInString(this.priceInCent);
     // this.priceString = fileHelpers.convertInString(+this.priceString);
-  }
-
-  @typeorm.AfterInsert()
-  c() {
-    this.priceInCent = dataHelper.convertInNumber(this.priceInDollar);
   }
 }
 

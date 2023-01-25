@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 
 const logger = {
   getTime() {
-    return new Date().toLocaleString();
+    return dayjs().format('YYYY-MM-DD | HH:mm:ss');
   },
 
   error(info: string | NodeJS.ErrnoException) {

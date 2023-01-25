@@ -22,14 +22,8 @@ const getFileName = (fileUrl: string) => {
   return fileName;
 };
 
-const convertBase64 = (image: string) => {
-  return Buffer.from(image, 'base64');
-};
-
-const getExtension = (meta: string) => {
-  const currentInfo = meta.split('/')[1];
-  const index = currentInfo.match(/\W/).index;
-  return currentInfo.slice(0, index);
+const getUrlImage = (image: string, path: string) => {
+  return `${config.server.imageUrl}${path}/${image}`;
 };
 
 const writeImage = (fileName: string, dirName: keyof typeof directories) => {
@@ -41,8 +35,14 @@ const writeImage = (fileName: string, dirName: keyof typeof directories) => {
   return avatarName;
 };
 
-const getUrlImage = (image: string, path: string) => {
-  return `${config.server.imageUrl}${path}/${image}`;
+const convertBase64 = (image: string) => {
+  return Buffer.from(image, 'base64');
+};
+
+const getExtension = (meta: string) => {
+  const extensions = ['svg', 'png', 'jpeg', 'jpg'];
+  const extension = extensions.filter((item) => meta.includes(item));
+  return extension.join();
 };
 
 export default {
