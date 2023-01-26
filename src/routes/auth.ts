@@ -13,6 +13,6 @@ routes.post('/sign-up', generatorValidate(version.signUp), authControllers.signU
 
 routes.get('/me', authMidlleware, authControllers.getById);
 
-routes.patch('/refresh', authMidlleware, authControllers.refresh);
+routes.post('/refresh', authMidlleware, authControllers.refresh);
 
 export default routes;

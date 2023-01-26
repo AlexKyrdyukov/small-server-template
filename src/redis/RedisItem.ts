@@ -32,8 +32,8 @@ class RedisItem<T_DataType> {
     const strinfigyedValue = JSON.stringify(value);
 
     const expiresInInString = expiresIn || this.defaultExpiresIn;
+
     const expiresInInNumber = expiresInInString ? ms(expiresInInString) : undefined;
-    console.log(expiresInInNumber);
     await redisClient.set(key, strinfigyedValue, { EX: expiresInInNumber });
   };
 

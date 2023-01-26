@@ -19,10 +19,10 @@ const d = async () => {
 };
 setTimeout(() => {
   d();
-}, 2000);
+}, 4000);
 
-const checkRefresh = () => {
-  return 'def';
+const checkRefresh = (deviceId: string,) => {
+  redis.refreshTokens.get(deviceId as string);
 };
 
 export default {

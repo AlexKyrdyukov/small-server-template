@@ -13,7 +13,7 @@ const convertInNumber = (price: string) => {
 
 const checkIsNew = (createDate: Date) => {
   const dataNow = dayjs();
-  const day = 100 * 60 * 60 * 24;
+  const day = 1000 * 60 * 60 * 24;
   const oneMonth = day * 31;
   return (+dataNow - +createDate) < oneMonth;
 };

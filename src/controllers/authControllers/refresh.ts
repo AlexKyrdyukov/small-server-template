@@ -4,6 +4,7 @@ import type { RequestHandler } from 'express';
 
 import redis from '../../redis';
 import config from '../../config';
+import authService from '../../services/tokenSevice';
 
 import { CustomError, tokenHelpers, errorMessages } from '../../utils';
 
@@ -30,9 +31,7 @@ const refresh: HandlerType = async (req, res, next) => {
     if (!deviceId) {
       throw new CustomError(StatusCodes.UNAUTHORIZED, errorMessages.USER_SIGN_IN);
     }
-    redis.refreshTokens.get(deviceId as string);
-    const accessToken = await tokenHelpers.create(req.user.userId, config.token.expiresIn.access);
-
+    //  const { accessToken, refreshToken } = 
     res.status(StatusCodes.OK).json({ accessToken });
   } catch (error) {
     next(error);
