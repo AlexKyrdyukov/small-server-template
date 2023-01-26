@@ -4,11 +4,10 @@ import type { RequestHandler } from 'express';
 import type { UsersEntity } from '../../db';
 
 import db from '../../db';
-import redis from '../../redis';
 
-import config from '../../config';
+import authService from '../../services/tokenSevice';
 
-import { CustomError, errorMessages, tokenHelpers, hashHelpers } from '../../utils';
+import { CustomError, errorMessages, hashHelpers } from '../../utils';
 
 type BodyType = {
   email: string;
@@ -22,6 +21,7 @@ type QueryType = Record<string, never>;
 type ResponseType = {
   user: UsersEntity;
   accessToken: string;
+  refreshToken: string;
 };
 
 type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>;
@@ -29,7 +29,8 @@ type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>
 const signIn: HandlerType = async (req, res, next) => {
   try {
     const deviceId = req.headers.deviceId;
-    console.log(deviceId);
+    // eslint-disable-next-line no-console
+    console.log('signIn', deviceId);
     const { email, password } = req.body;
 
     const user = await db.user
@@ -48,12 +49,11 @@ const signIn: HandlerType = async (req, res, next) => {
       throw new CustomError(StatusCodes.BAD_REQUEST, errorMessages.USER_INVALID_PASSWORD);
     }
 
-    const accessToken = await tokenHelpers.create(user.userId, config.token.expiresIn.access);
-    const refreshToken = await tokenHelpers.create(user.userId, config.token.expiresIn.refresh);
-    // new method
-    redis.refreshTokens.set(deviceId as string, refreshToken);
+    const {
+      refreshToken, accessToken,
+    } = await authService.generateTokens(user.userId, deviceId as string);
 
-    res.status(StatusCodes.OK).json({ user, accessToken });
+    res.status(StatusCodes.OK).json({ user, accessToken, refreshToken });
   } catch (error) {
     next(error);
   }

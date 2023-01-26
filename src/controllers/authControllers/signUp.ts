@@ -3,11 +3,10 @@ import { StatusCodes } from 'http-status-codes';
 import type { RequestHandler } from 'express';
 
 import db, { UsersEntity } from '../../db';
-import redis from '../../redis';
 
-import config from '../../config';
+import authService from '../../services/tokenSevice';
 
-import { CustomError, errorMessages, tokenHelpers, hashHelpers } from '../../utils';
+import { CustomError, errorMessages, hashHelpers } from '../../utils';
 
 type BodyType = UsersEntity;
 
@@ -19,6 +18,7 @@ type ResponseType = {
   message: string;
   user: UsersEntity;
   accessToken: string;
+  refreshToken: string;
 };
 
 type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>;
@@ -26,7 +26,8 @@ type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>
 const signUp: HandlerType = async (req, res, next) => {
   try {
     const deviceId = req.headers.deviceId;
-    console.log(deviceId);
+    // eslint-disable-next-line no-console
+    console.log('sigUp', deviceId);
     const existenUser = await db.user.findOne({
       where: {
         email: req.body.email,
@@ -42,12 +43,11 @@ const signUp: HandlerType = async (req, res, next) => {
     const user = await db.user.save(newUser);
     delete user.password;
 
-    const accessToken = await tokenHelpers.create(user.userId, config.token.expiresIn.access);
+    const {
+      refreshToken, accessToken,
+    } = await authService.generateTokens(user.userId, deviceId as string);
 
-    const refreshToken = await tokenHelpers.create(user.userId, config.token.expiresIn.refresh);
-    redis.refreshTokens.set(deviceId as string, refreshToken);
-
-    res.status(StatusCodes.CREATED).json({ message: 'user successfully registered', user, accessToken });
+    res.status(StatusCodes.CREATED).json({ message: 'user successfully registered', user, accessToken, refreshToken });
   } catch (error) {
     next(error);
   }

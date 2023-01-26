@@ -26,7 +26,7 @@ const config = {
   },
   token: {
     secret: mainConfig.TOKEN_SECRET,
-    algorithm: mainConfig.TOKEN_HASH_TYPE,
+    algorithm: mainConfig.TOKEN_HASH_TYPE as 'HS256' | 'HS384' | 'HS512' | 'RS256' | 'RS384' | 'RS512' | 'ES256' | 'ES384' | 'ES512' | 'PS256' | 'PS384' | 'PS512' | 'none',
     expiresIn: {
       refresh: mainConfig.REFRESH_TOKEN_AUTH_EXPIRATION,
       access: mainConfig.ACCESS_TOKEN_AUTH_EXPIRATION,

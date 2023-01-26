@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { StatusCodes } from 'http-status-codes';
 
-import type { Algorithm, JwtPayload } from 'jsonwebtoken';
+import type { JwtPayload } from 'jsonwebtoken';
 
 import { CustomError, errorMessages } from '../utils';
 
@@ -13,7 +13,7 @@ const create = async (id: number, expiresIn: string) => {
       { id },
       config.token.secret,
       {
-        algorithm: config.token.algorithm as Algorithm,
+        algorithm: config.token.algorithm,
         expiresIn,
       },
       (err, data) => {
@@ -27,12 +27,12 @@ const create = async (id: number, expiresIn: string) => {
 };
 
 const decode = async (token: string) => {
-  return new Promise<string | JwtPayload['id']>((resolve, reject) => {
+  return new Promise<JwtPayload['id']>((resolve, reject) => {
     jwt.verify(
       token,
       config.token.secret,
       {
-        algorithms: [config.token.algorithm] as Algorithm[],
+        algorithms: [config.token.algorithm],
       },
       (err, data) => {
         if (err) {
