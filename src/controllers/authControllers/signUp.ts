@@ -5,6 +5,8 @@ import type { RequestHandler } from 'express';
 import db, { UsersEntity } from '../../db';
 import redis from '../../redis';
 
+import config from '../../config';
+
 import { CustomError, errorMessages, tokenHelpers, hashHelpers } from '../../utils';
 
 type BodyType = UsersEntity;
@@ -40,9 +42,9 @@ const signUp: HandlerType = async (req, res, next) => {
     const user = await db.user.save(newUser);
     delete user.password;
 
-    const accessToken = await tokenHelpers.create(user.userId);
+    const accessToken = await tokenHelpers.create(user.userId, config.token.expiresIn.access);
 
-    const refreshToken = await tokenHelpers.create(user.userId);
+    const refreshToken = await tokenHelpers.create(user.userId, config.token.expiresIn.refresh);
     redis.refreshTokens.set(deviceId as string, refreshToken);
 
     res.status(StatusCodes.CREATED).json({ message: 'user successfully registered', user, accessToken });

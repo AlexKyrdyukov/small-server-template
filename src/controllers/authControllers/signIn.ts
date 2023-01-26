@@ -6,6 +6,8 @@ import type { UsersEntity } from '../../db';
 import db from '../../db';
 import redis from '../../redis';
 
+import config from '../../config';
+
 import { CustomError, errorMessages, tokenHelpers, hashHelpers } from '../../utils';
 
 type BodyType = {
@@ -46,8 +48,8 @@ const signIn: HandlerType = async (req, res, next) => {
       throw new CustomError(StatusCodes.BAD_REQUEST, errorMessages.USER_INVALID_PASSWORD);
     }
 
-    const accessToken = await tokenHelpers.create(user.userId);
-    const refreshToken = await tokenHelpers.create(user.userId);
+    const accessToken = await tokenHelpers.create(user.userId, config.token.expiresIn.access);
+    const refreshToken = await tokenHelpers.create(user.userId, config.token.expiresIn.refresh);
     // new method
     redis.refreshTokens.set(deviceId as string, refreshToken);
 

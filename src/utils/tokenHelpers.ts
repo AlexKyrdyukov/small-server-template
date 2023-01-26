@@ -7,14 +7,14 @@ import { CustomError, errorMessages } from '../utils';
 
 import config from '../config';
 
-const create = async (id: number) => {
+const create = async (id: number, expiresIn: string) => {
   return new Promise<string>((resolve, reject) => {
     jwt.sign(
       { id },
       config.token.secret,
       {
         algorithm: config.token.algorithm as Algorithm,
-        expiresIn: config.token.accesLimit,
+        expiresIn,
       },
       (err, data) => {
         if (err) {

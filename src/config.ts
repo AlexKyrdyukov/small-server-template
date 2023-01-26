@@ -26,9 +26,11 @@ const config = {
   },
   token: {
     secret: mainConfig.TOKEN_SECRET,
-    accesLimit: mainConfig.ACCESS_TOKEN_AUTH_EXPIRATION,
-    refreshLimit: mainConfig.REFRESH_TOKEN_AUTH_EXPIRATION,
     algorithm: mainConfig.TOKEN_HASH_TYPE,
+    expiresIn: {
+      refresh: mainConfig.REFRESH_TOKEN_AUTH_EXPIRATION,
+      access: mainConfig.ACCESS_TOKEN_AUTH_EXPIRATION,
+    },
   },
   urls: {
     clientApp: mainConfig.CLIENT_APP_URL,
