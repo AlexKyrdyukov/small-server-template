@@ -21,21 +21,23 @@ const checkRefresh = (deviceId: string, tokens: string | string[]) => {
 };
 
 const checkAuthType = (authorization: string) => {
-  const tokens = authorization.split(',');
-  const [accessToken, refreshToken] = tokens.map((item) => {
-    const authType = item.slice(0, 6);
-    if (authType !== 'Bearer') {
-      return null;
-    }
-
-    const elem = item.split('.')[1];
-    return elem;
-  });
-
-  return {
-    accessToken,
-    refreshToken,
-  };
+  try {
+    const tokens = authorization.split(',');
+    const [accessToken, refreshToken] = tokens.map((item) => {
+      const authType = item.slice(0, 6);
+      if (authType !== 'Bearer') {
+        throw Exception.createError()
+      }
+      const elem = item.split('.')[1];
+      return elem;
+    });
+    return {
+      accessToken,
+      refreshToken,
+    };
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export default {
