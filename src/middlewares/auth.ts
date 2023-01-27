@@ -2,23 +2,25 @@ import type { Request, Response, NextFunction } from 'express';
 
 import { StatusCodes } from 'http-status-codes';
 
-import db from '../db';
+import { Exception, tokenService } from '../services';
 
-import { CustomError, errorMessages, tokenHelpers, checkAuth } from '../utils';
+import { CustomError, errorMessages, tokenHelpers, errorTypes } from '../utils';
 
 const authVerification = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const authorization = req.headers.authorization;
-    console.log('auth', req.headers.deviceid);
-    const token = checkAuth(authorization);
-    const payload = await tokenHelpers.decode(token);
+    const deviceId = req.headers.device_id;
+    if (!req.headers.authorization) {
+      throw Exception.createError(errorTypes.UNAUTHORIZED_USER_LOG_IN);
+    }
+    const { accessToken, refreshToken } = tokenService.checkAuthType(req.headers.authorization);
 
-    req.user = await db.user.findOne({ where: { userId: payload.id } });
-
-    if (!req.user) {
-      throw new CustomError(StatusCodes.NOT_FOUND, errorMessages.USER_NOT_FOUND);
+    if (!refreshToken || !accessToken) {
+      throw Exception.createError(errorTypes.FORBIDDEN_UNKNOWN_AUTHORIZATION_TYPE);
     }
 
+    const payload = await tokenHelpers.decode(accessToken);
+    console.log(payload.id);
+    // console.log('tokens', tokens, 'deviceId', deviceId);
     next();
   } catch (error) {
     next(error);

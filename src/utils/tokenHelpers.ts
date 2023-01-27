@@ -16,9 +16,9 @@ const create = async (id: number, expiresIn: string) => {
         algorithm: config.token.algorithm,
         expiresIn,
       },
-      (err, data) => {
-        if (err) {
-          return reject(err);
+      (error, data) => {
+        if (error) {
+          return reject(error);
         }
         resolve(data);
       },
@@ -34,8 +34,13 @@ const decode = async (token: string) => {
       {
         algorithms: [config.token.algorithm],
       },
-      (err, data) => {
-        if (err) {
+      (error, data) => {
+        if (error) {
+          // eslint-disable-next-line no-console
+          console.log(error.message);
+          if (error.message === 'invalid token') {
+            console.log('suck my dick');
+          }
           return reject(
             new CustomError(StatusCodes.FORBIDDEN, errorMessages.USER_SIGN_IN),
           );

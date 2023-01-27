@@ -11,7 +11,7 @@ routes.post('/sign-in', generatorValidate(version.signIn), authControllers.signI
 
 routes.post('/sign-up', generatorValidate(version.signUp), authControllers.signUp);
 
-routes.get('/me', authMidlleware, authControllers.getById);
+routes.get('/me', authMidlleware, authControllers.getUser);
 
 routes.post('/refresh', authMidlleware, authControllers.refresh);
 

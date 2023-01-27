@@ -1,11 +1,11 @@
 import signIn from './signIn';
 import signUp from './signUp';
-import getById from './getUser';
+import getUser from './getUser';
 import refresh from './refresh';
 
 export default {
   signIn,
   signUp,
-  getById,
+  getUser,
   refresh,
 };

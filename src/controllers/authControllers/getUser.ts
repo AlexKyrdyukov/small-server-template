@@ -18,6 +18,7 @@ type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>
 
 const getMe: HandlerType = async (req, res, next) => {
   try {
+    // console.log(req.user);
     res.status(StatusCodes.OK).json({ user: req.user });
   } catch (error) {
     next(error);

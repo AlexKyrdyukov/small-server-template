@@ -2,11 +2,12 @@ import { StatusCodes } from 'http-status-codes';
 
 import type { ErrorRequestHandler } from 'express';
 
-import { CustomError, logger } from '../utils';
+import { logger } from '../utils';
+import { Exception } from '../services';
 import config from '../config';
 
 const errorHandler: ErrorRequestHandler = (err, req, res, _next) => {
-  if (err instanceof CustomError) {
+  if (err instanceof Exception) {
     return res.status(err.status).json({
       message: err.message,
       errors: err.payload,
