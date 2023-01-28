@@ -26,6 +26,7 @@ type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>
 const signUp: HandlerType = async (req, res, next) => {
   try {
     const deviceId = req.headers.device_id;
+    console.log(deviceId);
     const { email, password } = req.body;
     const existenUser = await userService.existenceCheck(email);
     if (existenUser) {

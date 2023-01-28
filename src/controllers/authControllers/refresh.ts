@@ -2,9 +2,9 @@ import { StatusCodes } from 'http-status-codes';
 
 import type { RequestHandler } from 'express';
 
-import authService from '../../services/tokenSevice';
+import { tokenService, Exception } from '../../services';
 
-import { CustomError, errorMessages } from '../../utils';
+import { errorTypes } from '../../utils';
 
 type BodyType = {
   email: string;
@@ -16,6 +16,7 @@ type ParamsType = Record<string, never>;
 type QueryType = Record<string, never>;
 
 type ResponseType = {
+  message: string;
   accessToken: string;
   refreshToken: string;
 };
@@ -24,15 +25,18 @@ type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>
 
 const refresh: HandlerType = async (req, res, next) => {
   try {
-    const { deviceId } = req.headers;
+    const deviceId = req.headers.device_id;
+    console.log(deviceId);
     if (!deviceId) {
-      throw new CustomError(StatusCodes.UNAUTHORIZED, errorMessages.USER_SIGN_IN);
+      throw Exception.createError(errorTypes.FORBIDDEN_UNKNOWN_AUTHORIZATION_TYPE);
     }
+
+    const token = tokenService.checkAuthType(req.headers.authorization);
     const {
       accessToken, refreshToken,
-    } = await authService.generateTokens(req.user.userId, deviceId as string);
+    } = await tokenService.checkRefresh(deviceId as string, token.refreshToken);
 
-    res.status(StatusCodes.OK).json({ accessToken, refreshToken });
+    res.status(StatusCodes.OK).json({ message: 'tokens succesfully updated', accessToken, refreshToken });
   } catch (error) {
     next(error);
   }

@@ -27,12 +27,10 @@ type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>
 const signIn: HandlerType = async (req, res, next) => {
   try {
     const deviceId = req.headers.device_id;
+    console.log(deviceId);
     const { email, password } = req.body;
 
-    const user = await userService.findUser(email);
-    if (!user) {
-      throw Exception.createError(errorTypes.NOT_FOUND_USER_NOT_FOUND);
-    }
+    const user = await userService.findFullUser(email);
 
     const passwordVerification = hashHelpers.checkPassword(password, user.password);
     delete user.password;

@@ -1,11 +1,16 @@
 import jwt from 'jsonwebtoken';
-import { StatusCodes } from 'http-status-codes';
 
 import type { JwtPayload } from 'jsonwebtoken';
+import { Exception } from '../services';
 
-import { CustomError, errorMessages } from '../utils';
+import { errorTypes } from '../utils';
 
 import config from '../config';
+
+type ErrorType = {
+  message: string;
+  status: number;
+};
 
 const create = async (id: number, expiresIn: string) => {
   return new Promise<string>((resolve, reject) => {
@@ -26,7 +31,7 @@ const create = async (id: number, expiresIn: string) => {
   });
 };
 
-const decode = async (token: string) => {
+const decode = async (token: string, errorType: ErrorType) => {
   return new Promise<JwtPayload['id']>((resolve, reject) => {
     jwt.verify(
       token,
@@ -38,11 +43,13 @@ const decode = async (token: string) => {
         if (error) {
           // eslint-disable-next-line no-console
           console.log(error.message);
-          if (error.message === 'invalid token') {
+          if (error.message === 'jwt expired') {
+            // eslint-disable-next-line no-console
             console.log('suck my dick');
+            throw Exception.createError(errorType);
           }
           return reject(
-            new CustomError(StatusCodes.FORBIDDEN, errorMessages.USER_SIGN_IN),
+            Exception.createError(errorTypes.UNAUTHORIZED_USER_LOG_IN),
           );
         }
         return resolve(data);

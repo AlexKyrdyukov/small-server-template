@@ -1,4 +1,4 @@
-import { tokenHelpers } from '../utils';
+import { errorTypes, tokenHelpers } from '../utils';
 import config from '../config';
 import redis from '../redis';
 import { Exception } from './index';
@@ -6,7 +6,8 @@ import { Exception } from './index';
 const generateTokens = async (userId: number, deviceId: string) => {
   const accessToken = await tokenHelpers.create(userId, config.token.expiresIn.access);
   const refreshToken = await tokenHelpers.create(userId, config.token.expiresIn.refresh);
-  redis.refreshTokens.set(deviceId, refreshToken, config.token.expiresIn.refresh);
+  await redis.refreshTokens.set(deviceId, refreshToken, config.token.expiresIn.refresh);
+  // eslint-disable-next-line no-console
   console.log('access', accessToken);
   return {
     accessToken,
@@ -14,30 +15,38 @@ const generateTokens = async (userId: number, deviceId: string) => {
   };
 };
 
-const checkRefresh = (deviceId: string, tokens: string | string[]) => {
+const checkRefresh = async (deviceId: string, token: string | string[]) => {
   // eslint-disable-next-line no-console
-  console.log(tokens);
-  redis.refreshTokens.get(deviceId as string);
+  console.log('tokenSrevice', deviceId);
+  const existenToken = await redis.refreshTokens.get(deviceId as string);
+  if ((token !== existenToken) || !existenToken) {
+    console.log('error tokenService', 'token', token, 'existenToken', existenToken);
+    throw Exception.createError(errorTypes.FORBIDDEN_USER_LOG_IN);
+  }
+  const { id } = await tokenHelpers.decode(token, errorTypes.FORBIDDEN_USER_LOG_IN);
+  console.log(id);
+  const accessToken = await tokenHelpers.create(id, config.token.expiresIn.access);
+  const refreshToken = await tokenHelpers.create(id, config.token.expiresIn.refresh);
+  return {
+    accessToken,
+    refreshToken,
+  };
 };
 
 const checkAuthType = (authorization: string) => {
-  try {
-    const tokens = authorization.split(',');
-    const [accessToken, refreshToken] = tokens.map((item) => {
-      const authType = item.slice(0, 6);
-      if (authType !== 'Bearer') {
-        throw Exception.createError()
-      }
-      const elem = item.split('.')[1];
-      return elem;
-    });
-    return {
-      accessToken,
-      refreshToken,
-    };
-  } catch (error) {
-    console.log(error);
-  }
+  const tokens = authorization.split(',');
+  const [accessToken, refreshToken] = tokens.map((item) => {
+    const authType = item.slice(0, 6);
+    if (authType !== 'Bearer') {
+      throw Exception.createError(errorTypes.FORBIDDEN_UNKNOWN_AUTHORIZATION_TYPE);
+    }
+    const elem = item.split(' ')[1];
+    return elem;
+  });
+  return {
+    accessToken,
+    refreshToken,
+  };
 };
 
 export default {

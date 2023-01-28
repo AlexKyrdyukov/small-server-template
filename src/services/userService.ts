@@ -1,5 +1,6 @@
 import db, { UsersEntity } from '../db';
-import { hashHelpers } from '../utils';
+import { errorTypes, hashHelpers } from '../utils';
+import Exception from './Exception';
 
 const existenceCheck = async (email: string) => {
   const user = await db.user.findOne({
@@ -7,6 +8,14 @@ const existenceCheck = async (email: string) => {
       email,
     },
   });
+  return user;
+};
+
+const getUser = async (userId: number) => {
+  const user = await db.user.findOne({ where: { userId } });
+  if (!user) {
+    throw Exception.createError(errorTypes.NOT_FOUND_USER_NOT_FOUND);
+  }
   return user;
 };
 
@@ -19,12 +28,15 @@ const createUser = async (email: string, password: string) => {
   return user;
 };
 
-const findUser = async (email: string) => {
+const findFullUser = async (email: string) => {
   const user = await db.user
     .createQueryBuilder('user')
     .addSelect('user.password')
     .where('user.email = :email', { email })
     .getOne();
+  if (!user) {
+    throw Exception.createError(errorTypes.NOT_FOUND_USER_NOT_FOUND);
+  }
   return user;
 };
 
@@ -36,5 +48,6 @@ export default {
   createUser,
   existenceCheck,
   checkPassword,
-  findUser,
+  findFullUser,
+  getUser,
 };
