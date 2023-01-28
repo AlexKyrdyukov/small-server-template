@@ -26,7 +26,6 @@ type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>
 const refresh: HandlerType = async (req, res, next) => {
   try {
     const deviceId = req.headers.device_id;
-    console.log(deviceId);
     if (!deviceId) {
       throw Exception.createError(errorTypes.FORBIDDEN_UNKNOWN_AUTHORIZATION_TYPE);
     }

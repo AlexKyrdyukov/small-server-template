@@ -20,6 +20,10 @@ const getUser = async (userId: number) => {
 };
 
 const createUser = async (email: string, password: string) => {
+  const existenUser = await existenceCheck(email);
+  if (existenUser) {
+    throw Exception.createError(errorTypes.BAD_REQUEST_USER_ALREADY_EXIST);
+  }
   const newUser = new UsersEntity();
   newUser.email = email;
   newUser.password = hashHelpers.hashPassword(password);

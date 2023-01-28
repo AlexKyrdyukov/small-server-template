@@ -4,9 +4,7 @@ import type { RequestHandler } from 'express';
 
 import type { UsersEntity } from '../../db';
 
-import { tokenService, userService, Exception } from '../../services';
-
-import { errorTypes } from '../../utils';
+import { tokenService, userService } from '../../services';
 
 type BodyType = UsersEntity;
 
@@ -26,12 +24,9 @@ type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>
 const signUp: HandlerType = async (req, res, next) => {
   try {
     const deviceId = req.headers.device_id;
-    console.log(deviceId);
+
     const { email, password } = req.body;
-    const existenUser = await userService.existenceCheck(email);
-    if (existenUser) {
-      throw Exception.createError(errorTypes.BAD_REQUEST_USER_ALREADY_EXIST);
-    }
+
     const user = await userService.createUser(email, password);
 
     const {

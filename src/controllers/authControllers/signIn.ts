@@ -27,7 +27,7 @@ type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>
 const signIn: HandlerType = async (req, res, next) => {
   try {
     const deviceId = req.headers.device_id;
-    console.log(deviceId);
+
     const { email, password } = req.body;
 
     const user = await userService.findFullUser(email);

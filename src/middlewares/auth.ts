@@ -9,12 +9,14 @@ const authVerification = async (req: Request, res: Response, next: NextFunction)
     if (!req.headers.authorization) {
       throw Exception.createError(errorTypes.UNAUTHORIZED_USER_LOG_IN);
     }
-    // this func return & refresh token
-    const { accessToken } = tokenService.checkAuthType(req.headers.authorization);
-    console.log('auth after 14 line');
-    const { userId } = await tokenHelpers.decode(accessToken, errorTypes.UNAUTHORIZED_USER_LOG_IN);
-    console.log(userId);
-    req.user = await userService.getUser(userId);
+
+    // this func can return & refresh token
+    const tokens = tokenService.checkAuthType(req.headers.authorization);
+    const { id } = await tokenHelpers.decode(
+      tokens.accessToken, errorTypes.UNAUTHORIZED_USER_LOG_IN,
+    );
+
+    req.user = await userService.getUser(id);
 
     next();
   } catch (error) {

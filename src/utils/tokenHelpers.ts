@@ -41,11 +41,7 @@ const decode = async (token: string, errorType: ErrorType) => {
       },
       (error, data) => {
         if (error) {
-          // eslint-disable-next-line no-console
-          console.log(error.message);
           if (error.message === 'jwt expired') {
-            // eslint-disable-next-line no-console
-            console.log('suck my dick');
             throw Exception.createError(errorType);
           }
           return reject(
