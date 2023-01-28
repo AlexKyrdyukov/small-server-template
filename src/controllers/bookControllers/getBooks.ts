@@ -2,9 +2,8 @@ import type { RequestHandler } from 'express';
 
 import { StatusCodes } from 'http-status-codes';
 
-import db from '../../db';
-
 import type { BooksEntity } from '../../db';
+import { bookService } from '../../services';
 
 type BodyType = Record<string, never>;
 
@@ -20,7 +19,7 @@ type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>
 
 const getBooks: HandlerType = async (req, res, next) => {
   try {
-    const books = await db.books.find({ where: {} });
+    const books = await bookService.getBooks();
     res.status(StatusCodes.OK).json({ books });
   } catch (error) {
     next(error);

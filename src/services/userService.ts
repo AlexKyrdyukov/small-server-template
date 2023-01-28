@@ -1,15 +1,6 @@
 import db, { UsersEntity } from '../db';
-import { errorTypes, hashHelpers } from '../utils';
+import { errorTypes, fileHelpers, hashHelpers } from '../utils';
 import Exception from './Exception';
-
-const existenceCheck = async (email: string) => {
-  const user = await db.user.findOne({
-    where: {
-      email,
-    },
-  });
-  return user;
-};
 
 const getUser = async (userId: number) => {
   const user = await db.user.findOne({ where: { userId } });
@@ -32,6 +23,17 @@ const createUser = async (email: string, password: string) => {
   return user;
 };
 
+const checkById = (user: UsersEntity, frontUserId: number) => {
+  if (user.userId !== +frontUserId) {
+    throw Exception.createError(errorTypes.FORBIDDEN_INVALID_REQUEST);
+  }
+};
+
+const deleteUser = async (user: UsersEntity) => {
+  fileHelpers.removeImage(user.avatar, 'avatars');
+  await db.user.remove(user);
+};
+
 const findFullUser = async (email: string) => {
   const user = await db.user
     .createQueryBuilder('user')
@@ -44,14 +46,30 @@ const findFullUser = async (email: string) => {
   return user;
 };
 
-const checkPassword = () => {
-  return 'dfdfdf';
+const existenceCheck = async (email: string) => {
+  const user = await db.user.findOne({
+    where: {
+      email,
+    },
+  });
+  return user;
+};
+
+const updateUser = async (user: UsersEntity, email: string, fullName: string) => {
+  // eslint-disable-next-line no-param-reassign
+  user.email = email;
+  // eslint-disable-next-line no-param-reassign
+  user.fullName = fullName;
+  const newUser = await db.user.save(user);
+  return newUser;
 };
 
 export default {
+  checkById,
   createUser,
-  existenceCheck,
-  checkPassword,
-  findFullUser,
   getUser,
+  findFullUser,
+  deleteUser,
+  existenceCheck,
+  updateUser,
 };

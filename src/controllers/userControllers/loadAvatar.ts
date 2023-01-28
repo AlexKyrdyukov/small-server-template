@@ -1,10 +1,10 @@
-import type { RequestHandler } from 'express';
-
 import { StatusCodes } from 'http-status-codes';
 
-import db from '../../db';
+import type { RequestHandler } from 'express';
 
-import { CustomError, errorMessages, fileHelpers } from '../../utils';
+import db from '../../db';
+import { userService } from '../../services';
+import { fileHelpers } from '../../utils';
 
 type BodyType = {
   file: string;
@@ -23,18 +23,13 @@ type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>
 
 const loadAvatar: HandlerType = async (req, res, next) => {
   try {
-    if (req.user.userId !== +req.params.userId) {
-      throw new CustomError(StatusCodes.FORBIDDEN, errorMessages.USER_INVALID_REQUEST);
-    }
-    const fileName = fileHelpers.getFileName(req.user.avatar);
-    if (fileName) {
-      await fileHelpers.removeImage(fileName, 'avatars');
-    }
-    req.user.avatar = fileHelpers.writeImage(req.body.file, 'avatars');
+    userService.checkById(req.user, req.params.userId);
+
+    req.user.avatar = fileHelpers.writeImage(req.body.file, 'avatars', req.user.avatar);
 
     await db.user.save(req.user);
 
-    res.status(StatusCodes.OK).json({ message: 'data succesfully updated', avatar: fileHelpers.getUrlImage(req.user.avatar, 'userAvatars') });
+    res.status(StatusCodes.OK).json({ message: 'avatar succesfully updated', avatar: fileHelpers.getUrlImage(req.user.avatar, 'userAvatars') });
   } catch (error) {
     next(error);
   }

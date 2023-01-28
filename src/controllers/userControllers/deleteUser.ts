@@ -1,10 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
-
 import type { RequestHandler } from 'express';
 
-import db from '../../db';
-
-import { CustomError, errorMessages } from '../../utils';
+import { userService } from '../../services';
 
 type BodyType = Record<string, never>;
 
@@ -20,10 +17,9 @@ type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>
 
 const deleteUser: HandlerType = async (req, res, next) => {
   try {
-    if (req.user.userId !== +req.params.userId) {
-      throw new CustomError(StatusCodes.FORBIDDEN, errorMessages.USER_INVALID_REQUEST);
-    }
-    await db.user.remove(req.user);
+    userService.checkById(req.user, req.params.userId);
+
+    await userService.deleteUser(req.user);
     res.sendStatus(StatusCodes.NO_CONTENT);
   } catch (error) {
     next(error);

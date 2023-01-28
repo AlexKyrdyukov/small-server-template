@@ -1,6 +1,6 @@
 import type { RequestHandler } from 'express';
-
 import { StatusCodes } from 'http-status-codes';
+import { userService } from '../../services';
 
 import db from '../../db';
 
@@ -23,9 +23,8 @@ type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>
 
 const updateUserPass: HandlerType = async (req, res, next) => {
   try {
-    if (req.user.userId !== +req.params.userId) {
-      throw new CustomError(StatusCodes.FORBIDDEN, errorMessages.USER_INVALID_REQUEST);
-    }
+    userService.checkById(req.user, req.params.userId);
+
     const { password, newPassword } = req.body;
     const userId = req.user.userId;
     const user = await db.user

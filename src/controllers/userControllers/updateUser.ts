@@ -1,12 +1,8 @@
+import { StatusCodes } from 'http-status-codes';
 import type { RequestHandler } from 'express';
 
-import { StatusCodes } from 'http-status-codes';
-
-import db from '../../db';
-
+import { userService } from '../../services';
 import type { UsersEntity } from '../../db';
-
-import { CustomError, errorMessages } from '../../utils';
 
 type BodyType = {
   fullName: string;
@@ -27,16 +23,13 @@ type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>
 
 const updateUser: HandlerType = async (req, res, next) => {
   try {
-    if (req.user.userId !== +req.params.userId) {
-      throw new CustomError(StatusCodes.FORBIDDEN, errorMessages.USER_INVALID_REQUEST);
-    }
-    req.user.fullName = req.body.fullName;
-    // req.user.avatar = req.body.avatar;
-    req.user.email = req.body.email;
+    const { email, fullName } = req.body;
 
-    await db.user.save(req.user);
+    userService.checkById(req.user, req.params.userId);
 
-    res.status(StatusCodes.OK).json({ message: 'data succesfully updated', user: req.user });
+    const user = await userService.updateUser(req.user, email, fullName);
+
+    res.status(StatusCodes.OK).json({ message: 'data succesfully updated', user });
   } catch (error) {
     next(error);
   }

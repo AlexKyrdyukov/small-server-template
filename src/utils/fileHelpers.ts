@@ -10,8 +10,10 @@ const directories = {
   bookCovers: `${BASE_PATH}/bookCovers`,
 };
 
-const removeImage = (fileName: string, dirName: keyof typeof directories) => {
-  return fs.promises.unlink(`${directories[dirName]}/${fileName}`);
+const removeImage = (fileUrl: string, dirName: keyof typeof directories) => {
+  const fileName = getFileName(fileUrl);
+  // eslint-disable-next-line no-unused-expressions
+  fileName ? fs.promises.unlink(`${directories[dirName]}/${fileName}`) : null;
 };
 
 const getFileName = (fileUrl: string) => {
@@ -26,7 +28,14 @@ const getUrlImage = (image: string, path: string) => {
   return `${config.server.imageUrl}${path}/${image}`;
 };
 
-const writeImage = (fileName: string, dirName: keyof typeof directories) => {
+const writeImage = (
+  fileName: string,
+  dirName: keyof typeof directories,
+  oldImage?: string,
+) => {
+  if (oldImage) {
+    removeImage(oldImage, dirName);
+  }
   const [meta, image] = fileName.split(',');
 
   const avatarName = `${randomUUID()}.${getExtension(meta)}`;
