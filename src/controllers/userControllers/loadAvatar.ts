@@ -29,7 +29,6 @@ const loadAvatar: HandlerType = async (req, res, next) => {
     const user = await userService.saveUser({ avatar }, req.user);
 
     res.status(StatusCodes.OK).json({ message: 'avatar succesfully updated', avatar: fileHelpers.getUrlImage(user.avatar, 'userAvatars') });
-
   } catch (error) {
     next(error);
   }
