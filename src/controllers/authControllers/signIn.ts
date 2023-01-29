@@ -32,12 +32,9 @@ const signIn: HandlerType = async (req, res, next) => {
 
     const user = await userService.findFullUser(email);
 
-    const passwordVerification = hashHelpers.checkPassword(password, user.password);
-    delete user.password;
+    userService.checkPassword(password, user.password);
 
-    if (!passwordVerification) {
-      throw Exception.createError(errorTypes.BAD_REQUEST_INVALID_PASSWORD);
-    }
+    delete user.password;
 
     const {
       refreshToken, accessToken,

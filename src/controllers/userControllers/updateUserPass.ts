@@ -2,10 +2,6 @@ import type { RequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { userService } from '../../services';
 
-import db from '../../db';
-
-import { CustomError, errorMessages, hashHelpers } from '../../utils';
-
 type BodyType = {
   password: string;
   newPassword: string;
@@ -26,18 +22,11 @@ const updateUserPass: HandlerType = async (req, res, next) => {
     userService.checkById(req.user, req.params.userId);
 
     const { password, newPassword } = req.body;
-    const userId = req.user.userId;
-    const user = await db.user
-      .createQueryBuilder('user')
-      .addSelect('user.password')
-      .where('user.userId = :userId', { userId })
-      .getOne();
-    const passwordVerification = hashHelpers.checkPassword(password, user.password);
-    if (!passwordVerification) {
-      throw new CustomError(StatusCodes.BAD_REQUEST, errorMessages.USER_INVALID_PASSWORD);
-    }
-    user.password = hashHelpers.hashPassword(newPassword);
-    await db.user.save(user);
+
+    const user = await userService.findFullUser(req.user.email);
+    userService.checkPassword(password, user.password);
+
+    userService.saveUser({ password: newPassword }, user);
     res.status(StatusCodes.OK).json({ message: 'new password succesfully updated' });
   } catch (error) {
     next(error);

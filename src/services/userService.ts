@@ -10,22 +10,9 @@ const getUser = async (userId: number) => {
   return user;
 };
 
-const createUser = async (email: string, password: string) => {
-  const existenUser = await existenceCheck(email);
-  if (existenUser) {
-    throw Exception.createError(errorTypes.BAD_REQUEST_USER_ALREADY_EXIST);
-  }
-  const newUser = new UsersEntity();
-  newUser.email = email;
-  newUser.password = hashHelpers.hashPassword(password);
-  const user = await db.user.save(newUser);
-  delete user.password;
-  return user;
-};
-
-const checkById = (user: UsersEntity, frontUserId: number) => {
-  if (user.userId !== +frontUserId) {
-    throw Exception.createError(errorTypes.FORBIDDEN_INVALID_REQUEST);
+const checkById = (user: UsersEntity, idFromFront: number) => {
+  if (user.userId !== +idFromFront) {
+    throw Exception.createError(errorTypes.FORBIDDEN_UNKNOWN_AUTHORIZATION_TYPE);
   }
 };
 
@@ -55,21 +42,41 @@ const existenceCheck = async (email: string) => {
   return user;
 };
 
-const updateUser = async (user: UsersEntity, email: string, fullName: string) => {
-  // eslint-disable-next-line no-param-reassign
-  user.email = email;
-  // eslint-disable-next-line no-param-reassign
-  user.fullName = fullName;
-  const newUser = await db.user.save(user);
-  return newUser;
+const saveUser = async (params: Partial<UsersEntity>, user?: UsersEntity) => {
+  let newUser: Partial<UsersEntity> = new UsersEntity();
+  Object.entries(params).forEach(([key, value]) => {
+    if (key === 'password') {
+      // eslint-disable-next-line no-param-reassign
+      value = hashHelpers.hashPassword(value as string);
+    }
+    // eslint-disable-next-line no-unused-expressions
+    user ? newUser = {
+      ...user,
+      [key]: value,
+    } : newUser = {
+      ...newUser,
+      [key]: value,
+    };
+
+  });
+  const savedUser = await db.user.save(newUser);
+  delete savedUser?.password;
+  return savedUser;
+};
+
+const checkPassword = (newPassword: string, oldPassword: string) => {
+  const verification = hashHelpers.checkPassword(newPassword, oldPassword);
+  if (!verification) {
+    throw Exception.createError(errorTypes.BAD_REQUEST_INVALID_PASSWORD);
+  }
 };
 
 export default {
   checkById,
-  createUser,
   getUser,
   findFullUser,
   deleteUser,
   existenceCheck,
-  updateUser,
+  saveUser,
+  checkPassword,
 };

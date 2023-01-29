@@ -23,11 +23,11 @@ type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>
 
 const updateUser: HandlerType = async (req, res, next) => {
   try {
-    const { email, fullName } = req.body;
+    const newValues = req.body;
 
     userService.checkById(req.user, req.params.userId);
 
-    const user = await userService.updateUser(req.user, email, fullName);
+    const user = await userService.saveUser(newValues, req.user);
 
     res.status(StatusCodes.OK).json({ message: 'data succesfully updated', user });
   } catch (error) {

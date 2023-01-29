@@ -25,9 +25,9 @@ const signUp: HandlerType = async (req, res, next) => {
   try {
     const deviceId = req.headers.device_id;
 
-    const { email, password } = req.body;
+    const userData = req.body;
 
-    const user = await userService.createUser(email, password);
+    const user = await userService.saveUser(userData);
 
     const {
       refreshToken, accessToken,
