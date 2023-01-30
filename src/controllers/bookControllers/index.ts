@@ -1,7 +1,9 @@
-import getAll from './getBooks';
-import getById from './getBookById';
+import getAll from './getAll';
+import getById from './getById';
+import filtered from './filtered';
 
 export default {
   getAll,
   getById,
+  filtered,
 };

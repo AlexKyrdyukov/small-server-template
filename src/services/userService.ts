@@ -2,7 +2,7 @@ import db, { UsersEntity } from '../db';
 import { errorTypes, fileHelpers, hashHelpers } from '../utils';
 import Exception from './Exception';
 
-const getUser = async (userId: number) => {
+const getCurrent = async (userId: number) => {
   const user = await db.user.findOne({ where: { userId } });
   if (!user) {
     throw Exception.createError(errorTypes.NOT_FOUND_USER_NOT_FOUND);
@@ -16,12 +16,12 @@ const checkById = (user: UsersEntity, idFromFront: number) => {
   }
 };
 
-const deleteUser = async (user: UsersEntity) => {
+const deleteCurrent = async (user: UsersEntity) => {
   fileHelpers.removeImage(user.avatar, 'avatars');
   await db.user.remove(user);
 };
 
-const findFullUser = async (email: string) => {
+const findFull = async (email: string) => {
   const user = await db.user
     .createQueryBuilder('user')
     .addSelect('user.password')
@@ -33,33 +33,53 @@ const findFullUser = async (email: string) => {
   return user;
 };
 
-const existenceCheck = async (email: string) => {
+const existenceCheck = async (userProperty: string) => {
   const user = await db.user.findOne({
     where: {
-      email,
+      email: userProperty,
     },
   });
-  return user;
+  if (user) {
+    throw Exception.createError(errorTypes.BAD_REQUEST_USER_ALREADY_EXIST);
+  }
 };
 
-const saveUser = async (params: Partial<UsersEntity>, user?: UsersEntity) => {
-  let newUser: Partial<UsersEntity> = new UsersEntity();
+const save = async (user: Partial<UsersEntity>) => {
+  const savedUser = await db.user.save(user);
+  return savedUser;
+};
+
+const create = async (params: Partial<UsersEntity>) => {
+  let user: Partial<UsersEntity> = new UsersEntity();
   Object.entries(params).forEach(([key, value]) => {
     if (key === 'password') {
       // eslint-disable-next-line no-param-reassign
       value = hashHelpers.hashPassword(value as string);
     }
-    // eslint-disable-next-line no-unused-expressions
-    user ? newUser = {
+    // user[key] = value; // can it be done in this way
+    user = {
       ...user,
       [key]: value,
-    } : newUser = {
-      ...newUser,
+    };
+  });
+  const savedUser = await save(user);
+  delete savedUser.password;
+  return savedUser;
+};
+
+const update = async (params: Partial<UsersEntity>, user?: Partial<UsersEntity>) => {
+  let updateUser = user;
+  Object.entries(params).forEach(([key, value]) => {
+    if (key === 'password') {
+      // eslint-disable-next-line no-param-reassign
+      value = hashHelpers.hashPassword(value as string);
+    }
+    updateUser = {
+      ...updateUser,
       [key]: value,
     };
-
   });
-  const savedUser = await db.user.save(newUser);
+  const savedUser = await db.user.save(updateUser);
   delete savedUser?.password;
   return savedUser;
 };
@@ -73,10 +93,12 @@ const checkPassword = (newPassword: string, oldPassword: string) => {
 
 export default {
   checkById,
-  getUser,
-  findFullUser,
-  deleteUser,
+  getCurrent,
+  findFull,
+  deleteCurrent,
   existenceCheck,
-  saveUser,
+  save,
   checkPassword,
+  update,
+  create,
 };

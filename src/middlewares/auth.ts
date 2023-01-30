@@ -16,7 +16,7 @@ const authVerification = async (req: Request, res: Response, next: NextFunction)
       tokens.accessToken, errorTypes.UNAUTHORIZED_USER_LOG_IN,
     );
 
-    req.user = await userService.getUser(id);
+    req.user = await userService.getCurrent(id);
 
     next();
   } catch (error) {

@@ -3,9 +3,7 @@ import { StatusCodes } from 'http-status-codes';
 import type { RequestHandler } from 'express';
 import type { UsersEntity } from '../../db';
 
-import { userService, tokenService, Exception } from '../../services';
-
-import { errorTypes, hashHelpers } from '../../utils';
+import { userService, tokenService } from '../../services';
 
 type BodyType = {
   email: string;
@@ -30,7 +28,7 @@ const signIn: HandlerType = async (req, res, next) => {
 
     const { email, password } = req.body;
 
-    const user = await userService.findFullUser(email);
+    const user = await userService.findFull(email);
 
     userService.checkPassword(password, user.password);
 
