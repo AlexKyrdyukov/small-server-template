@@ -31,6 +31,26 @@ const create = async (id: number, expiresIn: string) => {
   });
 };
 
+const asyncSign = async <P extends object>(
+  payload: P,
+  secret: string,
+  options: jwt.SignOptions,
+) => {
+  return new Promise<string>((resolve, reject) => {
+    jwt.sign(
+      payload,
+      secret,
+      options,
+      (error, data) => {
+        if (error) {
+          return reject(error);
+        }
+        resolve(data);
+      },
+    );
+  });
+};
+
 const decode = async (token: string, errorType: ErrorType) => {
   return new Promise<JwtPayload['id']>((resolve, reject) => {
     jwt.verify(
@@ -49,6 +69,31 @@ const decode = async (token: string, errorType: ErrorType) => {
           );
         }
         return resolve(data);
+      },
+    );
+  });
+};
+
+const asyncVerify = async <P extends object>(
+  token: string,
+  secret: string,
+  options: jwt.VerifyOptions,
+) => {
+  return new Promise<P>((resolve, reject) => {
+    jwt.verify(
+      token,
+      secret,
+      options,
+      (error, data) => {
+        if (error) {
+          if (error.message === 'jwt expired') {
+            throw Exception.createError(errorTypes.UNAUTHORIZED_USER_LOG_IN);
+          }
+          return reject(
+            Exception.createError(errorTypes.UNAUTHORIZED_USER_LOG_IN),
+          );
+        }
+        return resolve(data as P);
       },
     );
   });
