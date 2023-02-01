@@ -1,5 +1,5 @@
 import db, { connectToDb, BooksEntity, GenresEntity } from './src/db';
-import { Logger } from './src/utils';
+import { logger } from './src/utils';
 
 const genres = [
   'Fiction',
@@ -89,7 +89,7 @@ const description =
       book.priceInCent = price[Math.floor(Math.random() * price.length)];
       book.raiting = raiting[Math.floor(Math.random() * raiting.length)];
       book.isInStock = !!(i % 10);
-      book.coverType = [CoverENUM.HARD];
+      book.coverType = CoverENUM.HARD;
       book.bestSeller = !!(i % 5);
       book.description = description;
       book.image = bookCovers[Math.floor(Math.random() * bookCovers.length)];
@@ -118,9 +118,9 @@ const description =
       // eslint-disable-next-line no-await-in-loop
       await db.books.save(book);
     }
-    Logger.info('database seeded successfully');
+    logger.info('database seeded successfully');
     process.exit(0);
   } catch (error) {
-    Logger.error(error);
+    logger.error(error);
   }
 })();

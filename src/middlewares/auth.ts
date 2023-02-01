@@ -12,11 +12,11 @@ const authVerification = async (req: Request, res: Response, next: NextFunction)
 
     // this func can return & refresh token
     const tokens = tokenService.checkAuthType(req.headers.authorization);
-    const { id } = await tokenHelpers.decode(
+    const { userId } = await tokenHelpers.decode(
       tokens.accessToken, errorTypes.UNAUTHORIZED_USER_LOG_IN,
     );
 
-    req.user = await userService.getCurrent(id);
+    req.user = await userService.getCurrent(userId);
 
     next();
   } catch (error) {
