@@ -32,7 +32,7 @@ const signUp: HandlerType = async (req, res, next) => {
 
     const {
       refreshToken, accessToken,
-    } = await tokenService.generateTokens(user.userId, deviceId as string);
+    } = await tokenService.createTokens(String(user.userId), deviceId as string);
 
     res.status(StatusCodes.CREATED).json({ message: 'user successfully registered', user, accessToken, refreshToken });
   } catch (error) {

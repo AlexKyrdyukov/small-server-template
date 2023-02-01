@@ -3,7 +3,7 @@ import config from '../../config';
 import redis from '../../redis';
 import asyncSign from './asyncSign';
 
-const createTokens = async (userId: number, deviceId: string) => {
+const createTokens = async (userId: string, deviceId: string) => {
   const accessToken = await asyncSign(
     { userId },
     config.token.secret,

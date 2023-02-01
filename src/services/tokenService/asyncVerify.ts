@@ -21,6 +21,7 @@ const asyncVerify = async <P extends object>(
             Exception.createError(errorTypes.UNAUTHORIZED_USER_LOG_IN),
           );
         }
+        // return resolve(data as P);
         return resolve(data as P);
       },
     );

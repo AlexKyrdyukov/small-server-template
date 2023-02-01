@@ -5,10 +5,14 @@ import type { RequestHandler } from 'express';
 import { tokenService, Exception } from '../../services';
 
 import { errorTypes } from '../../utils';
+import config from '../../config';
 
 type BodyType = {
-  email: string;
-  password: string;
+  token: string;
+};
+
+type PayloadType = {
+  userId: string;
 };
 
 type ParamsType = Record<string, never>;
@@ -30,10 +34,20 @@ const refresh: HandlerType = async (req, res, next) => {
       throw Exception.createError(errorTypes.FORBIDDEN_UNKNOWN_AUTHORIZATION_TYPE);
     }
 
-    const token = tokenService.checkAuthType(req.headers.authorization);
+    const token = tokenService.checkAuthType(req.body.token);
+
+    tokenService.verifyRefresh(deviceId as string, token);
+
+    const { userId }: PayloadType = await tokenService.asyncVerify(
+      token,
+      config.token.secret,
+      { complete: false },
+    );
+
     const {
-      accessToken, refreshToken,
-    } = await tokenService.checkRefresh(deviceId as string, token.refreshToken);
+      accessToken,
+      refreshToken,
+    } = await tokenService.createTokens(userId, token);
 
     res.status(StatusCodes.OK).json({ message: 'tokens succesfully updated', accessToken, refreshToken });
   } catch (error) {

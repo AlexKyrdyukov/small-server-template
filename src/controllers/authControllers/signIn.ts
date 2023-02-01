@@ -36,8 +36,9 @@ const signIn: HandlerType = async (req, res, next) => {
 
     const {
       refreshToken, accessToken,
-    } = await tokenService.generateTokens(user.userId, deviceId as string);
-
+    } = await tokenService.createTokens(String(user.userId), deviceId as string);
+    // eslint-disable-next-line no-console
+    console.log('aa', refreshToken, 'dfdf', accessToken);
     res.status(StatusCodes.OK).json({ user, accessToken, refreshToken });
   } catch (error) {
     next(error);

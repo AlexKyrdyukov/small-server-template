@@ -23,7 +23,7 @@ type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>
 const getBook: HandlerType = async (req, res, next) => {
   try {
     const { bookId } = req.params;
-    const book = await bookService.getBookById(bookId);
+    const book = await bookService.getById(bookId);
     res.status(StatusCodes.OK).json({ book });
   } catch (error) {
     next(error);
