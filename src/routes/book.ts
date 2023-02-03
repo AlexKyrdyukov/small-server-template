@@ -8,6 +8,6 @@ routes.get('/get-all-books', bookControllers.getAll);
 
 routes.get('/:bookId/book', bookControllers.getById);
 
-routes.get('/filered-books', bookControllers.filtered);
+routes.get('/filtered-books', bookControllers.filtered);
 
 export default routes;

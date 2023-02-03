@@ -16,10 +16,12 @@ type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>
 
 const filtered: HandlerType = async (req, res, next) => {
   try {
-    
+    console.log(req.params);
+    console.log(req.body);
+    console.log(req.query);
   } catch (error) {
-    
+    next(error);
   }
-}
+};
 
 export default filtered;
