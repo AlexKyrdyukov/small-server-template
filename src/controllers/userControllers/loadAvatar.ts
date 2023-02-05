@@ -24,7 +24,7 @@ const loadAvatar: HandlerType = async (req, res, next) => {
   try {
     userService.checkById(req.user, req.params.userId);
 
-    const avatar = fileHelpers.writeImage(req.body.file, 'avatars', req.user.avatar);
+    const avatar = await fileHelpers.writeImage(req.body.file, 'avatars', req.user.avatar);
 
     const user = await userService.update({ avatar }, req.user);
 

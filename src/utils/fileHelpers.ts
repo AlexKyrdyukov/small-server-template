@@ -2,6 +2,7 @@ import fs from 'fs';
 import { randomUUID } from 'crypto';
 
 import config from '../config';
+import logger from './logger';
 
 const BASE_PATH = 'public/uploads';
 
@@ -10,10 +11,14 @@ const directories = {
   bookCovers: `${BASE_PATH}/bookCovers`,
 };
 
-const removeImage = (fileUrl: string, dirName: keyof typeof directories) => {
-  const fileName = getFileName(fileUrl);
-  // eslint-disable-next-line no-unused-expressions
-  fileName ? fs.promises.unlink(`${directories[dirName]}/${fileName}`) : null;
+const removeImage = async (fileUrl: string, dirName: keyof typeof directories) => {
+  try {
+    const fileName = getFileName(fileUrl);
+    // eslint-disable-next-line no-unused-expressions
+    fileName ? await fs.promises.unlink(`${directories[dirName]}/${fileName}`) : null;
+  } catch (error) {
+    logger.error(error);
+  }
 };
 
 const getFileName = (fileUrl: string) => {
@@ -28,20 +33,23 @@ const getUrlImage = (image: string, path: string) => {
   return `${config.server.imageUrl}${path}/${image}`;
 };
 
-const writeImage = (
+const writeImage = async (
   fileName: string,
   dirName: keyof typeof directories,
   oldImage?: string,
 ) => {
-  if (oldImage) {
-    removeImage(oldImage, dirName);
+  try {
+    if (oldImage) {
+      await removeImage(oldImage, dirName);
+    }
+    const [meta, image] = fileName.split(',');
+    const avatarName = `${randomUUID()}.${getExtension(meta)}`;
+    const fileUrl = `${directories[dirName]}/${avatarName}`;
+    await fs.promises.writeFile(fileUrl, convertBase64(image));
+    return avatarName;
+  } catch (error) {
+    logger.error(error);
   }
-  const [meta, image] = fileName.split(',');
-
-  const avatarName = `${randomUUID()}.${getExtension(meta)}`;
-  const fileUrl = `${directories[dirName]}/${avatarName}`;
-  fs.promises.writeFile(fileUrl, convertBase64(image));
-  return avatarName;
 };
 
 const convertBase64 = (image: string) => {
