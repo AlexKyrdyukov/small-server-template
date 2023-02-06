@@ -19,7 +19,7 @@ type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>
 const filtered: HandlerType = async (req, res, next) => {
   try {
     console.log(req.query);
-    const books = await bookService.getAll();
+    const books = await bookService.getFiltered();
     res.status(StatusCodes.OK).json({ books });
   } catch (error) {
     next(error);

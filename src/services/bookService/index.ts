@@ -1,7 +1,7 @@
-import getAll from './getBooks';
+import getFiltered from './getBooks';
 import getById from './getById';
 
 export default {
-  getAll,
+  getFiltered,
   getById,
 };

@@ -1,8 +1,8 @@
 import db from '../../db';
 
-const getAll = async () => {
+const getFiltered = async () => {
   const books = await db.books.find();
   return books;
 };
 
-export default getAll;
+export default getFiltered;
