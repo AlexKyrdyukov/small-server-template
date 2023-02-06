@@ -4,8 +4,8 @@ import { bookControllers } from '../controllers';
 
 const routes = express.Router();
 
-routes.get('/:bookId/book', bookControllers.getById);
-
 routes.get('/filtered-books', bookControllers.filtered);
+
+routes.get('/:bookId', bookControllers.getById);
 
 export default routes;
