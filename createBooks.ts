@@ -82,7 +82,7 @@ const description =
       await db.genres.save(genre);
     });
 
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 40; i++) {
       const book = new BooksEntity();
       book.name = name[Math.floor(Math.random() * name.length)];
       book.author = author[Math.floor(Math.random() * author.length)];

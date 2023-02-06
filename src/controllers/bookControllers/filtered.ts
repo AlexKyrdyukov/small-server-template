@@ -8,13 +8,13 @@ type BodyType = Record<string, never>;
 
 type ParamsType = Record<string, never>;
 
-type QueryType= {
+type QueryType = {
   sortDirection: 'ASC' | 'DESC';
   sortBy: string;
   perPage: number;
   page: number;
   search: string;
-  genres: string[];
+  genres: string;
   minPrice: string;
   maxPrice: string;
 };
