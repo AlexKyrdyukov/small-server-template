@@ -1,6 +1,6 @@
 import * as typeorm from 'typeorm';
 
-import { GenresEntity } from '../../db';
+import { GenresEntity, UsersEntity } from '../../db';
 
 import { fileHelpers, dataHelper } from '../../utils';
 
@@ -59,6 +59,9 @@ class Book {
   @typeorm.ManyToMany(() => GenresEntity, (genre) => genre.books)
   @typeorm.JoinTable()
   genres: GenresEntity[];
+
+  @typeorm.ManyToMany(() => UsersEntity, (user) => user.userId)
+  userLikes: UsersEntity[];
 
   priceInDollar: string;
 

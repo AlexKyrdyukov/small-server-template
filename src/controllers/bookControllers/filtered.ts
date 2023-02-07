@@ -21,7 +21,7 @@ type QueryType = {
 
 type ResponseType = {
   books: BooksEntity[];
-  numberOfPage: string;
+  numberOfPage: number;
   totalBooks: number;
 };
 

@@ -42,7 +42,7 @@ const getFiltered = async (params: ParamsType) => {
   return {
     books,
     totalBooks,
-    numberOfPage: params.page || '1',
+    numberOfPage: (+params.page || 1),
   };
 };
 
