@@ -11,8 +11,8 @@ type ParamsType = Record<string, never>;
 type QueryType = {
   sortDirection: 'ASC' | 'DESC';
   sortBy: string;
-  perPage: number;
-  page: number;
+  perPage: string;
+  page: string;
   search: string;
   genres: string;
   minPrice: string;
@@ -21,7 +21,8 @@ type QueryType = {
 
 type ResponseType = {
   books: BooksEntity[];
-  numberOfBooks: number;
+  numberOfPage: string;
+  totalBooks: number;
 };
 
 type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>;
@@ -29,8 +30,8 @@ type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>
 const filtered: HandlerType = async (req, res, next) => {
   try {
     const params = req.query;
-    const [books, numberOfBooks] = await bookService.getFiltered(params);
-    res.status(StatusCodes.OK).json({ books, numberOfBooks });
+    const { books, totalBooks, numberOfPage } = await bookService.getFiltered(params);
+    res.status(StatusCodes.OK).json({ books, totalBooks, numberOfPage });
   } catch (error) {
     next(error);
   }

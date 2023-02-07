@@ -44,10 +44,6 @@ const config = {
     dbName: mainConfig.POSTGRES_DB_NAME,
     dbLogging: mainConfig.POSTGRES_DB_LOGGING === 'true',
   },
-  dataSettings: {
-    countBook: mainConfig.COUNT_BOOKS_PAGE,
-    currentPage: mainConfig.CURRENT_PAGE,
-  },
 };
 
 export default config;

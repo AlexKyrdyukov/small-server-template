@@ -1,35 +1,49 @@
-import { Between } from 'typeorm';
 import db from '../../db';
-import config from '../../config';
 
-type FiltrersType = {
+type ParamsType = {
   sortDirection: 'ASC' | 'DESC';
   sortBy: string;
-  perPage: number;
-  page: number;
+  perPage: string;
+  page: string;
   search: string;
   genres: string;
   minPrice: string;
   maxPrice: string;
 };
 
-const getFiltered = async (params: FiltrersType) => {
-  // eslint-disable-next-line no-console
-  console.log(params.genres);
-  const books = await db.books
-    .createQueryBuilder('books')
-    .leftJoinAndSelect('books.genres', 'genres', 'genres.genreId = :genreId', { genreId: params.genres })
-    .orderBy(`books.${params.sortBy || 'priceInCent'}`, `${params.sortDirection}`)
-    // .where(
-    // 'books.priceInCent = :priceInCent',
-    // Between((+params.minPrice || 0), ((+params.maxPrice * 10) || 222000)),
-    // )
-    .skip((params.perPage || +config.dataSettings.countBook) * (+params.page - 1))
-    .take(params.perPage || +config.dataSettings.countBook)
-    .getManyAndCount();
+const getFiltered = async (params: ParamsType) => {
+  const take = +params.perPage || 12;
+  const skip = take * ((+params.page || 1) - 1);
+  const minPrice = (Number(params.minPrice) * 100) || 0;
+  const maxPrice = (Number(params.maxPrice) * 100) || 200000;
+  const sortBy = params.sortBy || 'priceInCent';
+  const sortDirection = params.sortDirection || 'ASC';
+  const search = params.search;
 
-  console.log(books[1]);
-  return books;
+  const query = db.books
+    .createQueryBuilder('book')
+    .skip(skip)
+    .take(take)
+    .orderBy(`book.${sortBy}`, sortDirection)
+    .leftJoinAndSelect('book.genres', 'genre')
+    .andWhere('book.priceInCent BETWEEN :minPrice AND :maxPrice', { minPrice, maxPrice });
+
+  if (params.search) {
+    query.andWhere('(book.description ILIKE :search OR book.name ILIKE :search)', { search: `%${search}%` });
+  }
+
+  if (params.genres) {
+    const genresIds = params.genres.split(',').map((i) => +i);
+    query.andWhere('genre.genreId IN (:...genresIds)', { genresIds });
+  }
+
+  const [books, totalBooks] = await query.getManyAndCount();
+
+  return {
+    books,
+    totalBooks,
+    numberOfPage: params.page || '1',
+  };
 };
 
 export default getFiltered;
