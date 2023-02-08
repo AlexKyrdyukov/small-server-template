@@ -1,8 +1,12 @@
 import db from '../../db';
 
 const getById = async (bookId: number) => {
-  const book = await db.books.findOne({ where: { bookId } });
-  return book;
+  const query = await db.books
+    .createQueryBuilder('book')
+    .where('book.bookId = :bookId', { bookId })
+    .leftJoinAndSelect('book.userLikes', 'usersIds')
+    .getOne();
+  return query;
 };
 
 export default getById;

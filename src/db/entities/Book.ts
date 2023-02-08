@@ -60,7 +60,7 @@ class Book {
   @typeorm.JoinTable()
   genres: GenresEntity[];
 
-  @typeorm.ManyToMany(() => UsersEntity, (user) => user.userId)
+  @typeorm.ManyToMany(() => UsersEntity, (user) => user.likeBooks)
   userLikes: UsersEntity[];
 
   priceInDollar: string;

@@ -9,6 +9,6 @@ routes.get('/filtered-books', bookControllers.filtered);
 
 routes.get('/:bookId', bookControllers.getById);
 
-routes.post('/like-book', authMiddleware, bookControllers.like);
+routes.post('/like-book', authMiddleware, bookControllers.favoritBook);
 
 export default routes;

@@ -6,15 +6,13 @@ const getCurrent = async (userId: number) => {
   const query = await db.user
     .createQueryBuilder('user')
     .where('user.userId = :userId', { userId })
-    .leftJoinAndSelect('user.likeBooks', 'likeBooks')
+    .leftJoinAndSelect('user.likeBooks', 'likes')
     .getOne();
-  console.log(query);
+
+  if (!query) {
+    throw Exception.createError(errorTypes.NOT_FOUND_USER_NOT_FOUND);
+  }
   return query;
-  // const user = await db.user.findOne({ where: { userId } });
-  // if (!user) {
-  // throw Exception.createError(errorTypes.NOT_FOUND_USER_NOT_FOUND);
-  // }
-  // return user;
 };
 
 export default getCurrent;

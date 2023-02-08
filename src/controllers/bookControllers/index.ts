@@ -1,9 +1,9 @@
 import getById from './getById';
 import filtered from './filtered';
-import like from './like';
+import favoritBook from './favoritBook';
 
 export default {
   getById,
   filtered,
-  like,
+  favoritBook,
 };

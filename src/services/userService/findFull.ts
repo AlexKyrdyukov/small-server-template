@@ -7,6 +7,7 @@ const findFull = async (email: string) => {
     .createQueryBuilder('user')
     .addSelect('user.password')
     .where('user.email = :email', { email })
+    .leftJoinAndSelect('user.likeBooks', 'bookIds')
     .getOne();
   if (!user) {
     throw Exception.createError(errorTypes.NOT_FOUND_USER_NOT_FOUND);

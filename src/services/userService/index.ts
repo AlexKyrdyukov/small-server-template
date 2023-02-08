@@ -6,8 +6,10 @@ import update from './update';
 import create from './create';
 import checkById from './checkById';
 import checkPassword from './checkPassword';
+import checkLikeBook from './checkLikeBook';
 
 export default {
+  checkLikeBook,
   checkPassword,
   checkById,
   existenceCheck,
