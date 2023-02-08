@@ -1,9 +1,11 @@
 import getById from './getById';
 import filtered from './filtered';
-import favoritBook from './favoritBook';
+import favorit from './favorit';
+import changeRaiting from './changeRaiting';
 
 export default {
+  changeRaiting,
   getById,
   filtered,
-  favoritBook,
+  favorit,
 };

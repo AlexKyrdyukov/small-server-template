@@ -1,6 +1,6 @@
 import * as typeorm from 'typeorm';
 
-import { BooksEntity } from '../../db';
+import { BooksEntity, UsersEntity } from '../../db';
 
 @typeorm.Entity()
 class Raiting {
@@ -16,11 +16,11 @@ class Raiting {
   @typeorm.DeleteDateColumn({ select: false })
   deletedDate: Date;
 
-  @typeorm.Column({ unique: false, nullable: false, type: 'integer' })
-  userId: number;
-
-  @typeorm.OneToMany(() => BooksEntity, (book) => book.bookId)
+  @typeorm.ManyToOne(() => BooksEntity, (book) => book.bookId)
   bookId: number;
+
+  @typeorm.ManyToOne(() => UsersEntity, (user) => user.userId)
+  users: UsersEntity[];
 }
 
 export default Raiting;

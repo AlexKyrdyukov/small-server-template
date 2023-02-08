@@ -1,6 +1,6 @@
 import type { RequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import type { UsersEntity } from '../../db';
+
 import { userService } from '../../services';
 
 type BodyType = Record<string, never>;
@@ -10,21 +10,21 @@ type QueryType = Record<string, never>;
 
 type ResponseType = {
   message: string;
-  user: UsersEntity;
+  raiting: string;
 };
 
 type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>;
 
-const favoritBook: HandlerType = async (req, res, next) => {
+const changeRaiting: HandlerType = async (req, res, next) => {
   try {
-    const { userId, bookId } = req.body;
+    const { userId, bookId, raiting } = req.body;
+    // eslint-disable-next-line no-console
+    console.log(userId, bookId, raiting);
     userService.checkById(req.user, userId);
-    const favoritArray = await userService.checkLikeBook(Number(bookId), req.user.likeBooks);
-    const user = await userService.update({ likeBooks: favoritArray }, req.user);
-    res.status(StatusCodes.OK).json({ message: 'data succesfully updated', user });
+    res.status(StatusCodes.OK).json({ message: 'data succesfully updated', raiting });
   } catch (error) {
     next(error);
   }
 };
 
-export default favoritBook;
+export default changeRaiting;
