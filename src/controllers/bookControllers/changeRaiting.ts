@@ -10,18 +10,18 @@ type QueryType = Record<string, never>;
 
 type ResponseType = {
   message: string;
-  raiting: string;
+  newRaiting: string;
 };
 
 type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>;
 
 const changeRaiting: HandlerType = async (req, res, next) => {
   try {
-    const { userId, bookId, raiting } = req.body;
+    const { userId, bookId, newRaiting } = req.body;
     // eslint-disable-next-line no-console
-    console.log(userId, bookId, raiting);
+    console.log(userId, bookId, newRaiting);
     userService.checkById(req.user, userId);
-    res.status(StatusCodes.OK).json({ message: 'data succesfully updated', raiting });
+    res.status(StatusCodes.OK).json({ message: 'data succesfully updated', newRaiting });
   } catch (error) {
     next(error);
   }

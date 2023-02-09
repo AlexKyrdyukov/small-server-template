@@ -16,11 +16,14 @@ class Raiting {
   @typeorm.DeleteDateColumn({ select: false })
   deletedDate: Date;
 
+  @typeorm.Column({ unique: false, nullable: false, type: 'integer' })
+  raiting: number;
+
   @typeorm.ManyToOne(() => BooksEntity, (book) => book.bookId)
-  bookId: number;
+  bookId: BooksEntity;
 
   @typeorm.ManyToOne(() => UsersEntity, (user) => user.userId)
-  users: UsersEntity[];
+  userId: UsersEntity;
 }
 
 export default Raiting;
