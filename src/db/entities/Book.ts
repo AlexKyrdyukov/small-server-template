@@ -1,6 +1,6 @@
 import * as typeorm from 'typeorm';
 
-import { GenresEntity, UsersEntity } from '../../db';
+import { GenresEntity, RaitingsEntity, UsersEntity } from '../../db';
 
 import { fileHelpers, dataHelper } from '../../utils';
 
@@ -60,8 +60,12 @@ class Book {
   @typeorm.JoinTable()
   genres: GenresEntity[];
 
-  @typeorm.ManyToMany(() => UsersEntity, (user) => user.likeBooks)
-  userLikes: UsersEntity[];
+  @typeorm.ManyToOne(() => UsersEntity, (user) => user.likeBooks)
+  userLikes: UsersEntity;
+
+  @typeorm.OneToMany(() => RaitingsEntity, (raiting) => raiting.bookId)
+  @typeorm.JoinTable()
+  bookRaitings: RaitingsEntity[];
 
   priceInDollar: string;
 

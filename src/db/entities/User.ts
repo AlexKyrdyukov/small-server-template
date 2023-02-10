@@ -1,5 +1,5 @@
 import * as typeorm from 'typeorm';
-import { BooksEntity } from '..';
+import { BooksEntity, RaitingsEntity } from '..';
 
 import { fileHelpers } from '../../utils';
 
@@ -29,9 +29,13 @@ class User {
   @typeorm.Column({ unique: false, nullable: true, type: 'varchar' })
   avatar?: string;
 
-  @typeorm.ManyToMany(() => BooksEntity, (book) => book.userLikes)
-  @typeorm.JoinTable()
+  @typeorm.OneToMany(() => BooksEntity, (book) => book.userLikes)
+  @typeorm.JoinColumn()
   likeBooks: BooksEntity[];
+
+  @typeorm.OneToMany(() => RaitingsEntity, (raiting) => raiting.userId)
+  @typeorm.JoinTable()
+  setRaitings: RaitingsEntity[];
 
   @typeorm.AfterLoad()
   changeData() {

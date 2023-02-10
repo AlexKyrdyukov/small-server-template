@@ -1,7 +1,7 @@
 import type { RequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
-import { userService } from '../../services';
+import { userService, raitingService, bookService } from '../../services';
 
 type BodyType = Record<string, never>;
 
@@ -21,6 +21,12 @@ const changeRaiting: HandlerType = async (req, res, next) => {
     // eslint-disable-next-line no-console
     console.log(userId, bookId, newRaiting);
     userService.checkById(req.user, userId);
+
+    const book = await bookService.getById(bookId);
+
+    console.log(book);
+    const raiting = raitingService.changeRaiting(book, req.user, newRaiting);
+
     res.status(StatusCodes.OK).json({ message: 'data succesfully updated', newRaiting });
   } catch (error) {
     next(error);

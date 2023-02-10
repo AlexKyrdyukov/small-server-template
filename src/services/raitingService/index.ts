@@ -1,7 +1,7 @@
 import changeRaiting from './changeRaiting';
-import getById from './getById';
+// import getById from './getById';
 
 export default {
   changeRaiting,
-  getById,
+  // getById,
 };
