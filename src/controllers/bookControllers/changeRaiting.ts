@@ -24,7 +24,6 @@ const changeRaiting: HandlerType = async (req, res, next) => {
 
     const book = await bookService.getById(bookId);
 
-    console.log(book);
     const raiting = raitingService.changeRaiting(book, req.user, newRaiting);
 
     res.status(StatusCodes.OK).json({ message: 'data succesfully updated', newRaiting });

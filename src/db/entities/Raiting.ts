@@ -19,6 +19,9 @@ class Raiting {
   @typeorm.Column({ unique: false, nullable: false, type: 'integer' })
   raiting: number;
 
+  @typeorm.Column({ unique: false, nullable: false, type: 'integer' })
+  raitingIds: number;
+
   @typeorm.ManyToOne(() => BooksEntity, (book) => book.bookRaitings)
   bookId: BooksEntity;
 
