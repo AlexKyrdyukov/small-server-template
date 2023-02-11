@@ -1,6 +1,6 @@
 import * as typeorm from 'typeorm';
 
-import { GenresEntity, RaitingsEntity, UsersEntity } from '../../db';
+import { CartsEntity, CommentsEnntity, GenresEntity, RatingsEntity, UsersEntity } from '../../db';
 
 import { fileHelpers, dataHelper } from '../../utils';
 
@@ -33,7 +33,7 @@ class Book {
   priceInCent: number;
 
   @typeorm.Column({ unique: false, nullable: false, type: 'integer' })
-  raiting: number;
+  averageRating: number;
 
   @typeorm.Column({ unique: false, nullable: false, type: 'boolean' })
   isInStock: boolean;
@@ -63,9 +63,15 @@ class Book {
   @typeorm.ManyToOne(() => UsersEntity, (user) => user.likeBooks)
   userLikes: UsersEntity;
 
-  @typeorm.OneToMany(() => RaitingsEntity, (raiting) => raiting.bookId)
+  @typeorm.OneToMany(() => RatingsEntity, (rating) => rating.book)
   @typeorm.JoinTable()
-  bookRaitings: RaitingsEntity[];
+  ratingIds: RatingsEntity[];
+
+  @typeorm.ManyToOne(() => CartsEntity, (cart) => cart.books)
+  bookInCart: CartsEntity;
+
+  @typeorm.ManyToOne(() => CommentsEnntity, (comments) => comments.book)
+  comment: CommentsEnntity;
 
   priceInDollar: string;
 

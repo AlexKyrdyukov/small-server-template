@@ -1,11 +1,11 @@
 import * as typeorm from 'typeorm';
 
-import { BooksEntity, UsersEntity } from '../../db';
+import { BooksEntity, UsersEntity } from '..';
 
 @typeorm.Entity()
-class Raiting {
+class Rating {
   @typeorm.PrimaryGeneratedColumn()
-  raitingId: number;
+  ratingId: number;
 
   @typeorm.CreateDateColumn({ select: false })
   createdDate: Date;
@@ -17,14 +17,13 @@ class Raiting {
   deletedDate: Date;
 
   @typeorm.Column({ unique: false, nullable: false, type: 'integer' })
-  raiting: number;
+  rating: number;
 
-  @typeorm.ManyToOne(() => BooksEntity, (book) => book.bookRaitings)
-  bookId: number;
+  @typeorm.ManyToOne(() => BooksEntity, (book) => book.ratingIds)
+  book: BooksEntity;
 
-  @typeorm.ManyToOne(() => UsersEntity, (user) => user.setRaitings)
-  @typeorm.JoinColumn()
-  userId: number;
+  @typeorm.ManyToOne(() => UsersEntity, (user) => user.usersRatings)
+  user: UsersEntity;
 }
 
-export default Raiting;
+export default Rating;

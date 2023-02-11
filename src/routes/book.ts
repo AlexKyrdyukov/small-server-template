@@ -11,6 +11,6 @@ routes.get('/:bookId', bookControllers.getById);
 
 routes.post('/like-book', authMiddleware, bookControllers.favorit);
 
-routes.post('/raiting', authMiddleware, bookControllers.changeRaiting);
+routes.post('/rating', authMiddleware, bookControllers.changeRating);
 
 export default routes;

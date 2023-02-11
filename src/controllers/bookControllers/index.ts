@@ -1,10 +1,10 @@
 import getById from './getById';
 import filtered from './filtered';
 import favorit from './favorit';
-import changeRaiting from './changeRaiting';
+import changeRating from './changeRating';
 
 export default {
-  changeRaiting,
+  changeRating,
   getById,
   filtered,
   favorit,

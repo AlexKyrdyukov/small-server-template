@@ -38,7 +38,7 @@ const name = [
 
 const price = [14250, 8850, 9320, 11300, 130455, 39304];
 
-const raiting = [40, 46, 33, 26, 13, 37];
+const rating = [40, 46, 33, 26, 13, 37];
 
 enum CoverENUM {
   HARD = 'Hardcover',
@@ -87,7 +87,7 @@ const description =
       book.name = name[Math.floor(Math.random() * name.length)];
       book.author = author[Math.floor(Math.random() * author.length)];
       book.priceInCent = price[Math.floor(Math.random() * price.length)];
-      book.raiting = raiting[Math.floor(Math.random() * raiting.length)];
+      book.averageRating = rating[Math.floor(Math.random() * rating.length)];
       book.isInStock = !!(i % 10);
       book.coverType = CoverENUM.HARD;
       book.bestSeller = !!(i % 5);

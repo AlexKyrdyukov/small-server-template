@@ -1,6 +1,6 @@
 import * as typeorm from 'typeorm';
 
-import { BooksEntity } from '../../db';
+import { BooksEntity, UsersEntity } from '../../db';
 
 @typeorm.Entity()
 class Cart {
@@ -16,10 +16,11 @@ class Cart {
   @typeorm.DeleteDateColumn({ select: false })
   deletedDate: Date;
 
-  @typeorm.Column({ unique: false, nullable: false, type: 'integer' })
+  @typeorm.OneToOne(() => UsersEntity, (user) => user.cartId)
   userId: number;
 
-  @typeorm.OneToMany(() => BooksEntity, (book) => book.bookId)
+  @typeorm.OneToMany(() => BooksEntity, (book) => book.bookInCart)
+  @typeorm.JoinColumn()
   books: BooksEntity[];
 }
 

@@ -1,5 +1,5 @@
 import * as typeorm from 'typeorm';
-import { BooksEntity, RaitingsEntity } from '..';
+import { BooksEntity, CartsEntity, CommentsEnntity, RatingsEntity } from '..';
 
 import { fileHelpers } from '../../utils';
 
@@ -33,8 +33,16 @@ class User {
   @typeorm.JoinColumn()
   likeBooks: BooksEntity[];
 
-  @typeorm.OneToMany(() => RaitingsEntity, (raiting) => raiting.userId)
-  setRaitings: RaitingsEntity[];
+  @typeorm.OneToOne(() => CartsEntity, (cart) => cart.userId)
+  @typeorm.JoinColumn()
+  cartId: number;
+
+  @typeorm.OneToMany(() => RatingsEntity, (rating) => rating.user)
+  @typeorm.JoinTable()
+  usersRatings: RatingsEntity[];
+
+  @typeorm.ManyToOne(() => CommentsEnntity, (comment) => comment.userComments)
+  comment: CommentsEnntity;
 
   @typeorm.AfterLoad()
   changeData() {

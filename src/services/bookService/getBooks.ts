@@ -26,7 +26,6 @@ const getFiltered = async (params: ParamsType) => {
     .take(take)
     .orderBy(`book.${sortBy}`, sortDirection)
     .leftJoinAndSelect('book.genres', 'genre')
-    .leftJoinAndSelect('book.userLikes', 'likes')
     .andWhere('book.priceInCent BETWEEN :minPrice AND :maxPrice', { minPrice, maxPrice });
 
   if (params.search) {

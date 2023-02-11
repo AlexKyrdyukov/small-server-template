@@ -3,4 +3,4 @@ export { default as tokenService } from './tokenService';
 export { default as userService } from './userService';
 export { default as bookService } from './bookService';
 export { default as genresService } from './genreService';
-export { default as raitingService } from './raitingService';
+export { default as ratingService } from './ratingService';
