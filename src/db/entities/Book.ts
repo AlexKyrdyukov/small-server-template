@@ -64,7 +64,7 @@ class Book {
   userLikes: UsersEntity;
 
   @typeorm.OneToMany(() => RaitingsEntity, (raiting) => raiting.bookId)
-  @typeorm.JoinColumn()
+  @typeorm.JoinTable()
   bookRaitings: RaitingsEntity[];
 
   priceInDollar: string;

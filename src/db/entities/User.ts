@@ -34,7 +34,6 @@ class User {
   likeBooks: BooksEntity[];
 
   @typeorm.OneToMany(() => RaitingsEntity, (raiting) => raiting.userId)
-  @typeorm.JoinTable()
   setRaitings: RaitingsEntity[];
 
   @typeorm.AfterLoad()

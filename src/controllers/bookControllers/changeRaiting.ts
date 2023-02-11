@@ -21,9 +21,9 @@ const changeRaiting: HandlerType = async (req, res, next) => {
     // eslint-disable-next-line no-console
     console.log(userId, bookId, newRaiting);
     userService.checkById(req.user, userId);
-
+    console.log(24);
     const book = await bookService.getById(bookId);
-
+    // console.log(book);
     const raiting = raitingService.changeRaiting(book, req.user, newRaiting);
 
     res.status(StatusCodes.OK).json({ message: 'data succesfully updated', newRaiting });

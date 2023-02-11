@@ -19,14 +19,12 @@ class Raiting {
   @typeorm.Column({ unique: false, nullable: false, type: 'integer' })
   raiting: number;
 
-  @typeorm.Column({ unique: false, nullable: false, type: 'integer' })
-  raitingIds: number;
-
   @typeorm.ManyToOne(() => BooksEntity, (book) => book.bookRaitings)
-  bookId: BooksEntity;
+  bookId: number;
 
   @typeorm.ManyToOne(() => UsersEntity, (user) => user.setRaitings)
-  userId: UsersEntity;
+  @typeorm.JoinColumn()
+  userId: number;
 }
 
 export default Raiting;
