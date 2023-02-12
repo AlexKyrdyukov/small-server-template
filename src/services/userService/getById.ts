@@ -7,6 +7,7 @@ const getCurrent = async (userId: number) => {
     .createQueryBuilder('user')
     .where('user.userId = :userId', { userId })
     .leftJoinAndSelect('user.likeBooks', 'likes')
+    .leftJoinAndSelect('user.cart', 'cart')
     .getOne();
 
   if (!query) {

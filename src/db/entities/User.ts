@@ -32,9 +32,9 @@ class User {
   @typeorm.OneToMany(() => BooksEntity, (book) => book.userLikes)
   likeBooks: BooksEntity[];
 
-  @typeorm.OneToOne(() => CartsEntity, (cart) => cart.userId)
+  @typeorm.OneToOne(() => CartsEntity, (cart) => cart.user)
   @typeorm.JoinColumn()
-  cartId: number;
+  cart: CartsEntity;
 
   @typeorm.OneToMany(() => RatingsEntity, (rating) => rating.user)
   usersRatings: RatingsEntity[];

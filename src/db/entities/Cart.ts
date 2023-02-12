@@ -16,8 +16,8 @@ class Cart {
   @typeorm.DeleteDateColumn({ select: false })
   deletedDate: Date;
 
-  @typeorm.OneToOne(() => UsersEntity, (user) => user.cartId)
-  userId: number;
+  @typeorm.OneToOne(() => UsersEntity, (user) => user.cart)
+  user: UsersEntity;
 
   @typeorm.OneToMany(() => CartProductsEntity, (cartProduct) => cartProduct.userCart)
   selectedProducts: CartProductsEntity[];

@@ -2,7 +2,7 @@ import * as typeorm from 'typeorm';
 import { BooksEntity, CartsEntity } from '..';
 
 @typeorm.Entity()
-class CartProduct {
+class CartProducts {
   @typeorm.PrimaryGeneratedColumn()
   cartProductId: number;
 
@@ -29,4 +29,4 @@ class CartProduct {
   book: BooksEntity;
 }
 
-export default CartProduct;
+export default CartProducts;

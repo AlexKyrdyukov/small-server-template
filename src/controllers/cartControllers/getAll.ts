@@ -16,6 +16,7 @@ type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>
 const getAll: HandlerType = async (req, res, next) => {
   try {
     const userId = req.query.userId;
+    // eslint-disable-next-line no-console
     console.log(19, 'getAll');
     userService.checkById(req.user, userId);
     const books = await cartService.getAll(userId);

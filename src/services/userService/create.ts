@@ -1,4 +1,5 @@
 import db, { UsersEntity } from '../../db';
+import cartService from '../cartService';
 import hashPassword from './hashPassword';
 
 const create = async (params: Partial<UsersEntity>) => {
@@ -16,6 +17,7 @@ const create = async (params: Partial<UsersEntity>) => {
   });
   const savedUser = await db.user.save(user);
   delete savedUser.password;
+  await cartService.create(savedUser);
   return savedUser;
 };
 
