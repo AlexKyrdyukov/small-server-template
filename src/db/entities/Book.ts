@@ -1,6 +1,6 @@
 import * as typeorm from 'typeorm';
 
-import { CartProductsEntity, CommentsEnntity, GenresEntity, RatingsEntity, UsersEntity } from '../../db';
+import { CartProductsEntity, CommentsEntity, GenresEntity, RatingsEntity, UsersEntity } from '../../db';
 
 import { fileHelpers, dataHelper } from '../../utils';
 
@@ -66,8 +66,8 @@ class Book {
   @typeorm.OneToMany(() => RatingsEntity, (rating) => rating.book)
   ratingIds: RatingsEntity[];
 
-  @typeorm.ManyToOne(() => CommentsEnntity, (comments) => comments.book)
-  comment: CommentsEnntity;
+  @typeorm.ManyToOne(() => CommentsEntity, (comments) => comments.book)
+  comment: CommentsEntity;
 
   @typeorm.OneToOne(() => CartProductsEntity, (cartProduct) => cartProduct.book)
   productCart: CartProductsEntity;

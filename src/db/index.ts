@@ -14,7 +14,7 @@ export { default as BooksEntity } from './entities/Book';
 export { default as GenresEntity } from './entities/Genres';
 export { default as CartsEntity } from './entities/Cart';
 export { default as RatingsEntity } from './entities/Rating';
-export { default as CommentsEnntity } from './entities/Comments';
+export { default as CommentsEntity } from './entities/Comments';
 export { default as CartProductsEntity } from './entities/CartProduct';
 
 export default {

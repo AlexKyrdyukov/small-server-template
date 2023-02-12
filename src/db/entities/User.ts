@@ -1,5 +1,5 @@
 import * as typeorm from 'typeorm';
-import { BooksEntity, CartsEntity, CommentsEnntity, RatingsEntity } from '..';
+import { BooksEntity, CartsEntity, CommentsEntity, RatingsEntity } from '..';
 
 import { fileHelpers } from '../../utils';
 
@@ -39,8 +39,8 @@ class User {
   @typeorm.OneToMany(() => RatingsEntity, (rating) => rating.user)
   usersRatings: RatingsEntity[];
 
-  @typeorm.ManyToOne(() => CommentsEnntity, (comment) => comment.userComments)
-  comment: CommentsEnntity;
+  @typeorm.ManyToOne(() => CommentsEntity, (comment) => comment.userComments)
+  comment: CommentsEntity;
 
   @typeorm.AfterLoad()
   changeData() {
