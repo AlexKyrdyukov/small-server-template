@@ -6,6 +6,7 @@ import Genres from './entities/Genres';
 import Cart from './entities/Cart';
 import Rating from './entities/Rating';
 import Comment from './entities/Comments';
+import CartProduct from './entities/CartProduct';
 
 export { default as connectToDb } from './connectToDb';
 export { default as UsersEntity } from './entities/User';
@@ -14,6 +15,7 @@ export { default as GenresEntity } from './entities/Genres';
 export { default as CartsEntity } from './entities/Cart';
 export { default as RatingsEntity } from './entities/Rating';
 export { default as CommentsEnntity } from './entities/Comments';
+export { default as CartProductsEntity } from './entities/CartProduct';
 
 export default {
   user: AppDataSource.getRepository(User),
@@ -22,4 +24,5 @@ export default {
   cart: AppDataSource.getRepository(Cart),
   rating: AppDataSource.getRepository(Rating),
   comment: AppDataSource.getRepository(Comment),
+  cartProduct: AppDataSource.getRepository(CartProduct),
 };

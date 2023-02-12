@@ -13,6 +13,4 @@ routes.post('/like-book', authMiddleware, bookControllers.favorit);
 
 routes.post('/rating', authMiddleware, bookControllers.changeRating);
 
-routes.post('/add-to-cart', authMiddleware, bookControllers.addToCart);
-
 export default routes;

@@ -12,7 +12,7 @@ type ResponseType = {
 
 type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>;
 
-const addToCart: HandlerType = async (req, res, next) => {
+const createComment: HandlerType = async (req, res, next) => {
   try {
     // eslint-disable-next-line no-console
     console.log(req.body, req.params, req.query);
@@ -22,4 +22,4 @@ const addToCart: HandlerType = async (req, res, next) => {
   }
 };
 
-export default addToCart;
+export default createComment;

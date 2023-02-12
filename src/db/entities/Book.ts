@@ -1,6 +1,6 @@
 import * as typeorm from 'typeorm';
 
-import { CartsEntity, CommentsEnntity, GenresEntity, RatingsEntity, UsersEntity } from '../../db';
+import { CartProductsEntity, CommentsEnntity, GenresEntity, RatingsEntity, UsersEntity } from '../../db';
 
 import { fileHelpers, dataHelper } from '../../utils';
 
@@ -64,14 +64,13 @@ class Book {
   userLikes: UsersEntity;
 
   @typeorm.OneToMany(() => RatingsEntity, (rating) => rating.book)
-  // // @typeorm. // JoinTable()
   ratingIds: RatingsEntity[];
-
-  @typeorm.ManyToOne(() => CartsEntity, (cart) => cart.books)
-  bookInCart: CartsEntity;
 
   @typeorm.ManyToOne(() => CommentsEnntity, (comments) => comments.book)
   comment: CommentsEnntity;
+
+  @typeorm.OneToOne(() => CartProductsEntity, (cartProduct) => cartProduct.book)
+  productCart: CartProductsEntity;
 
   priceInDollar: string;
 

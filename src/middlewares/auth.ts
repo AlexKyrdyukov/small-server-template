@@ -15,7 +15,6 @@ const authVerification = async (req: Request, res: Response, next: NextFunction)
       throw Exception.createError(errorTypes.UNAUTHORIZED_USER_LOG_IN);
     }
 
-    // this func can return & refresh token
     const token = tokenService.checkAuthType(req.headers.authorization);
     const payload: PayloadType = await tokenService.asyncVerify(
       token,

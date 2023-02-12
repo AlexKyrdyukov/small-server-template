@@ -13,7 +13,6 @@ class Comment {
   userComments: UsersEntity;
 
   @typeorm.OneToMany(() => BooksEntity, (book) => book.comment)
-  // @typeorm.JoinColumn()
   book: BooksEntity;
 }
 
