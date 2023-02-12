@@ -1,9 +1,9 @@
-import changeRating from './update';
+import changeValue from './changeValue';
 import getById from './getById';
 import create from './create';
 
 export default {
-  changeRating,
+  changeValue,
   getById,
   create,
 };

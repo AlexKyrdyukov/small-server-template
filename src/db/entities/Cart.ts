@@ -20,7 +20,7 @@ class Cart {
   userId: number;
 
   @typeorm.OneToMany(() => BooksEntity, (book) => book.bookInCart)
-  @typeorm.JoinColumn()
+  // @typeorm.JoinColumn()
   books: BooksEntity[];
 }
 

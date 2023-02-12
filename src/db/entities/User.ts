@@ -30,7 +30,7 @@ class User {
   avatar?: string;
 
   @typeorm.OneToMany(() => BooksEntity, (book) => book.userLikes)
-  @typeorm.JoinColumn()
+  // @typeorm.JoinColumn()
   likeBooks: BooksEntity[];
 
   @typeorm.OneToOne(() => CartsEntity, (cart) => cart.userId)
@@ -38,7 +38,7 @@ class User {
   cartId: number;
 
   @typeorm.OneToMany(() => RatingsEntity, (rating) => rating.user)
-  @typeorm.JoinTable()
+  // @typeorm.JoinTable()
   usersRatings: RatingsEntity[];
 
   @typeorm.ManyToOne(() => CommentsEnntity, (comment) => comment.userComments)

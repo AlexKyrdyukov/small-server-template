@@ -64,7 +64,7 @@ class Book {
   userLikes: UsersEntity;
 
   @typeorm.OneToMany(() => RatingsEntity, (rating) => rating.book)
-  @typeorm.JoinTable()
+  // // @typeorm. // JoinTable()
   ratingIds: RatingsEntity[];
 
   @typeorm.ManyToOne(() => CartsEntity, (cart) => cart.books)
