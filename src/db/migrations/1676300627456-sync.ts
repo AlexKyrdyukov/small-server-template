@@ -19,7 +19,7 @@ export class sync1676300627456 implements MigrationInterface {
         `);
         await queryRunner.query(`
             ALTER TABLE "cart_products"
-            ADD "bookId" integer NOT NULL
+            RENAME COLUMN "bookIdentificator" TO "bookId"
         `);
         await queryRunner.query(`
             ALTER TABLE "cart_products_cart_book"
@@ -39,7 +39,7 @@ export class sync1676300627456 implements MigrationInterface {
             ALTER TABLE "cart_products_cart_book" DROP CONSTRAINT "FK_3d5cbfa9835babedfa191b6ab66"
         `);
         await queryRunner.query(`
-            ALTER TABLE "cart_products" DROP COLUMN "bookId"
+            ALTER TABLE "cart_products" RENAME COLUMN "bookId" TO "bookIdentificator"
         `);
         await queryRunner.query(`
             DROP INDEX "public"."IDX_237ae40e1f288e6d8103a38299"

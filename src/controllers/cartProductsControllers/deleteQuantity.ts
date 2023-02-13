@@ -14,8 +14,9 @@ type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>
 
 const deleteQuantity: HandlerType = async (req, res, next) => {
   try {
-    // eslint-disable-next-line no-console
-    console.log(req.body, req.params, req.query);
+    const userId = req.params.userId;
+    const { bookId, cartId } = req.query;
+
     res.status(StatusCodes.OK).json({ message: 'data succesfully updated' });
   } catch (error) {
     next(error);

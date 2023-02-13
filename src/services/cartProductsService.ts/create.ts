@@ -3,7 +3,7 @@ import db, { CartProductsEntity } from '../../db';
 import { cartService, bookService } from '../../services';
 
 const create = async (bookId: number, user: UsersEntity) => {
-  const cart = await cartService.getById(user.cart.cartId);
+  const cart = await cartService.getAll(user.cart.cartId);
   const index = cart.selectedProducts.findIndex((item) => item.bookId === bookId);
   if (index !== -1) {
     return cart.selectedProducts;

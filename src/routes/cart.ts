@@ -12,10 +12,10 @@ routes.get('/get-all', cartControllers.getAll);
 
 routes.post('/:userId/adding-quantity', cartControllers.addingQuantity);
 
-routes.post('/:userId/delete-quantity', cartControllers.deleteQuantity);
+routes.delete('/:userId/delete-quantity', cartControllers.deleteQuantity);
 
 routes.post('/:userId/add-book-to-cart', cartControllers.addById);
 
-routes.delete('/:userId/delete-from-to-cart', cartControllers.deleteById);
+routes.delete('/:userId/delete-from-cart', cartControllers.deleteById);
 
 export default routes;

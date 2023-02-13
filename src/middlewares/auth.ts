@@ -16,6 +16,7 @@ const authVerification = async (req: Request, res: Response, next: NextFunction)
     }
 
     const token = tokenService.checkAuthType(req.headers.authorization);
+
     const payload: PayloadType = await tokenService.asyncVerify(
       token,
       config.token.secret,

@@ -4,6 +4,6 @@ import getAll from './getAll';
 
 export default {
   create,
-  getById,
+  // getById,
   getAll,
 };
