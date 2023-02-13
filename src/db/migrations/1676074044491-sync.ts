@@ -14,11 +14,11 @@ export class sync1676074044491 implements MigrationInterface {
         await queryRunner.query(`
             ALTER TABLE "book" DROP COLUMN "userIdUserId"
         `);
-        await queryRunner.query(`
-            ALTER TABLE "raiting"
-            ALTER COLUMN "userId"
-            SET NOT NULL
-        `);
+        // await queryRunner.query(`
+        //     ALTER TABLE "raiting"
+        //     ALTER COLUMN "userId"
+        //     SET NOT NULL
+        // `);
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {

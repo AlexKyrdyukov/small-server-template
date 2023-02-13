@@ -15,17 +15,17 @@ class CartProducts {
   @typeorm.DeleteDateColumn({ select: false })
   deletedDate: Date;
 
-  @typeorm.Column({ unique: false, nullable: false, type: 'integer' })
+  @typeorm.Column({ nullable: false, type: 'integer' })
   countBook: number;
 
-  @typeorm.Column({ unique: true, nullable: false, type: 'integer' })
+  @typeorm.Column({ nullable: false, type: 'integer' })
   bookId: number;
 
   @typeorm.ManyToOne(() => CartsEntity, (cart) => cart.selectedProducts)
   userCart: CartsEntity;
 
-  @typeorm.OneToOne(() => BooksEntity, (book) => book.productCart)
-  @typeorm.JoinColumn()
+  @typeorm.ManyToOne(() => BooksEntity, (book) => book.productCart)
+  @typeorm.JoinTable()
   book: BooksEntity;
 }
 

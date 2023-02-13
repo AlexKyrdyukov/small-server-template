@@ -6,7 +6,7 @@ export class sync1676071701069 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`
             ALTER TABLE "raiting"
-            ADD "raitingraiting" integer NOT NULL
+            RENAME COLUMN "raiting" TO "raitingraiting"
         `);
     }
 

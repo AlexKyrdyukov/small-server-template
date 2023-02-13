@@ -1,6 +1,8 @@
 import { StatusCodes } from 'http-status-codes';
 import type { RequestHandler } from 'express';
-import { cartService, userService } from '../../services';
+import { cartProductsService, cartService, userService } from '../../services';
+import type { CartsEntity } from '../../db';
+import CartProducts from 'src/db/entities/CartProducts';
 
 type BodyType = Record<string, never>;
 
@@ -9,6 +11,7 @@ type QueryType = Record<string, never>;
 
 type ResponseType = {
   message: string;
+  books: CartsEntity;
 };
 
 type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>;
@@ -19,12 +22,13 @@ const getAll: HandlerType = async (req, res, next) => {
     // eslint-disable-next-line no-console
     console.log(19, 'getAll');
     userService.checkById(req.user, userId);
-    const books = await cartService.getAll(userId);
+    const books = await cartService.getAll(req.user.cart.cartId);
     // eslint-disable-next-line no-console
     console.log(req.body, req.params, req.query);
+    // const books = await cartProductsService.getAll(req.user.cart.cartId);
     // eslint-disable-next-line no-console
     console.log(books);
-    res.status(StatusCodes.OK).json({ message: 'data succesfully updated' });
+    res.status(StatusCodes.OK).json({ message: 'data succesfully updated', books });
   } catch (error) {
     next(error);
   }

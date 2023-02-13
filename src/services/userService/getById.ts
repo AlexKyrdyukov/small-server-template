@@ -9,7 +9,6 @@ const getCurrent = async (userId: number) => {
     .leftJoinAndSelect('user.likeBooks', 'likes')
     .leftJoinAndSelect('user.cart', 'cart')
     .getOne();
-
   if (!query) {
     throw Exception.createError(errorTypes.NOT_FOUND_USER_NOT_FOUND);
   }

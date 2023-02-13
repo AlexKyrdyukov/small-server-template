@@ -1,12 +1,14 @@
 import db from '../../db';
 
-const getUserCart = async (userId: string) => {
+const getById = async (cartId: number) => {
+  console.log('4userId', cartId);
   const cart = await db.cart
     .createQueryBuilder('cart')
+    .where('cart.cartId = :cartId', { cartId })
     .leftJoinAndSelect('cart.user', 'user')
-    .where('cart.cartId = :userId', { userId: 3 })
+    .leftJoinAndSelect('cart.selectedProducts', 'selectedProducts')
     .getOne();
   return cart;
 };
 
-export default getUserCart;
+export default getById;

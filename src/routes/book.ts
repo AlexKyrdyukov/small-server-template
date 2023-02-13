@@ -9,7 +9,7 @@ routes.get('/filtered-books', bookControllers.filtered);
 
 routes.get('/:bookId', bookControllers.getById);
 
-routes.post('/like-book', authMiddleware, bookControllers.favorit);
+routes.post('/like-book', authMiddleware, bookControllers.favorites);
 
 routes.post('/rating', authMiddleware, bookControllers.changeRating);
 

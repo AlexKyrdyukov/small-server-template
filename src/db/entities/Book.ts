@@ -60,7 +60,7 @@ class Book {
   @typeorm.JoinTable()
   genres: GenresEntity[];
 
-  @typeorm.ManyToOne(() => UsersEntity, (user) => user.likeBooks)
+  @typeorm.ManyToMany(() => UsersEntity, (user) => user.likeBooks)
   userLikes: UsersEntity;
 
   @typeorm.OneToMany(() => RatingsEntity, (rating) => rating.book)
@@ -69,8 +69,8 @@ class Book {
   @typeorm.ManyToOne(() => CommentsEntity, (comments) => comments.book)
   comment: CommentsEntity;
 
-  @typeorm.OneToOne(() => CartProductsEntity, (cartProduct) => cartProduct.book)
-  productCart: CartProductsEntity;
+  @typeorm.OneToMany(() => CartProductsEntity, (cartProduct) => cartProduct.book)
+  productCart: CartProductsEntity[];
 
   priceInDollar: string;
 

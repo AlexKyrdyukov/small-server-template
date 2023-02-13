@@ -1,18 +1,23 @@
+import type { UsersEntity } from '../../db';
 import db, { CartProductsEntity } from '../../db';
 import { cartService, bookService } from '../../services';
 
-const create = async (bookId: number, userId: string) => {
-  const book = await bookService.getById(bookId);
-  const userCart = await cartService.getById(userId);
-  console.log('userCart', userCart);
+const create = async (bookId: number, user: UsersEntity) => {
+  const cart = await cartService.getById(user.cart.cartId);
+  const index = cart.selectedProducts.findIndex((item) => item.bookId === bookId);
+  if (index !== -1) {
+    return cart.selectedProducts;
+  }
   const cartProduct = new CartProductsEntity();
+  const book = await bookService.getById(bookId);
   cartProduct.countBook = 1;
   cartProduct.bookId = book.bookId;
   cartProduct.book = book;
-  cartProduct.userCart = userCart;
+  cartProduct.userCart = user.cart;
   await db.cartProducts.save(cartProduct);
-  userCart.selectedProducts = [cartProduct];
-  await db.cart.save(userCart);
+  cart.selectedProducts = [...cart.selectedProducts, cartProduct];
+  await db.cart.save(cart);
+  return cart.selectedProducts;
 };
 
 export default create;

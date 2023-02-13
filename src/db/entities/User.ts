@@ -29,7 +29,8 @@ class User {
   @typeorm.Column({ unique: false, nullable: true, type: 'varchar' })
   avatar?: string;
 
-  @typeorm.OneToMany(() => BooksEntity, (book) => book.userLikes)
+  @typeorm.ManyToMany(() => BooksEntity, (book) => book.userLikes)
+  @typeorm.JoinTable()
   likeBooks: BooksEntity[];
 
   @typeorm.OneToOne(() => CartsEntity, (cart) => cart.user)
