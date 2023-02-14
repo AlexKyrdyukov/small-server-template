@@ -5,6 +5,7 @@ const getAll = async (cartId: number) => {
     .createQueryBuilder('cart')
     .where('cart.cartId = :cartId', { cartId })
     .leftJoinAndSelect('cart.selectedProducts', 'products')
+    .orderBy('products.createdDate', 'ASC')
     .leftJoinAndSelect('products.book', 'book')
     .getOne();
   return query;

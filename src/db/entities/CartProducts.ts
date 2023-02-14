@@ -6,13 +6,13 @@ class CartProducts {
   @typeorm.PrimaryGeneratedColumn()
   cartProductId: number;
 
-  @typeorm.CreateDateColumn({ select: false })
+  @typeorm.CreateDateColumn()
   createdDate: Date;
 
-  @typeorm.UpdateDateColumn({ select: false })
+  @typeorm.UpdateDateColumn()
   updatedDate: Date;
 
-  @typeorm.DeleteDateColumn({ select: false })
+  @typeorm.DeleteDateColumn()
   deletedDate: Date;
 
   @typeorm.Column({ nullable: false, type: 'integer' })

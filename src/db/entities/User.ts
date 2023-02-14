@@ -40,7 +40,7 @@ class User {
   @typeorm.OneToMany(() => RatingsEntity, (rating) => rating.user)
   usersRatings: RatingsEntity[];
 
-  @typeorm.OneToMany(() => CommentsEntity, (comment) => comment.userComments)
+  @typeorm.OneToMany(() => CommentsEntity, (comment) => comment.user)
   comments: CommentsEntity[];
 
   @typeorm.AfterLoad()
