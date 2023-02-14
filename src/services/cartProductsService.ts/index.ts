@@ -1,7 +1,13 @@
 import create from './create';
-import deleteBook from './deleteProduct';
+import decreaseQuantity from './decreadeQuantity';
+import addingCount from './addingQuantity';
+import updated from './update';
+import deleteById from './deleteById';
 
 export default {
   create,
-  deleteBook,
+  decreaseQuantity,
+  addingCount,
+  updated,
+  deleteById,
 };

@@ -66,8 +66,8 @@ class Book {
   @typeorm.OneToMany(() => RatingsEntity, (rating) => rating.book)
   ratingIds: RatingsEntity[];
 
-  @typeorm.ManyToOne(() => CommentsEntity, (comments) => comments.book)
-  comment: CommentsEntity;
+  @typeorm.OneToMany(() => CommentsEntity, (comments) => comments.book)
+  comments: CommentsEntity[];
 
   @typeorm.OneToMany(() => CartProductsEntity, (cartProduct) => cartProduct.book)
   productCart: CartProductsEntity[];

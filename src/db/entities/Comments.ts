@@ -9,10 +9,10 @@ class Comment {
   @typeorm.Column({ unique: false, nullable: false, type: 'varchar' })
   commentText: string;
 
-  @typeorm.OneToMany(() => UsersEntity, (user) => user.comment)
+  @typeorm.ManyToOne(() => UsersEntity, (user) => user.comments)
   userComments: UsersEntity;
 
-  @typeorm.OneToMany(() => BooksEntity, (book) => book.comment)
+  @typeorm.ManyToOne(() => BooksEntity, (book) => book.comments)
   book: BooksEntity;
 }
 

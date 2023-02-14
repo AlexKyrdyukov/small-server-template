@@ -12,7 +12,7 @@ routes.get('/get-all', cartControllers.getAll);
 
 routes.post('/:userId/adding-quantity', cartControllers.addingQuantity);
 
-routes.delete('/:userId/delete-quantity', cartControllers.deleteQuantity);
+routes.delete('/:userId/delete-quantity', cartControllers.decreaseQuantity);
 
 routes.post('/:userId/add-book-to-cart', cartControllers.addById);
 

@@ -1,8 +1,8 @@
 import { StatusCodes } from 'http-status-codes';
 import type { RequestHandler } from 'express';
+import CartProducts from 'src/db/entities/CartProducts';
 import { cartProductsService, cartService, userService } from '../../services';
 import type { CartsEntity } from '../../db';
-import CartProducts from 'src/db/entities/CartProducts';
 
 type BodyType = Record<string, never>;
 

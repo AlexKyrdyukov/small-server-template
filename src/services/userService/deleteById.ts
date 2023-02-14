@@ -3,7 +3,7 @@ import db from '../../db';
 import { fileHelpers } from '../../utils';
 
 const deleteById = async (user: UsersEntity) => {
-  fileHelpers.removeImage(user.avatar, 'avatars');
+  await fileHelpers.removeImage(user.avatar, 'avatars');
   await db.user.remove(user);
 };
 
