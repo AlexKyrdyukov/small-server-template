@@ -8,8 +8,9 @@ const create = async (bookId: number, comment: string, user: UsersEntity) => {
   newComment.commentText = comment;
   newComment.book = book;
   newComment.user = user;
-  db.comment.save(newComment);
-  return book;
+  await db.comment.save(newComment);
+  // const updateBook = await bookService.getById(bookId);
+  // return updateBook.comments;
 };
 
 export default create;
