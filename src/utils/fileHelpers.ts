@@ -42,20 +42,16 @@ const writeImage = async (
   dirName: keyof typeof directories,
   oldImage?: string,
 ) => {
-  try {
-    if (oldImage) {
-      await removeImage(oldImage, dirName);
-    }
-
-    const [meta, image] = fileName.split(',');
-    const avatarName = `${randomUUID()}.${getExtension(meta)}`;
-    const fileUrl = `${directories[dirName]}/${avatarName}`;
-
-    await fs.promises.writeFile(fileUrl, convertBase64(image));
-    return avatarName;
-  } catch (error) {
-    logger.error(error);
+  if (oldImage) {
+    await removeImage(oldImage, dirName);
   }
+
+  const [meta, image] = fileName.split(',');
+  const avatarName = `${randomUUID()}.${getExtension(meta)}`;
+  const fileUrl = `${directories[dirName]}/${avatarName}`;
+
+  await fs.promises.writeFile(fileUrl, convertBase64(image));
+  return avatarName;
 };
 
 const convertBase64 = (image: string) => {

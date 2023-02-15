@@ -12,6 +12,23 @@ const getCurrent = async (userId: number) => {
     .leftJoinAndSelect('products.book', 'book')
     .orderBy('products.createdDate', 'ASC')
     .getOne();
+
+  // const user = await db.user.findOne({
+  //   where: {
+  //     userId,
+  //   },
+  //   relations: {
+  //     likeBooks: true,
+  //     cart: {
+  //       selectedProducts: {
+  //         book: true,
+  //       },
+  //     },
+  //   },
+  //   order: {
+  //     createdDate: 'ASC',
+  //   },
+  // });
   if (!query) {
     throw Exception.createError(errorTypes.NOT_FOUND_USER_NOT_FOUND);
   }

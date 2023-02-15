@@ -6,6 +6,7 @@ const getById = async (bookId: number) => {
     .leftJoinAndSelect('comment.user', 'user')
     .leftJoin('comment.book', 'book')
     .where('book.bookId = :bookId', { bookId })
+    .orderBy('comment.createdDate', 'ASC')
     .getMany();
 
   return query;
