@@ -1,7 +1,7 @@
 import express from 'express';
 
-import authMidlleware from '../middlewares/auth';
 import { commentControllers } from '../controllers';
+import authMidlleware from '../middlewares/auth';
 
 const routes = express.Router();
 

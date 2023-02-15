@@ -1,5 +1,6 @@
 import * as typeorm from 'typeorm';
-import { UsersEntity, BooksEntity } from '..';
+
+import { UsersEntity, BooksEntity } from '../../db';
 
 @typeorm.Entity()
 class Comment {

@@ -2,8 +2,8 @@ import express from 'express';
 import requireDirectory from 'require-directory';
 import { paramCase } from 'change-case';
 
-import type { RequireDirectoryResult } from 'require-directory';
 import type { Router } from 'express';
+import type { RequireDirectoryResult } from 'require-directory';
 
 type RouteType = {
   default?: Router;

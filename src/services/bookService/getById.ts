@@ -8,6 +8,7 @@ const getById = async (bookId: number) => {
     .leftJoinAndSelect('comments.user', 'user')
     .orderBy('comments.createdDate', 'ASC')
     .getOne();
+
   return query;
 };
 

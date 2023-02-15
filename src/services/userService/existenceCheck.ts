@@ -1,6 +1,6 @@
 import db from '../../db';
-import { Exception } from '../../services';
 import { errorTypes } from '../../utils';
+import { Exception } from '../../services';
 
 const existenceCheck = async (userProperty: string) => {
   const user = await db.user.findOne({

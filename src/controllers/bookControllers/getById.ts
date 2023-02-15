@@ -1,16 +1,13 @@
 import { StatusCodes } from 'http-status-codes';
 
 import type { RequestHandler } from 'express';
-
 import type { BooksEntity } from '../../db';
 
 import { bookService } from '../../services';
 
 type BodyType = Record<string, never>;
 
-type ParamsType = {
-  bookId: number;
-};
+type ParamsType = Record<string, never>;
 
 type QueryType = Record<string, never>;
 

@@ -1,9 +1,10 @@
-import type { RequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes';
+
+import type { RequestHandler } from 'express';
+
 import { cartProductsService, userService } from '../../services';
 
 type BodyType = Record<string, never>;
-
 type ParamsType = Record<string, never>;
 type QueryType = Record<string, never>;
 
@@ -16,12 +17,14 @@ type ResponseType = {
 
 type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>;
 
-const addingQuantity: HandlerType = async (req, res, next) => {
+const deleteById: HandlerType = async (req, res, next) => {
   try {
-    const userId = req.params.userId;
+    const { bookId, cartId } = req.body;
+    const { userId } = req.params;
+
     userService.checkById(req.user, userId);
-    const { bookId, cartId } = req.body.params;
-    const updatedData = await cartProductsService.addingCount(cartId, bookId);
+
+    const updatedData = await cartProductsService.deleteById(bookId, cartId);
 
     res.status(StatusCodes.OK).json({ updatedData });
   } catch (error) {
@@ -29,4 +32,4 @@ const addingQuantity: HandlerType = async (req, res, next) => {
   }
 };
 
-export default addingQuantity;
+export default deleteById;

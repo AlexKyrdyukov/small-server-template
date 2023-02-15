@@ -2,21 +2,13 @@ import { StatusCodes } from 'http-status-codes';
 
 import type { RequestHandler } from 'express';
 
-import { tokenService, Exception } from '../../services';
-
 import { errorTypes } from '../../utils';
+import { tokenService, Exception } from '../../services';
 import config from '../../config';
 
-type BodyType = {
-  token: string;
-};
-
-type PayloadType = {
-  userId: string;
-};
-
+type BodyType = Record<string, never>;
+type PayloadType = Record<string, never>;
 type ParamsType = Record<string, never>;
-
 type QueryType = Record<string, never>;
 
 type ResponseType = {
@@ -33,13 +25,16 @@ const refresh: HandlerType = async (req, res, next) => {
     if (!deviceId) {
       throw Exception.createError(errorTypes.FORBIDDEN_UNKNOWN_AUTHORIZATION_TYPE);
     }
+
     const token = tokenService.checkAuthType(req.body.token);
     await tokenService.verifyRefresh(deviceId as string, token);
+
     const { userId }: PayloadType = await tokenService.asyncVerify(
       token,
       config.token.secret,
       { complete: false },
     );
+
     const {
       accessToken,
       refreshToken,

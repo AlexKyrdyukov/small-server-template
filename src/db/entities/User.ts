@@ -1,5 +1,5 @@
 import * as typeorm from 'typeorm';
-import { BooksEntity, CartsEntity, CommentsEntity, RatingsEntity } from '..';
+import { BooksEntity, CartsEntity, CommentsEntity, RatingsEntity } from '../../db';
 
 import { fileHelpers } from '../../utils';
 

@@ -1,24 +1,27 @@
 import db, { UsersEntity } from '../../db';
-import cartService from '../cartService';
-import hashPassword from './hashPassword';
+import { userService, cartService } from '../../services';
 
 const create = async (params: Partial<UsersEntity>) => {
   let user: Partial<UsersEntity> = new UsersEntity();
+
   Object.entries(params).forEach(([key, value]) => {
+    let currentValue = value;
+
     if (key === 'password') {
-      // eslint-disable-next-line no-param-reassign
-      value = hashPassword(value as string);
+      currentValue = userService.hashPassword(value as string);
     }
-    // user[key] = value; // can it be done in this way
     user = {
       ...user,
-      [key]: value,
+      [key]: currentValue,
     };
   });
+
   const savedUser = await db.user.save(user);
   delete savedUser.password;
+
   await cartService.create(savedUser);
-  return savedUser;
+  const createdUser = await userService.getById(user.userId);
+  return createdUser;
 };
 
 export default create;

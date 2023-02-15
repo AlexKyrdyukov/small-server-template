@@ -1,6 +1,6 @@
 import * as typeorm from 'typeorm';
 
-import { BooksEntity, UsersEntity } from '..';
+import { BooksEntity, UsersEntity } from '../../db';
 
 @typeorm.Entity()
 class Rating {

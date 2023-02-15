@@ -3,16 +3,20 @@ import { Exception } from '../../services';
 import { errorTypes } from '../../utils';
 
 const findFull = async (email: string) => {
-  const user = await db.user
+  const query = await db.user
     .createQueryBuilder('user')
     .addSelect('user.password')
     .where('user.email = :email', { email })
     .leftJoinAndSelect('user.likeBooks', 'bookIds')
+    .leftJoinAndSelect('user.cart', 'cart')
+    .leftJoinAndSelect('cart.selectedProducts', 'products')
+    .leftJoinAndSelect('products.book', 'book')
+    .orderBy('products.createdDate', 'ASC')
     .getOne();
-  if (!user) {
+  if (!query) {
     throw Exception.createError(errorTypes.NOT_FOUND_USER_NOT_FOUND);
   }
-  return user;
+  return query;
 };
 
 export default findFull;

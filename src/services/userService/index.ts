@@ -1,21 +1,23 @@
-import existenceCheck from './existenceCheck';
-import findFull from './findFull';
-import deleteById from './deleteById';
-import getById from './getById';
 import update from './update';
 import create from './create';
+import getById from './getById';
+import findFull from './findFull';
 import checkById from './checkById';
-import checkPassword from './checkPassword';
+import deleteById from './deleteById';
+import hashPassword from './hashPassword';
 import checkLikeBook from './checkLikeBook';
+import checkPassword from './checkPassword';
+import existenceCheck from './existenceCheck';
 
 export default {
-  checkLikeBook,
-  checkPassword,
-  checkById,
-  existenceCheck,
-  findFull,
-  deleteById,
-  getById,
   update,
   create,
+  getById,
+  findFull,
+  checkById,
+  deleteById,
+  hashPassword,
+  checkLikeBook,
+  checkPassword,
+  existenceCheck,
 };

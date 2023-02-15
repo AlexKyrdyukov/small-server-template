@@ -1,6 +1,7 @@
 import CryptoJS from 'crypto-js';
-import { Exception } from '../../services';
 import { errorTypes } from '../../utils';
+import { Exception } from '../../services';
+
 import config from '../../config';
 
 const checkPassword = (newPassword: string, oldPassword: string) => {

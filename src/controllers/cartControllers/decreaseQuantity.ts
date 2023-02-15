@@ -1,30 +1,34 @@
-import type { CartProductsEntity } from 'src/db';
 import { StatusCodes } from 'http-status-codes';
+
 import type { RequestHandler } from 'express';
+
 import { cartProductsService, userService } from '../../services';
 
 type BodyType = Record<string, never>;
-
 type ParamsType = Record<string, never>;
 type QueryType = Record<string, never>;
 
 type ResponseType = {
-  message: string;
-  cartBooks: CartProductsEntity[];
+  updatedData: {
+    bookId: number;
+    countBook: number;
+  };
 };
 
 type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>;
 
-const addById: HandlerType = async (req, res, next) => {
+const deleteQuantity: HandlerType = async (req, res, next) => {
   try {
-    const { bookId } = req.body;
-    const { userId } = req.params;
+    const userId = req.params.userId;
+
+    const { bookId, cartId } = req.query;
     userService.checkById(req.user, userId);
-    const cartBooks = await cartProductsService.create(bookId, req.user);
-    res.status(StatusCodes.OK).json({ message: 'data succesfully updated', cartBooks });
+
+    const updatedData = await cartProductsService.decreaseQuantity(cartId, bookId);
+    res.status(StatusCodes.OK).json({ updatedData });
   } catch (error) {
     next(error);
   }
 };
 
-export default addById;
+export default deleteQuantity;

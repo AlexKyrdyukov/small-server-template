@@ -7,6 +7,7 @@ const getById = async (bookId: number) => {
     .leftJoin('comment.book', 'book')
     .where('book.bookId = :bookId', { bookId })
     .getMany();
+
   return query;
 };
 

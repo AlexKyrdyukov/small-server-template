@@ -1,5 +1,5 @@
 import db from '../../db';
-import cartService from '../cartService';
+import { cartService } from '../../services';
 
 const deleteById = async (bookId: number, cartId: number) => {
   const cart = await cartService.getAll(cartId);
@@ -13,9 +13,12 @@ const deleteById = async (bookId: number, cartId: number) => {
   }
 
   const product = cart.selectedProducts[index];
+
   db.cartProducts.remove(product);
   cart.selectedProducts.splice(index, 1);
+
   await cartService.update(cart);
+
   return {
     bookId,
     countBook: 0,

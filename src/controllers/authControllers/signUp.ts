@@ -1,15 +1,12 @@
 import { StatusCodes } from 'http-status-codes';
 
 import type { RequestHandler } from 'express';
-
 import type { UsersEntity } from '../../db';
 
 import { tokenService, userService } from '../../services';
 
 type BodyType = UsersEntity;
-
 type ParamsType = Record<string, never>;
-
 type QueryType = Record<string, never>;
 
 type ResponseType = {

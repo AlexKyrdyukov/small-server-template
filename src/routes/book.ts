@@ -1,7 +1,7 @@
 import express from 'express';
-import authMiddleware from '../middlewares/auth';
 
 import { bookControllers } from '../controllers';
+import authMiddleware from '../middlewares/auth';
 
 const routes = express.Router();
 

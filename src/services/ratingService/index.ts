@@ -1,9 +1,9 @@
-import changeValue from './changeValue';
-import getById from './getById';
 import create from './create';
+import getById from './getById';
+import changeValue from './changeValue';
 
 export default {
-  changeValue,
-  getById,
   create,
+  getById,
+  changeValue,
 };

@@ -1,8 +1,8 @@
 import fs from 'fs';
 import { randomUUID } from 'crypto';
 
-import config from '../config';
 import logger from './logger';
+import config from '../config';
 
 const BASE_PATH = 'public/uploads';
 
@@ -14,8 +14,10 @@ const directories = {
 const removeImage = async (fileUrl: string, dirName: keyof typeof directories) => {
   try {
     const fileName = getFileName(fileUrl);
-    // eslint-disable-next-line no-unused-expressions
-    fileName ? await fs.promises.unlink(`${directories[dirName]}/${fileName}`) : null;
+
+    if (fileName) {
+      await fs.promises.unlink(`${directories[dirName]}/${fileName}`);
+    }
   } catch (error) {
     logger.error(error);
   }
@@ -23,9 +25,11 @@ const removeImage = async (fileUrl: string, dirName: keyof typeof directories) =
 
 const getFileName = (fileUrl: string) => {
   const fileName = fileUrl.split('/').at(-1);
+
   if (fileName === 'null') {
     return false;
   }
+
   return fileName;
 };
 
@@ -42,9 +46,11 @@ const writeImage = async (
     if (oldImage) {
       await removeImage(oldImage, dirName);
     }
+
     const [meta, image] = fileName.split(',');
     const avatarName = `${randomUUID()}.${getExtension(meta)}`;
     const fileUrl = `${directories[dirName]}/${avatarName}`;
+
     await fs.promises.writeFile(fileUrl, convertBase64(image));
     return avatarName;
   } catch (error) {

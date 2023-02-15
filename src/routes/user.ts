@@ -1,4 +1,3 @@
-/* eslint-disable import/no-import-module-exports */
 import express from 'express';
 
 import { userControllers } from '../controllers';
@@ -14,8 +13,8 @@ routes.delete('/:userId', createValidationMiddleware(version.deleteUser), userCo
 
 routes.patch('/:userId', createValidationMiddleware(version.updatedUser), userControllers.update);
 
-routes.patch('/:userId/password', createValidationMiddleware(version.updatedPass), userControllers.updatePass);
-
 routes.post('/:userId/avatar', createValidationMiddleware(version.loadAvatar), userControllers.loadAvatar);
+
+routes.patch('/:userId/password', createValidationMiddleware(version.updatedPass), userControllers.updatePass);
 
 export default routes;

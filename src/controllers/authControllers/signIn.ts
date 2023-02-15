@@ -5,13 +5,8 @@ import type { UsersEntity } from '../../db';
 
 import { userService, tokenService } from '../../services';
 
-type BodyType = {
-  email: string;
-  password: string;
-};
-
+type BodyType = Record<string, never>;
 type ParamsType = Record<string, never>;
-
 type QueryType = Record<string, never>;
 
 type ResponseType = {
@@ -37,6 +32,7 @@ const signIn: HandlerType = async (req, res, next) => {
     const {
       refreshToken, accessToken,
     } = await tokenService.createTokens(String(user.userId), deviceId as string);
+
     res.status(StatusCodes.OK).json({ user, accessToken, refreshToken });
   } catch (error) {
     next(error);

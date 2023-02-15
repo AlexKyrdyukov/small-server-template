@@ -1,5 +1,6 @@
 import * as typeorm from 'typeorm';
-import { BooksEntity, CartsEntity } from '..';
+
+import { BooksEntity, CartsEntity } from '../../db';
 
 @typeorm.Entity()
 class CartProducts {

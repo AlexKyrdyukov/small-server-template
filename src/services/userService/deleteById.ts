@@ -1,5 +1,5 @@
-import type { UsersEntity } from '../../db';
 import db from '../../db';
+import type { UsersEntity } from '../../db';
 import { fileHelpers } from '../../utils';
 
 const deleteById = async (user: UsersEntity) => {

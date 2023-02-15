@@ -1,14 +1,11 @@
-import type { RequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes';
+
+import type { RequestHandler } from 'express';
+
 import { userService } from '../../services';
 
-type BodyType = {
-  password: string;
-  newPassword: string;
-};
-
+type BodyType = Record<string, never>;
 type ParamsType = Record<string, never>;
-
 type QueryType = Record<string, never>;
 
 type ResponseType = {

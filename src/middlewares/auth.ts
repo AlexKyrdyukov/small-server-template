@@ -1,7 +1,7 @@
 import type { Request, Response, NextFunction } from 'express';
 
-import { Exception, tokenService, userService } from '../services';
 import { errorTypes } from '../utils';
+import { Exception, tokenService, userService } from '../services';
 
 import config from '../config';
 
@@ -14,7 +14,6 @@ const authVerification = async (req: Request, res: Response, next: NextFunction)
     if (!req.headers.authorization) {
       throw Exception.createError(errorTypes.UNAUTHORIZED_USER_LOG_IN);
     }
-
     const token = tokenService.checkAuthType(req.headers.authorization);
 
     const payload: PayloadType = await tokenService.asyncVerify(
@@ -22,8 +21,8 @@ const authVerification = async (req: Request, res: Response, next: NextFunction)
       config.token.secret,
       { complete: false },
     );
-    req.user = await userService.getById(payload.userId);
 
+    req.user = await userService.getById(payload.userId);
     next();
   } catch (error) {
     next(error);

@@ -1,5 +1,5 @@
-import type { UsersEntity } from '../../db';
 import db, { CartsEntity } from '../../db';
+import type { UsersEntity } from '../../db';
 
 const createuserCart = async (user: UsersEntity) => {
   const cart = new CartsEntity();

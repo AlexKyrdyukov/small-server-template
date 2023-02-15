@@ -8,6 +8,7 @@ const getAll = async (cartId: number) => {
     .orderBy('products.createdDate', 'ASC')
     .leftJoinAndSelect('products.book', 'book')
     .getOne();
+
   return query;
 };
 

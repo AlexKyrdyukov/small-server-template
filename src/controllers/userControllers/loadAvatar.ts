@@ -5,12 +5,8 @@ import type { RequestHandler } from 'express';
 import { userService } from '../../services';
 import { fileHelpers } from '../../utils';
 
-type BodyType = {
-  file: string;
-};
-
+type BodyType = Record<string, never>;
 type ParamsType = Record<string, never>;
-
 type QueryType = Record<string, never>;
 
 type ResponseType = {

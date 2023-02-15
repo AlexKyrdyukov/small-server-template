@@ -1,7 +1,7 @@
 import app from './app';
 import config from './config';
-import { connectToDb } from './db';
 import { logger } from './utils';
+import { connectToDb } from './db';
 import { connectRedis } from './redis';
 
 (async () => {

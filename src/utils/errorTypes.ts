@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 
-import { errorMessages } from '../utils';
+import errorMessages from '../utils/errorMessages';
 
 const UNAUTHORIZED_USER_LOG_IN = {
   status: StatusCodes.UNAUTHORIZED,

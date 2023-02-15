@@ -12,14 +12,17 @@ const convertInNumber = (price: string) => {
 };
 
 const checkIsNew = (createDate: Date) => {
+  const sec = 1000;
+  const min = sec * 60;
+  const hour = min * 60;
+  const day = hour * 24;
+  const month = day * 30;
   const dataNow = dayjs();
-  const day = 1000 * 60 * 60 * 24;
-  const oneMonth = day * 31;
-  return (+dataNow - +createDate) < oneMonth;
+  return (+dataNow - +createDate) < month;
 };
 
 export default {
+  checkIsNew,
   convertInNumber,
   convertInString,
-  checkIsNew,
 };

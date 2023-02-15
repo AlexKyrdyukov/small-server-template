@@ -1,10 +1,10 @@
-import * as yup from 'yup';
 import _ from 'lodash';
-
-import type { Handler } from 'express';
+import * as yup from 'yup';
 import { StatusCodes } from 'http-status-codes';
 
-import { CustomError, errorMessages } from '../utils';
+import type { Handler } from 'express';
+import { Exception } from '../services';
+import errorMessages from '../utils/errorMessages';
 
 type ValidationShemaType = {
   [key: string]: yup.StringSchema | yup.NumberSchema | yup.DateSchema;
@@ -72,8 +72,12 @@ const createValidationMiddleware = (schema: ValidationType) => {
         });
 
       if (errors.length) {
-        throw new CustomError(
-          StatusCodes.BAD_REQUEST, errorMessages.USER_INVALID_REQUEST, errors,
+        throw Exception.createError(
+          {
+            status: StatusCodes.BAD_REQUEST,
+            message: errorMessages.USER_INVALID_REQUEST,
+            payload: errors,
+          },
         );
       }
 
