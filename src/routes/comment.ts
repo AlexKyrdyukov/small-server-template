@@ -7,6 +7,6 @@ const routes = express.Router();
 
 routes.use(authMidlleware);
 
-routes.post('/:userId', commentControllers.createComment);
+routes.post('/comment', commentControllers.createComment);
 
 export default routes;

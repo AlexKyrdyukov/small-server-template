@@ -22,12 +22,6 @@ const logger = {
     console.warn(chalk.greenBright(`data: ${data}, TYPE WARN;`), '\n message:', info);
   },
 
-  assert(info: string | NodeJS.ErrnoException) {
-    const data = this.getTime();
-    // eslint-disable-next-line no-console
-    console.assert(chalk.yellowBright(`data: ${data}, TYPE ASSERT;`), '\n message:', info);
-  },
-
   debug(info: string | NodeJS.ErrnoException) {
     const data = this.getTime();
     // eslint-disable-next-line no-console

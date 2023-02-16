@@ -1,6 +1,6 @@
 export default {
-  USER_SIGN_IN: 'please log in',
   USER_NOT_FOUND: 'user not found',
+  UNAUTHORIZED_USER: 'please log in',
   USER_DATA_UPDATED: 'entered data succesfully updated',
   USER_ALREADY_EXISTS: 'user with this email already exists please enter correct data',
   USER_INVALID_REQUEST: 'invalid request, please check entered data',

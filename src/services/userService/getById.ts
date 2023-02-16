@@ -30,7 +30,7 @@ const getCurrent = async (userId: number) => {
   //   },
   // });
   if (!query) {
-    throw Exception.createError(errorTypes.NOT_FOUND_USER_NOT_FOUND);
+    throw Exception.createError(errorTypes.USER_NOT_FOUND);
   }
   return query;
 };

@@ -2,11 +2,11 @@ import { StatusCodes } from 'http-status-codes';
 
 import errorMessages from '../utils/errorMessages';
 
-const UNAUTHORIZED_USER_LOG_IN = {
+const UNAUTHORIZED_USER = {
   status: StatusCodes.UNAUTHORIZED,
-  message: errorMessages.USER_SIGN_IN,
+  message: errorMessages.UNAUTHORIZED_USER,
 };
-const NOT_FOUND_USER_NOT_FOUND = {
+const USER_NOT_FOUND = {
   status: StatusCodes.NOT_FOUND,
   message: errorMessages.USER_NOT_FOUND,
 };
@@ -27,7 +27,7 @@ const FORBIDDEN_UNKNOWN_AUTHORIZATION_TYPE = {
 
 const FORBIDDEN_USER_LOG_IN = {
   status: StatusCodes.FORBIDDEN,
-  message: errorMessages.USER_SIGN_IN,
+  message: errorMessages.UNAUTHORIZED_USER,
 };
 
 const FORBIDDEN_INVALID_REQUEST = {
@@ -36,8 +36,8 @@ const FORBIDDEN_INVALID_REQUEST = {
 };
 
 export default {
-  UNAUTHORIZED_USER_LOG_IN,
-  NOT_FOUND_USER_NOT_FOUND,
+  UNAUTHORIZED_USER,
+  USER_NOT_FOUND,
   BAD_REQUEST_USER_ALREADY_EXIST,
   BAD_REQUEST_INVALID_PASSWORD,
   FORBIDDEN_INVALID_REQUEST,

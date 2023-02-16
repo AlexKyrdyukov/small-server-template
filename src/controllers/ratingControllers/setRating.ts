@@ -15,7 +15,7 @@ type ResponseType = {
 
 type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>;
 
-const changeRating: HandlerType = async (req, res, next) => {
+const setRating: HandlerType = async (req, res, next) => {
   try {
     const { userId, bookId, newRating } = req.body;
 
@@ -29,4 +29,4 @@ const changeRating: HandlerType = async (req, res, next) => {
   }
 };
 
-export default changeRating;
+export default setRating;

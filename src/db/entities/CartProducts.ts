@@ -1,6 +1,6 @@
 import * as typeorm from 'typeorm';
 
-import { BooksEntity, CartsEntity } from '../../db';
+import { BooksEntity, UsersEntity } from '../../db';
 
 @typeorm.Entity()
 class CartProducts {
@@ -22,8 +22,8 @@ class CartProducts {
   @typeorm.Column({ nullable: false, type: 'integer' })
   bookId: number;
 
-  @typeorm.ManyToOne(() => CartsEntity, (cart) => cart.selectedProducts)
-  userCart: CartsEntity;
+  @typeorm.ManyToMany(() => UsersEntity, (user) => user.cartProducts)
+  users: UsersEntity[];
 
   @typeorm.ManyToOne(() => BooksEntity, (book) => book.productCart)
   @typeorm.JoinTable()

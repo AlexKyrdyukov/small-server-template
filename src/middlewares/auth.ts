@@ -12,7 +12,7 @@ type PayloadType = {
 const authVerification = async (req: Request, res: Response, next: NextFunction) => {
   try {
     if (!req.headers.authorization) {
-      throw Exception.createError(errorTypes.UNAUTHORIZED_USER_LOG_IN);
+      throw Exception.createError(errorTypes.UNAUTHORIZED_USER);
     }
     const token = tokenService.checkAuthType(req.headers.authorization);
 

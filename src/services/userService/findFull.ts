@@ -14,7 +14,7 @@ const findFull = async (email: string) => {
     .orderBy('products.createdDate', 'ASC')
     .getOne();
   if (!query) {
-    throw Exception.createError(errorTypes.NOT_FOUND_USER_NOT_FOUND);
+    throw Exception.createError(errorTypes.USER_NOT_FOUND);
   }
   return query;
 };

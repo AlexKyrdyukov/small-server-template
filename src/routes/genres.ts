@@ -4,6 +4,6 @@ import { genresControllers } from '../controllers';
 
 const routes = express.Router();
 
-routes.get('/get-all-genres', genresControllers.getAll);
+routes.get('/', genresControllers.getAll);
 
 export default routes;

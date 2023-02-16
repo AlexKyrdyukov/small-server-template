@@ -19,7 +19,6 @@ const updateUserPass: HandlerType = async (req, res, next) => {
     userService.checkById(req.user, req.params.userId);
 
     const { password, newPassword } = req.body;
-
     const user = await userService.findFull(req.user.email);
     userService.checkPassword(password, user.password);
 

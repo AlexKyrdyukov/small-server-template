@@ -1,5 +1,5 @@
 import * as typeorm from 'typeorm';
-import { BooksEntity, CartsEntity, CommentsEntity, RatingsEntity } from '../../db';
+import { BooksEntity, CartProductsEntity, CommentsEntity, RatingsEntity } from '../../db';
 
 import { fileHelpers } from '../../utils';
 
@@ -33,9 +33,9 @@ class User {
   @typeorm.JoinTable()
   likeBooks: BooksEntity[];
 
-  @typeorm.OneToOne(() => CartsEntity, (cart) => cart.user)
-  @typeorm.JoinColumn()
-  cart: CartsEntity;
+  @typeorm.ManyToMany(() => CartProductsEntity, (products) => products.users)
+  @typeorm.JoinTable()
+  cartProducts: CartProductsEntity[];
 
   @typeorm.OneToMany(() => RatingsEntity, (rating) => rating.user)
   usersRatings: RatingsEntity[];

@@ -5,7 +5,7 @@ import errorHandler from './middlewares/errorHandler';
 import routes from './routes';
 import config from './config';
 
-import './types/express';
+import './types';
 
 const app = express();
 

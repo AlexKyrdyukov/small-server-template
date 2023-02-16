@@ -21,7 +21,6 @@ const updateUser: HandlerType = async (req, res, next) => {
     const newValues = req.body;
 
     userService.checkById(req.user, req.params.userId);
-
     const user = await userService.update(newValues, req.user);
 
     res.status(StatusCodes.OK).json({ message: 'data succesfully updated', user });

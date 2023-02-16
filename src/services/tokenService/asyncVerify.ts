@@ -15,10 +15,10 @@ const asyncVerify = async <P extends object>(
       (error, data) => {
         if (error) {
           if (error.message === 'jwt expired') {
-            throw Exception.createError(errorTypes.UNAUTHORIZED_USER_LOG_IN);
+            throw Exception.createError(errorTypes.UNAUTHORIZED_USER);
           }
           return reject(
-            Exception.createError(errorTypes.UNAUTHORIZED_USER_LOG_IN),
+            Exception.createError(errorTypes.UNAUTHORIZED_USER),
           );
         }
         return resolve(data as P);

@@ -7,14 +7,12 @@ const routes = express.Router();
 
 routes.use(authMidlleware);
 
-routes.get('/get-all', cartControllers.getAll);
+routes.get('/', cartControllers.getAll);
 
-routes.post('/:userId/add-book-to-cart', cartControllers.addById);
+routes.post('/add', cartControllers.addById);
 
-routes.delete('/:userId/delete-from-cart', cartControllers.deleteById);
+routes.delete('/delete', cartControllers.deleteById);
 
-routes.post('/:userId/adding-quantity', cartControllers.addingQuantity);
-
-routes.delete('/:userId/delete-quantity', cartControllers.decreaseQuantity);
+routes.patch('/update', cartControllers.changeQuantity);
 
 export default routes;

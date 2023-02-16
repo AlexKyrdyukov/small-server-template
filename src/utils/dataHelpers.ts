@@ -1,27 +1,19 @@
 const convertInString = (price: number) => {
-  if (price < 100) {
-    return (price).toString();
-  }
   return (price / 100).toFixed(2);
 };
 
-const convertInNumber = (price: string) => {
-  return +price;
-};
-
-const sec = 1000;
-const min = sec * 60;
-const hour = min * 60;
-const day = hour * 24;
-const month = day * 30;
+const SEC = 1000;
+const MIN = SEC * 60;
+const HOUR = MIN * 60;
+const DAY = HOUR * 24;
+const MONTH = DAY * 30;
 
 const checkIsNew = (createDate: Date) => {
   const dataNow = Date.now();
-  return (dataNow - +createDate) < month;
+  return (dataNow - +createDate) < MONTH;
 };
 
 export default {
   checkIsNew,
-  convertInNumber,
   convertInString,
 };
