@@ -1,4 +1,4 @@
-import sharedValidation from './sharedValidation';
+import sharedValidation from './sharedValidation/sharedValidation';
 
 const updatedPass = {
   body: {

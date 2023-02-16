@@ -1,1 +1,1 @@
-export { default as Request } from './express';
+export * as Request from './express';

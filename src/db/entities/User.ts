@@ -44,7 +44,7 @@ class User {
 
   @typeorm.AfterLoad()
   changeData() {
-    this.avatar = fileHelpers.getUrlImage(this.avatar, 'userAvatars');
+    this.avatar = this.avatar ? fileHelpers.getUrlImage(this.avatar, 'userAvatars') : this.avatar;
   }
 }
 
