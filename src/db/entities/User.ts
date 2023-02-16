@@ -33,8 +33,7 @@ class User {
   @typeorm.JoinTable()
   likeBooks: BooksEntity[];
 
-  @typeorm.ManyToMany(() => CartProductsEntity, (products) => products.users)
-  @typeorm.JoinTable()
+  @typeorm.OneToMany(() => CartProductsEntity, (products) => products.users)
   cartProducts: CartProductsEntity[];
 
   @typeorm.OneToMany(() => RatingsEntity, (rating) => rating.user)

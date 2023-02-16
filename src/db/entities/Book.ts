@@ -69,7 +69,7 @@ class Book {
   @typeorm.OneToMany(() => CommentsEntity, (comments) => comments.book)
   comments: CommentsEntity[];
 
-  @typeorm.OneToMany(() => CartProductsEntity, (cartProduct) => cartProduct.book)
+  @typeorm.ManyToMany(() => CartProductsEntity, (cartProduct) => cartProduct.book)
   productCart: CartProductsEntity[];
 
   priceInDollar: string;

@@ -22,10 +22,10 @@ class CartProducts {
   @typeorm.Column({ nullable: false, type: 'integer' })
   bookId: number;
 
-  @typeorm.ManyToMany(() => UsersEntity, (user) => user.cartProducts)
-  users: UsersEntity[];
+  @typeorm.ManyToOne(() => UsersEntity, (user) => user.cartProducts)
+  users: UsersEntity;
 
-  @typeorm.ManyToOne(() => BooksEntity, (book) => book.productCart)
+  @typeorm.ManyToMany(() => BooksEntity, (book) => book.productCart)
   @typeorm.JoinTable()
   book: BooksEntity;
 }
