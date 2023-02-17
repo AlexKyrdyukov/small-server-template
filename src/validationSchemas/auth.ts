@@ -1,16 +1,16 @@
-import sharedValidation from './sharedValidation';
+import { auth } from './sharedValidation';
 
 const signUp = {
   body: {
-    email: sharedValidation.requiredEmail,
-    password: sharedValidation.requiredPassword,
+    email: auth.requiredEmail,
+    password: auth.requiredPassword,
   },
 };
 
 const signIn = {
   body: {
-    email: sharedValidation.requiredEmail,
-    password: sharedValidation.requiredPassword,
+    email: auth.requiredEmail,
+    password: auth.requiredPassword,
   },
 };
 
