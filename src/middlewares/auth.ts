@@ -22,7 +22,7 @@ const authVerification = async (req: Request, res: Response, next: NextFunction)
       { complete: false },
     );
 
-    req.user = await userService.getById(payload.userId);
+    // req.user = await userService.getById(payload.userId);
     next();
   } catch (error) {
     next(error);

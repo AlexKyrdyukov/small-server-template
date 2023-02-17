@@ -10,11 +10,15 @@ const password = yup.string()
   .min(3, 'password cannot be shorter than 3 characters')
   .max(8, 'password cannot be longer than 8 character');
 
+const token = yup.string()
+  .trim().required();
+
 const requiredEmail = email.required('field email is required');
 const requiredPassword = password.required('field password is required');
 
 export default {
   email,
+  token,
   password,
   requiredEmail,
   requiredPassword,

@@ -1,19 +1,18 @@
 import { book } from './sharedValidation';
 
-const changeById = {
+const addById = {
+  body: {
+    bookId: book.bookId,
+  },
+};
+
+const deleteById = {
   params: {
     bookId: book.bookId,
   },
 };
 
-const changeQuantity = {
-  body: {
-    bookId: book.bookId,
-    quantity: book.quantity,
-  },
-};
-
 export default {
-  changeById,
-  changeQuantity,
+  addById,
+  deleteById,
 };

@@ -19,10 +19,10 @@ const updateUserPass: HandlerType = async (req, res, next) => {
     userService.checkById(req.user, req.params.userId);
 
     const { password, newPassword } = req.body;
-    const user = await userService.findFull(req.user.email);
-    userService.checkPassword(password, user.password);
+    // const user = await userService.findFull(req.user.email);
+    // userService.checkPassword(password, user.password);
 
-    await userService.update({ password: newPassword }, user);
+    await userService.update({ password: newPassword });
     res.status(StatusCodes.OK).json({ message: 'new password succesfully updated' });
   } catch (error) {
     next(error);

@@ -10,9 +10,10 @@ type ParamsType = Record<string, never>;
 type QueryType = Record<string, never>;
 
 type ResponseType = {
-  user: UsersEntity;
-  accessToken: string;
-  refreshToken: string;
+  message: string;
+  // user: UsersEntity;
+  // accessToken: string;
+  // refreshToken: string;
 };
 
 type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>;
@@ -23,17 +24,17 @@ const signIn: HandlerType = async (req, res, next) => {
 
     const { email, password } = req.body;
 
-    const user = await userService.findFull(email);
+    // const user = await userService.findFull(email);
 
-    userService.checkPassword(password, user.password);
+    // userService.checkPassword(password, user.password);
 
-    delete user.password;
+    // delete user.password;
 
-    const {
-      refreshToken, accessToken,
-    } = await tokenService.createTokens(String(user.userId), deviceId as string);
+    // const {
+    // refreshToken, accessToken,
+    // } = await tokenService.createTokens(String(user.userId), deviceId as string);
 
-    res.status(StatusCodes.OK).json({ user, accessToken, refreshToken });
+    res.status(StatusCodes.OK).json({ message: 'dfdfdsfsdfsd'/* user, accessToken, refreshToken */ });
   } catch (error) {
     next(error);
   }

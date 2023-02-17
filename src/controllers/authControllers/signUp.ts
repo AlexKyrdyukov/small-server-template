@@ -11,7 +11,7 @@ type QueryType = Record<string, never>;
 
 type ResponseType = {
   message: string;
-  user: UsersEntity;
+  user?: UsersEntity;
   accessToken: string;
   refreshToken: string;
 };
@@ -31,7 +31,7 @@ const signUp: HandlerType = async (req, res, next) => {
       refreshToken, accessToken,
     } = await tokenService.createTokens(String(user.userId), deviceId as string);
 
-    res.status(StatusCodes.CREATED).json({ message: 'user successfully registered', user, accessToken, refreshToken });
+    res.status(StatusCodes.CREATED).json({ message: 'user successfully registered', accessToken, refreshToken });
   } catch (error) {
     next(error);
   }

@@ -14,7 +14,14 @@ const signIn = {
   },
 };
 
+const refresh = {
+  body: {
+    token: auth.token,
+  },
+};
+
 export default {
   signIn,
   signUp,
+  refresh,
 };

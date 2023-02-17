@@ -17,7 +17,7 @@ type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>
 const deleteUser: HandlerType = async (req, res, next) => {
   try {
     userService.checkById(req.user, req.params.userId);
-    await userService.deleteById(req.user);
+    // await userService.deleteById(req.user);
 
     res.sendStatus(StatusCodes.NO_CONTENT);
   } catch (error) {

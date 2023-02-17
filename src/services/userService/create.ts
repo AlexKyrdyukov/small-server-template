@@ -19,8 +19,8 @@ const create = async (params: Partial<UsersEntity>) => {
   const savedUser = await db.user.save(user);
   delete savedUser.password;
 
-  const createdUser = await userService.getById(user.userId);
-  return createdUser;
+  // const createdUser = await userService.getById(user.userId);
+  return user;
 };
 
 export default create;
