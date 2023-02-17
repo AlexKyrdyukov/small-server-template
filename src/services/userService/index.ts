@@ -1,6 +1,6 @@
 import update from './update';
 import create from './create';
-// import getById from './getById';
+import getById from './getById';
 import findFull from './findFull';
 import checkById from './checkById';
 // import deleteById from './deleteById';
@@ -12,7 +12,7 @@ import existenceCheck from './existenceCheck';
 export default {
   update,
   create,
-  // getById,
+  getById,
   findFull,
   checkById,
   // deleteById,

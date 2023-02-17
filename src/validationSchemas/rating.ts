@@ -1,9 +1,9 @@
-import { book } from './sharedValidation';
+import sharedValidation from './sharedValidation';
 
 const change = {
   body: {
-    bookId: book.bookId,
-    rating: book.rating,
+    bookId: sharedValidation.bookId,
+    rating: sharedValidation.rating,
   },
 };
 

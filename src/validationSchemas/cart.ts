@@ -1,15 +1,15 @@
-import { book } from './sharedValidation';
+import sharedValidation from './sharedValidation';
 
 const changeById = {
   params: {
-    bookId: book.bookId,
+    bookId: sharedValidation.bookId,
   },
 };
 
 const changeQuantity = {
   body: {
-    bookId: book.bookId,
-    quantity: book.quantity,
+    bookId: sharedValidation.bookId,
+    quantity: sharedValidation.quantity,
   },
 };
 

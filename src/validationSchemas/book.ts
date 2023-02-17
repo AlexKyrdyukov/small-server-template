@@ -1,21 +1,21 @@
-import { book } from './sharedValidation';
+import sharedValidation from './sharedValidation';
 
 const filtered = {
   query: {
-    sortDirection: book.params,
-    sortBy: book.params,
-    perPage: book.params,
-    page: book.params,
-    search: book.params,
-    genres: book.params,
-    minPrice: book.params,
-    maxPrice: book.params,
+    sortDirection: sharedValidation.params,
+    sortBy: sharedValidation.params,
+    perPage: sharedValidation.params,
+    page: sharedValidation.params,
+    search: sharedValidation.params,
+    genres: sharedValidation.params,
+    minPrice: sharedValidation.params,
+    maxPrice: sharedValidation.params,
   },
 };
 
 const getById = {
   params: {
-    bookId: book.bookId,
+    bookId: sharedValidation.bookId,
   },
 };
 

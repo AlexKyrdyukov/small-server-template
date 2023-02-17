@@ -1,37 +1,37 @@
-import { user, auth } from './sharedValidation';
+import sharedValidation from './sharedValidation';
 
 const updatedPass = {
   body: {
-    password: auth.requiredPassword,
-    newPassword: auth.requiredPassword,
+    password: sharedValidation.requiredPassword,
+    newPassword: sharedValidation.requiredPassword,
   },
   params: {
-    userId: user.requiredUserId,
+    userId: sharedValidation.requiredUserId,
   },
 };
 
 const updatedUser = {
   body: {
-    fullName: user.fullName,
-    email: auth.requiredEmail,
+    fullName: sharedValidation.fullName,
+    email: sharedValidation.requiredEmail,
   },
   params: {
-    userId: user.requiredUserId,
+    userId: sharedValidation.requiredUserId,
   },
 };
 
 const deleteUser = {
   params: {
-    userId: user.requiredUserId,
+    userId: sharedValidation.requiredUserId,
   },
 };
 
 const loadAvatar = {
   body: {
-    file: user.file,
+    file: sharedValidation.file,
   },
   params: {
-    userId: user.requiredUserId,
+    userId: sharedValidation.requiredUserId,
   },
 };
 

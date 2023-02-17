@@ -13,48 +13,32 @@ const directories = {
 
 const removeImage = async (fileUrl: string, dirName: keyof typeof directories) => {
   try {
-    const fileName = getFileName(fileUrl);
-
-    if (fileName) {
-      await fs.promises.unlink(`${directories[dirName]}/${fileName}`);
-    }
+    const fileName = fileUrl.split('/').at(-1);
+    await fs.promises.unlink(`${directories[dirName]}/${fileName}`);
   } catch (error) {
     logger.error(error);
   }
-};
-
-const getFileName = (fileUrl: string) => {
-  const fileName = fileUrl.split('/').at(-1);
-
-  if (fileName === 'null') {
-    return false;
-  }
-
-  return fileName;
 };
 
 const getUrlImage = (image: string, path: string) => {
   return `${config.server.imageUrl}${path}/${image}`;
 };
 
-const writeImage = async (
-  fileName: string,
-  dirName: keyof typeof directories,
-  oldImage?: string,
-) => {
-  if (oldImage) {
-    await removeImage(oldImage, dirName);
-  }
-
-  const [meta, image] = fileName.split(',');
-  const avatarName = `${randomUUID()}.${getExtension(meta)}`;
-  const fileUrl = `${directories[dirName]}/${avatarName}`;
-
-  await fs.promises.writeFile(fileUrl, convertBase64(image));
-  return avatarName;
+const createFileName = (meta: string) => {
+  const extension = getExtension(meta);
+  return `${randomUUID()}.${extension}`;
 };
 
-const convertBase64 = (image: string) => {
+const writeImage = async (
+  file: Buffer,
+  dirName: keyof typeof directories,
+  fileName: string,
+) => {
+  const fileUrl = `${directories[dirName]}/${fileName}`;
+  await fs.promises.writeFile(fileUrl, file);
+};
+
+const convertBase64ToBuffer = (image: string) => {
   return Buffer.from(image, 'base64');
 };
 
@@ -68,5 +52,6 @@ export default {
   removeImage,
   writeImage,
   getUrlImage,
-  getFileName,
+  convertBase64ToBuffer,
+  createFileName,
 };

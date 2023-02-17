@@ -22,11 +22,8 @@ const signIn: HandlerType = async (req, res, next) => {
     const deviceId = req.headers.device_id;
 
     const { email, password } = req.body;
-
     const user = await userService.findFull(email);
-
     userService.checkPassword(password, user.password);
-
     delete user.password;
 
     const {

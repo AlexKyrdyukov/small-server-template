@@ -1,7 +1,7 @@
 import express from 'express';
 
 import { cartControllers } from '../controllers';
-import { cartSchema } from '../validationSchemas';
+import { cartSchemas } from '../validationSchemas';
 import authMidlleware from '../middlewares/auth';
 import generatorValidate from '../middlewares/createValidation';
 
@@ -11,10 +11,10 @@ routes.use(authMidlleware);
 
 routes.get('/', cartControllers.getAll);
 
-routes.post('/add', generatorValidate(cartSchema.changeById), cartControllers.addById);
+routes.post('/add', generatorValidate(cartSchemas.changeById), cartControllers.addById);
 
-routes.delete('/:bookId', generatorValidate(cartSchema.changeById), cartControllers.deleteById);
+routes.delete('/:bookId', generatorValidate(cartSchemas.changeById), cartControllers.deleteById);
 
-routes.patch('/:bookId', generatorValidate(cartSchema.changeQuantity), cartControllers.changeQuantity);
+routes.patch('/:bookId', generatorValidate(cartSchemas.changeQuantity), cartControllers.changeQuantity);
 
 export default routes;

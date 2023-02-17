@@ -1,9 +1,9 @@
-import { comment, book } from './sharedValidation';
+import sharedValidation from './sharedValidation';
 
 const create = {
   body: {
-    bookId: book.bookId,
-    comment: comment.text,
+    bookId: sharedValidation.bookId,
+    comment: sharedValidation.text,
   },
 };
 

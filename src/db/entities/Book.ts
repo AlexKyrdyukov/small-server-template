@@ -77,8 +77,8 @@ class Book {
   @typeorm.AfterLoad()
   changeLoadData() {
     this.image = fileHelpers.getUrlImage(this.image, 'bookCovers');
-    this.new = dataHelper.checkIsNew(this.createdDate);
-    this.priceInDollar = dataHelper.convertInString(this.priceInCent);
+    this.new = dataHelper.checkIsNewBook(this.createdDate);
+    this.priceInDollar = dataHelper.convertBookPrice(this.priceInCent);
   }
 }
 

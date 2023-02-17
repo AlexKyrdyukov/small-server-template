@@ -1,11 +1,11 @@
 import asyncVerify from './asyncVerify';
 import createTokens from './createTokens';
-import checkAuthType from './checkAuthType';
 import verifyRefresh from './verifyRefresh';
+import verifyToken from './verifyToken';
 
 export default {
   asyncVerify,
   createTokens,
-  checkAuthType,
+  verifyToken,
   verifyRefresh,
 };

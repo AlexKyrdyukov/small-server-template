@@ -1,14 +1,14 @@
-import { book } from './sharedValidation';
+import sharedValidation from './sharedValidation';
 
 const addById = {
   body: {
-    bookId: book.bookId,
+    bookId: sharedValidation.bookId,
   },
 };
 
 const deleteById = {
   params: {
-    bookId: book.bookId,
+    bookId: sharedValidation.bookId,
   },
 };
 

@@ -4,10 +4,8 @@ import type { RequestHandler } from 'express';
 
 import { errorTypes } from '../../utils';
 import { tokenService, Exception } from '../../services';
-import config from '../../config';
 
 type BodyType = Record<string, never>;
-type PayloadType = Record<string, never>;
 type ParamsType = Record<string, never>;
 type QueryType = Record<string, never>;
 
@@ -26,13 +24,7 @@ const refresh: HandlerType = async (req, res, next) => {
     }
 
     const token = tokenService.checkAuthType(req.body.token);
-    await tokenService.verifyRefresh(deviceId as string, token);
-
-    const { userId }: PayloadType = await tokenService.asyncVerify(
-      token,
-      config.token.secret,
-      { complete: false },
-    );
+    const { userId } = await tokenService.verifyRefresh(deviceId as string, token);
 
     const {
       accessToken,

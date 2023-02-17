@@ -1,19 +1,19 @@
-const convertInString = (price: number) => {
+const convertBookPrice = (price: number) => {
   return (price / 100).toFixed(2);
 };
 
-const SEC = 1000;
-const MIN = SEC * 60;
-const HOUR = MIN * 60;
+const SECOND = 1000;
+const MINUT = SECOND * 60;
+const HOUR = MINUT * 60;
 const DAY = HOUR * 24;
 const MONTH = DAY * 30;
 
-const checkIsNew = (createDate: Date) => {
+const checkIsNewBook = (createDate: Date) => {
   const dataNow = Date.now();
   return (dataNow - +createDate) < MONTH;
 };
 
 export default {
-  checkIsNew,
-  convertInString,
+  checkIsNewBook,
+  convertBookPrice,
 };
