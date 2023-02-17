@@ -1,7 +1,7 @@
 import update from './update';
 import create from './create';
 // import getById from './getById';
-// import findFull from './findFull';
+import findFull from './findFull';
 import checkById from './checkById';
 // import deleteById from './deleteById';
 import hashPassword from './hashPassword';
@@ -13,7 +13,7 @@ export default {
   update,
   create,
   // getById,
-  // findFull,
+  findFull,
   checkById,
   // deleteById,
   hashPassword,

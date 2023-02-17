@@ -25,8 +25,7 @@ class CartProducts {
   @typeorm.ManyToOne(() => UsersEntity, (user) => user.cartProducts)
   users: UsersEntity;
 
-  @typeorm.ManyToMany(() => BooksEntity, (book) => book.productCart)
-  @typeorm.JoinTable()
+  @typeorm.ManyToOne(() => BooksEntity, (book) => book.productCart)
   book: BooksEntity;
 }
 

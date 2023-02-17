@@ -11,7 +11,7 @@ type QueryType = Record<string, never>;
 
 type ResponseType = {
   message: string;
-  user?: UsersEntity;
+  user: UsersEntity;
   accessToken: string;
   refreshToken: string;
 };
@@ -21,8 +21,8 @@ type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>
 const signUp: HandlerType = async (req, res, next) => {
   try {
     const deviceId = req.headers.device_id;
-
     const userData = req.body;
+
     await userService.existenceCheck(userData.email);
 
     const user = await userService.create(userData);
@@ -31,7 +31,7 @@ const signUp: HandlerType = async (req, res, next) => {
       refreshToken, accessToken,
     } = await tokenService.createTokens(String(user.userId), deviceId as string);
 
-    res.status(StatusCodes.CREATED).json({ message: 'user successfully registered', accessToken, refreshToken });
+    res.status(StatusCodes.CREATED).json({ message: 'user successfully registered', user, accessToken, refreshToken });
   } catch (error) {
     next(error);
   }

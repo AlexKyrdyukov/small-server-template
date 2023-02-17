@@ -1,7 +1,7 @@
 import type { Request, Response, NextFunction } from 'express';
 
 import { errorTypes } from '../utils';
-import { Exception, tokenService, userService } from '../services';
+import { Exception, tokenService } from '../services';
 
 import config from '../config';
 

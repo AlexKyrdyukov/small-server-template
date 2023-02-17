@@ -16,11 +16,15 @@ const create = async (params: Partial<UsersEntity>) => {
     };
   });
 
+  user.cartProducts = [];
+  user.favoriteBooks = [];
+  user.usersRatings = [];
+  user.comments = [];
+
   const savedUser = await db.user.save(user);
   delete savedUser.password;
 
-  // const createdUser = await userService.getById(user.userId);
-  return user;
+  return savedUser;
 };
 
 export default create;

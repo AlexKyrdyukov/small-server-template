@@ -12,7 +12,6 @@ type ParamsType = Record<string, never>;
 type QueryType = Record<string, never>;
 
 type ResponseType = {
-  message: string;
   accessToken: string;
   refreshToken: string;
 };
@@ -40,7 +39,7 @@ const refresh: HandlerType = async (req, res, next) => {
       refreshToken,
     } = await tokenService.createTokens(userId, deviceId as string);
 
-    res.status(StatusCodes.OK).json({ message: 'tokens succesfully updated', accessToken, refreshToken });
+    res.status(StatusCodes.OK).json({ accessToken, refreshToken });
   } catch (error) {
     next(error);
   }

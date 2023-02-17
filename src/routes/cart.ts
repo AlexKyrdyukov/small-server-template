@@ -13,8 +13,8 @@ routes.get('/', cartControllers.getAll);
 
 routes.post('/add', generatorValidate(cartSchema.changeById), cartControllers.addById);
 
-routes.delete('/delete', generatorValidate(cartSchema.changeById), cartControllers.deleteById);
+routes.delete('/:bookId', generatorValidate(cartSchema.changeById), cartControllers.deleteById);
 
-routes.patch('/update', generatorValidate(cartSchema.changeQuantity), cartControllers.changeQuantity);
+routes.patch('/:bookId', generatorValidate(cartSchema.changeQuantity), cartControllers.changeQuantity);
 
 export default routes;
