@@ -13,6 +13,9 @@ const directories = {
 
 const removeImage = async (fileUrl: string, dirName: keyof typeof directories) => {
   try {
+    if (!fileUrl) {
+      return;
+    }
     const fileName = fileUrl.split('/').at(-1);
     await fs.promises.unlink(`${directories[dirName]}/${fileName}`);
   } catch (error) {

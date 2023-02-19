@@ -61,7 +61,7 @@ class Book {
   genres: GenresEntity[];
 
   @typeorm.ManyToMany(() => UsersEntity, (user) => user.favoriteBooks)
-  userLikes: UsersEntity[];
+  userFavorites: UsersEntity[];
 
   @typeorm.OneToMany(() => RatingsEntity, (rating) => rating.book)
   ratingIds: RatingsEntity[];

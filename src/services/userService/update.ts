@@ -2,7 +2,7 @@ import db from '../../db';
 import type { UsersEntity } from '../../db';
 import hashPassword from './hashPassword';
 
-const update = async (params: Partial<UsersEntity>, user?: Partial<UsersEntity>) => {
+const update = async (params: Partial<UsersEntity>, user: Partial<UsersEntity>) => {
   let updateUser = user;
 
   Object.entries(params).forEach(([key, value]) => {
@@ -18,7 +18,7 @@ const update = async (params: Partial<UsersEntity>, user?: Partial<UsersEntity>)
   });
 
   const savedUser = await db.user.save(updateUser);
-  delete savedUser?.password;
+  delete savedUser.password;
   return savedUser;
 };
 

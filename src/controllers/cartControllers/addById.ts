@@ -19,8 +19,6 @@ const addById: HandlerType = async (req, res, next) => {
     const { bookId } = req.body;
     const { userId } = req.params;
 
-    userService.checkById(req.user, userId);
-
     res.status(StatusCodes.OK).json({ message: 'data succesfully updated' });
   } catch (error) {
     next(error);

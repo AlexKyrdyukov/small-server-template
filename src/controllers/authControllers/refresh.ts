@@ -5,7 +5,7 @@ import type { RequestHandler } from 'express';
 import { errorTypes } from '../../utils';
 import { tokenService, Exception } from '../../services';
 
-type BodyType = Record<string, never>;
+type BodyType = Record<string, string>;
 type ParamsType = Record<string, never>;
 type QueryType = Record<string, never>;
 
@@ -19,11 +19,12 @@ type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>
 const refresh: HandlerType = async (req, res, next) => {
   try {
     const deviceId = req.headers.device_id;
-    if (!deviceId) {
+    const [auth, token] = req.body.token.split(' ');
+
+    if (!deviceId || auth !== 'Bearer') {
       throw Exception.createError(errorTypes.FORBIDDEN_UNKNOWN_AUTHORIZATION_TYPE);
     }
 
-    const token = tokenService.checkAuthType(req.body.token);
     const { userId } = await tokenService.verifyRefresh(deviceId as string, token);
 
     const {

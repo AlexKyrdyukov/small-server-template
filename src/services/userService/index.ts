@@ -3,9 +3,9 @@ import create from './create';
 import getById from './getById';
 import findFull from './findFull';
 import checkById from './checkById';
-// import deleteById from './deleteById';
+import deleteById from './deleteById';
+import loadAvatar from './loadAvatar';
 import hashPassword from './hashPassword';
-// import checkLikeBook from './checkLikeBook';
 import checkPassword from './checkPassword';
 import existenceCheck from './existenceCheck';
 
@@ -15,9 +15,9 @@ export default {
   getById,
   findFull,
   checkById,
-  // deleteById,
+  loadAvatar,
+  deleteById,
   hashPassword,
-  // checkLikeBook,
   checkPassword,
   existenceCheck,
 };

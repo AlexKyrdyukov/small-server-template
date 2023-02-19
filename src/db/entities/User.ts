@@ -29,7 +29,7 @@ class User {
   @typeorm.Column({ unique: false, nullable: true, type: 'varchar' })
   avatar?: string;
 
-  @typeorm.ManyToMany(() => BooksEntity, (book) => book.userLikes)
+  @typeorm.ManyToMany(() => BooksEntity, (book) => book.userFavorites)
   @typeorm.JoinTable()
   favoriteBooks: BooksEntity[];
 

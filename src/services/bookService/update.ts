@@ -2,7 +2,8 @@ import db from '../../db';
 import type { BooksEntity } from '../../db';
 
 const update = async (book: BooksEntity) => {
-  await db.books.save(book);
+  const updateBook = await db.books.save(book);
+  return updateBook;
 };
 
 export default update;

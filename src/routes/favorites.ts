@@ -13,6 +13,6 @@ routes.get('/', favoritesControllers.getAll);
 
 routes.post('/add', generatorValidate(favoritesSchemas.addById), favoritesControllers.addById);
 
-routes.delete('/delete', generatorValidate(favoritesSchemas.deleteById), favoritesControllers.deleteById);
+routes.delete('/:bookId', generatorValidate(favoritesSchemas.deleteById), favoritesControllers.deleteById);
 
 export default routes;
