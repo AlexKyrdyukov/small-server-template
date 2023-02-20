@@ -2,7 +2,7 @@ import { StatusCodes } from 'http-status-codes';
 
 import type { RequestHandler } from 'express';
 
-import { userService } from '../../services';
+import { cartService } from '../../services';
 
 type BodyType = Record<string, never>;
 type ParamsType = Record<string, never>;
@@ -16,12 +16,10 @@ type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>
 
 const deleteById: HandlerType = async (req, res, next) => {
   try {
-    const { bookId, cartId } = req.body;
-    const { userId } = req.params;
+    const { bookId } = req.params;
+    await cartService.deleteById(bookId, req.user);
 
-    userService.checkById(req.user, userId);
-
-    res.status(StatusCodes.OK).json({ message: 'ddddddd' });
+    res.sendStatus(StatusCodes.NO_CONTENT);
   } catch (error) {
     next(error);
   }

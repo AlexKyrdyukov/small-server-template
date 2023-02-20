@@ -1,6 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
 
 import type { RequestHandler } from 'express';
+import { cartService } from '../../services';
 
 type BodyType = Record<string, never>;
 
@@ -16,7 +17,10 @@ const quantityChange: HandlerType = async (req, res, next) => {
   try {
     // eslint-disable-next-line no-console
     console.log('cart changeQuantity', req.body, req.params, req.query);
-    res.status(StatusCodes.OK).json({ book: 'dfdfdfdfdf' });
+    const { quantity } = req.body;
+    const { bookId } = req.params;
+    await cartService.changeQuantity(bookId, quantity, req.user);
+    res.sendStatus(StatusCodes.NO_CONTENT);
   } catch (error) {
     next(error);
   }

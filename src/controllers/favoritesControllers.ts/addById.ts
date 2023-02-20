@@ -16,12 +16,10 @@ type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>
 
 const addById: HandlerType = async (req, res, next) => {
   try {
-    // eslint-disable-next-line no-console
-    console.log('favorites, add', req.body, req.params, req.query);
     const { bookId } = req.body;
+    const favoriteBook = await favoritesService.addById(bookId, req.user);
 
-    const book = await favoritesService.setById(bookId, req.user);
-    res.status(StatusCodes.OK).json({ book });
+    res.status(StatusCodes.OK).json({ favoriteBook });
   } catch (error) {
     next(error);
   }

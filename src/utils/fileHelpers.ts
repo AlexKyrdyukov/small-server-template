@@ -46,9 +46,10 @@ const convertBase64ToBuffer = (image: string) => {
 };
 
 const getExtension = (meta: string) => {
-  const extensions = ['svg', 'png', 'jpeg', 'jpg'];
-  const extension = extensions.filter((item) => meta.includes(item));
-  return extension.join();
+  const sharedInfo = meta.split('/')[1];
+  const index = sharedInfo.match(/\W/).index;
+  const extension = sharedInfo.slice(0, index);
+  return extension;
 };
 
 export default {

@@ -36,7 +36,6 @@ const changeRating = async (
 
   await bookService.update(updateBook);
   await ratingService.create(user, updateBook, newUserRating);
-
   return (newAverageRating / 10).toFixed(1);
 };
 

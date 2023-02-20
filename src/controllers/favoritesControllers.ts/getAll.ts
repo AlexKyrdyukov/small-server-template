@@ -14,8 +14,6 @@ type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>
 
 const getAll: HandlerType = async (req, res, next) => {
   try {
-    // eslint-disable-next-line no-console
-    console.log('favoritegerall', req.body, req.params, req.query);
     res.status(StatusCodes.OK).json({ book: 'dfdfdfdfdf' });
   } catch (error) {
     next(error);

@@ -8,6 +8,7 @@ const findFull = async (email: string) => {
     .addSelect('user.password')
     .where('user.email = :email', { email })
     .leftJoinAndSelect('user.cartProducts', 'cartProducts')
+    .leftJoinAndSelect('cartProducts.book', 'book')
     .leftJoinAndSelect('user.favoriteBooks', 'favoriteBooks')
     .getOne();
   if (!query) {

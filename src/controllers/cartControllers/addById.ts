@@ -1,15 +1,15 @@
 import { StatusCodes } from 'http-status-codes';
 
 import type { RequestHandler } from 'express';
-
-import { userService } from '../../services';
+import { cartService } from '../../services';
+import type { CartProductsEntity } from '../../db';
 
 type BodyType = Record<string, never>;
 type ParamsType = Record<string, never>;
 type QueryType = Record<string, never>;
 
 type ResponseType = {
-  message: string;
+  cartProduct: CartProductsEntity;
 };
 
 type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>;
@@ -17,9 +17,8 @@ type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>
 const addById: HandlerType = async (req, res, next) => {
   try {
     const { bookId } = req.body;
-    const { userId } = req.params;
-
-    res.status(StatusCodes.OK).json({ message: 'data succesfully updated' });
+    const cartProduct = await cartService.addById(bookId, req.user);
+    res.status(StatusCodes.OK).json({ cartProduct });
   } catch (error) {
     next(error);
   }

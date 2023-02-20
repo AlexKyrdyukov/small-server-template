@@ -2,6 +2,8 @@ import { StatusCodes } from 'http-status-codes';
 
 import type { RequestHandler } from 'express';
 
+import { favoritesService } from '../../services';
+
 type BodyType = Record<string, never>;
 
 type ParamsType = Record<string, never>;
@@ -14,9 +16,10 @@ type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>
 
 const deleteById: HandlerType = async (req, res, next) => {
   try {
-    // eslint-disable-next-line no-console
-    console.log('favorites, delete', req.body, req.params, req.query);
-    res.status(StatusCodes.OK).json({ book: 'dfdfdfdfdf' });
+    const { bookId } = req.params;
+    await favoritesService.deleteById(bookId, req.user.userId);
+
+    res.sendStatus(StatusCodes.NO_CONTENT);
   } catch (error) {
     next(error);
   }
