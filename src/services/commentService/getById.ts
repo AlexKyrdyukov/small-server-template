@@ -1,14 +1,17 @@
 import db from '../../db';
 
 const getById = async (bookId: number) => {
-  const query = await db.comment
-    .createQueryBuilder('comment')
-    .leftJoinAndSelect('comment.user', 'user')
-    .leftJoin('comment.book', 'book')
-    .where('book.bookId = :bookId', { bookId })
-    .orderBy('comment.createdDate', 'ASC')
-    .getMany();
-
+  const query = await db.comment.find({
+    relations: {
+      user: true,
+      book: true,
+    },
+    where: {
+      book: {
+        bookId,
+      },
+    },
+  });
   return query;
 };
 

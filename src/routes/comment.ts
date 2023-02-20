@@ -9,6 +9,6 @@ const routes = express.Router();
 
 routes.use(authMidlleware);
 
-routes.post('/comment', generatorValidate(commentSchemas.create), commentControllers.createComment);
+routes.post('/', generatorValidate(commentSchemas.create), commentControllers.createComment);
 
 export default routes;

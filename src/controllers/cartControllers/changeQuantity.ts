@@ -15,8 +15,6 @@ type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>
 
 const quantityChange: HandlerType = async (req, res, next) => {
   try {
-    // eslint-disable-next-line no-console
-    console.log('cart changeQuantity', req.body, req.params, req.query);
     const { quantity } = req.body;
     const { bookId } = req.params;
     await cartService.changeQuantity(bookId, quantity, req.user);

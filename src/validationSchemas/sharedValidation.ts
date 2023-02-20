@@ -30,7 +30,7 @@ const requiredUserId = userId.required();
 const requiredEmail = email.required('field email is required');
 const requiredPassword = password.required('field password is required');
 const bookId = yup.number().integer().positive();
-const quantity = yup.number().integer().positive();
+const quantity = yup.number().integer();
 const requiredFullName = fullName.required('field fullname is required');
 
 export default {
