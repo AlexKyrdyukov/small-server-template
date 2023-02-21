@@ -6,6 +6,7 @@ const getById = async (bookId: number) => {
       bookId,
     },
     relations: {
+      userFavorites: true,
       comments: {
         user: true,
       },

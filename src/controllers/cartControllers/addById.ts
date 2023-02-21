@@ -17,6 +17,7 @@ type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>
 const addById: HandlerType = async (req, res, next) => {
   try {
     const { bookId } = req.body;
+
     const cartProduct = await cartService.addById(bookId, req.user);
     res.status(StatusCodes.OK).json({ cartProduct });
   } catch (error) {

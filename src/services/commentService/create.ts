@@ -5,6 +5,7 @@ import { bookService } from '../../services';
 const create = async (bookId: number, comment: string, user: UsersEntity) => {
   const newComment = new CommentsEntity();
   const book = await bookService.getById(bookId);
+
   newComment.commentText = comment;
   newComment.book = book;
   newComment.user = user;

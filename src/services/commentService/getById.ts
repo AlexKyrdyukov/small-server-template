@@ -4,7 +4,9 @@ const getById = async (bookId: number) => {
   const query = await db.comment.find({
     relations: {
       user: true,
-      book: true,
+    },
+    order: {
+      createdDate: 'ASC',
     },
     where: {
       book: {

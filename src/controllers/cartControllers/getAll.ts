@@ -15,6 +15,7 @@ type HandlerType = RequestHandler<ParamsType, ResponseType, BodyType, QueryType>
 const getAll: HandlerType = async (req, res, next) => {
   try {
     const userId = req.query.userId;
+
     res.status(StatusCodes.OK).json({ cartBooks: 'srting' });
   } catch (error) {
     next(error);

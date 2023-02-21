@@ -13,8 +13,10 @@ const loadAvatar = async (
   const [meta, image] = newFile.split(',');
   const file = fileHelpers.convertBase64ToBuffer(image);
   const fileName = fileHelpers.createFileName(meta);
+
   await fileHelpers.writeImage(file, 'avatars', fileName);
   await userService.update({ avatar: fileName }, user);
+
   const avatarUrl = fileHelpers.getUrlImage(fileName, 'userAvatars');
   return avatarUrl;
 };

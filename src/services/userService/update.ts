@@ -7,7 +7,6 @@ const update = async (params: Partial<UsersEntity>, user: Partial<UsersEntity>) 
 
   Object.entries(params).forEach(([key, value]) => {
     let newValue = value;
-
     if (key === 'password') {
       newValue = hashPassword(value as string);
     }
