@@ -3,7 +3,7 @@ import db from '../../db';
 const getAll = async (userId: number) => {
   const query = await db.cartProducts.find({
     relations: {
-      users: true,
+      book: true,
     },
     where: {
       users: {
