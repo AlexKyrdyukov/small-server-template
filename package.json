@@ -35,6 +35,7 @@
     "reflect-metadata": "^0.1.13",
     "require-directory": "^2.1.1",
     "save": "^2.9.0",
+    "socket.io": "^4.6.1",
     "typeorm": "^0.3.11",
     "yup": "^0.32.11"
   },
